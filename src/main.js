@@ -4,8 +4,8 @@ const userPageDisplay = document.querySelector('.user-window');
 const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const nav = document.querySelector('nav');
 //data instantiation
-const currentUser = new User(generateRandomUser());
-// const currentUser = new User(usersData[0]);
+// const currentUser = new User(generateRandomUser());
+const currentUser = new User(usersData[0]);
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 //onload 
 window.onload = handleLoad();
@@ -29,7 +29,6 @@ function smallRecipeHandler(event) {
     currentRecipe = findById(event.path[2].id, instantiatedRecipes);
     favoriteHandler(currentRecipe);
   } else if (event.target.id) {
-    console.log(`I see recipe ${event.target.id}`);
     bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
   } 
@@ -43,15 +42,17 @@ function navHandler(event) {
 
 function bigRecipeHandler(event) {
   const currentRecipe = findById(event.path[2].classList[1], instantiatedRecipes);
-
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
-  } else if (event.target.classList.contains('ingredient-check')) {
-    showIngredientsNeeded(event);
   } else if (event.target.classList.contains('star-icon')) {
     favoriteHandler(currentRecipe);
-  }
+  } else if (event.target.classList.contains('ingredient-check')) {
+    printMissingIngredients(event);
+  } else if (event.target.classList.contains('cost-calculator')) {
+    printIngredientsCost(event);
+  } 
+
 }
 // user functions
 function generateRandomUser() {
@@ -134,6 +135,7 @@ const populateRecipeCard = (event) => {
 
 const insertCardHTML = (recipe) => {
   bigRecipeCard.innerHTML =
+<<<<<<< HEAD
     `<img class="recipe-img" src="${recipe.image}"></img>
     <h1>${recipe.name}</h1> <br>
     <div class="recipe-card-nav">
@@ -149,6 +151,20 @@ const insertCardHTML = (recipe) => {
       </div>
       <div class="instructions">
         <h2>Instructions</h2>
+=======
+  `<img class="recipe-img" src="${recipe.image}"></img>
+  <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
+  <div class="recipe-card-nav">
+     <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+    <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
+    <button class="exit-button">Back to all recipes</button>
+    </div>
+    <br><div class="generated-message"></div>
+ 
+  <article class="recipe-info">
+    <div class="ingredients">
+      <h2>Ingredients</h2>
+>>>>>>> master
     </div>
     </article>
     `
@@ -185,10 +201,21 @@ const hideRecipeCard = () => {
   blackout.classList.add('hidden');
 }
 
-const showIngredientsNeeded = (event) => {
+const printMissingIngredients = (event) => {
   let thisRecipe = findById(event.target.id, instantiatedRecipes);
-  messageHolder = document.querySelector('.generated-message');
-  messageHolder.innerHTML = currentUser.pantry.findMissingIngredients(thisRecipe);
+  let messageHolder = document.querySelector('.generated-message');
+  messageHolder.innerHTML = `${currentUser.pantry.showMissingIngredients(thisRecipe)}
+    <br><div class="cost">
+      <div class="recipe-card-nav">
+        <button class="cost-calculator" id=${thisRecipe.id}>How much will these cost?</button>
+      </div>
+    </div>`
+}
+
+const printIngredientsCost = (event) => {
+  let thisRecipe = findById(event.target.id, instantiatedRecipes);
+  let costMessage = document.querySelector('.cost');
+  costMessage.innerText = `It will cost $${currentUser.pantry.findIngredientsCost(thisRecipe)}.`
 }
 //user page
 const makeFavoriteRecipe = (event) => {
@@ -219,7 +246,6 @@ function populatePantry() {
   }  
 }
 // other (could possibly put this in one of the class files, I'll start with it here)
-
 function findById(id, location) {
   id = typeof id !== 'number' ? parseInt(id) : id;
   if (Array.isArray(location)) {
