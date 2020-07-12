@@ -16,11 +16,12 @@ bigRecipeCard.addEventListener('click', bigRecipeHandler);
 nav.addEventListener('click', navHandler);
 //event handling
 function handleLoad() {
-  propagateCards(recipeData, allRecipesDisplay);
+  propagateCards(instantiatedRecipes, allRecipesDisplay);
   showUserName();
   labelPantry();
   populatePantry();
   displayFavorites();
+  toggleFavoriteLogo(instantiatedRecipes);
 }
 
 function smallRecipeHandler(event) {
@@ -79,7 +80,7 @@ function propagateCards(recipeCards, section) {
     section.innerHTML +=
       `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
     <div class="card-info">
-    <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+    <img class="star-icon" id="${recipe.id}" src="" />
     <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
     </div>
     </div>`
@@ -98,6 +99,17 @@ const favoriteHandler = (recipe) => {
   alertFavorite(recipe);
   recipe.toggleFavorite;
   currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
+}
+
+const toggleFavoriteLogo = (recipes) => {
+  const starIcon = document.querySelectorAll('.star-icon');
+  recipes.forEach(recipe => {
+    if (recipe.isFavorite === true) {
+      starIcon.src = '../assets/filled-in-star.svg';
+    } else {
+      starIcon.src = '../assets/hollow-star.svg';
+    }
+  })
 }
 
 // big recipe card
@@ -125,7 +137,7 @@ const insertCardHTML = (recipe) => {
     `<img class="recipe-img" src="${recipe.image}"></img>
     <h1>${recipe.name}</h1> <br>
     <div class="recipe-card-nav">
-      <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+      <img class="star-icon" id="${recipe.id}" src="" />
       <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
       <button class="exit-button">Back to all recipes</button>
       </div>
