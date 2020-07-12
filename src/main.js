@@ -100,10 +100,6 @@ const favoriteHandler = (recipe) => {
   currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
 }
 
-// const confirmFavorite = (recipe) => {
-
-// };
-
 // big recipe card
 const showRecipeCard = (event) => {
   const blackout = document.querySelector('.body-blackout');
