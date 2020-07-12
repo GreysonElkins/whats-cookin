@@ -1,10 +1,8 @@
 <html>
-
   <head>
     <link rel="stylesheet" href="./style.css" />
     <title> WHAT'S COOKIN GOOD LOOKIN?</title>
   </head>
-
   <body>
     <nav>
       <div class="nav-buttons">
@@ -16,13 +14,17 @@
       </div>
       <div class="title">What's Cookin?</div>
     </nav>
-
-    <section class="all-recipes-display"></section>
     <section class="recipe-pop-up hidden">
       <button class="exit-button">Back to all recipes</button>
     </section>
     <div class="body-blackout hidden"></div>
-
+    <section class="all-recipes-display hidden"></section>
+    <section class="user-window">
+      <section class="users-pantry"></section>
+      <section class="users-recipes-display">
+        <section class="favorite-recipes"></section>
+      </section>
+    </section>    
     <script src="../data/ingredients.js"></script>
     <script src="../data/recipes.js"></script>
     <script src="../data/users.js"></script>

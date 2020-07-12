@@ -1,9 +1,9 @@
 try {
   Recipe = require('./recipe-class.js');
-  ingredientData = require('../data/ingredients');
+  ingredientsData = require('../data/ingredients');
 } catch (e) {
   let Recipe;
-  let ingredientData;
+  let ingredientsData;
 }
 
 class Pantry {
@@ -50,7 +50,7 @@ class Pantry {
 
   findIngredientName(id) {
     if (typeof id === 'number') {
-      let ingredient = ingredientData.find(item => item.id === id);
+      let ingredient = ingredientsData.find(item => item.id === id);
       return ingredient.name;
     }
   }

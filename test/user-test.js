@@ -2,10 +2,11 @@ const chai = require('chai');
 const expect = chai.expect;
 const User = require('../src/user-class.js');
 const Recipe = require('../src/recipe-class.js');
+const Pantry = require('../src/pantry-class');
 
 describe('user', () => {
 
-  let user, grandma, greenHam, aPerfectEgg;
+  let user, grandma, greenHam, aPerfectEgg, badMamaJama;
 
   beforeEach(() => {
     greenHam = new Recipe({
@@ -39,6 +40,9 @@ describe('user', () => {
         {"ingredient": 20081, "amount": 5},
       ]
     }
+    badMamaJama = {
+      "name": "Donny T."
+    }
     user = new User(grandma);
   });
 
@@ -67,13 +71,22 @@ describe('user', () => {
     expect(anotherRobotChef.id).to.equal(Date.now());
   });
 
+  it('should have a pantry object for a pantry', () => {
+    expect(user.pantry).to.be.an.instanceOf(Pantry);
+  });
+
+  it('should have a Pantry even if the pantry is empty',() => {
+    let donny = new User(badMamaJama);
+    expect(donny.pantry).to.be.an.instanceOf(Pantry);
+  });
+
   it('should have a pantry that can contain ingredients', () => {
-    expect(user.pantry).to.deep.equal(grandma.pantry);
+    expect(user.pantry.supplies).to.deep.equal(grandma.pantry);
   });
 
   it('should have an empty array if no pantry is provided', () => {
     const brokeJohn = new User({name: 'Jimmy'});
-    expect(brokeJohn.pantry).to.deep.equal([]);
+    expect(brokeJohn.pantry.supplies).to.deep.equal([]);
   })
 
   it('should start with an empty array of favorite recipes', () => {
@@ -91,10 +104,23 @@ describe('user', () => {
     expect(user.favoriteRecipes[0]).to.deep.equal(greenHam);
   });
 
+  it('should only be able to add a recipe to favorites if its not there already',() => {
+    user.chooseRecipe(greenHam, user.favoriteRecipes);
+    user.chooseRecipe(greenHam, user.favoriteRecipes);
+    expect(user.favoriteRecipes.length).to.equal(1);
+  })
+
   it('should be able to add a recipe to its list of recipes to cook', () => {
     user.chooseRecipe(greenHam, user.recipesToCook);
     expect(user.recipesToCook[0]).to.deep.equal(greenHam);
   });
+
+  it('should only be able to add a recipe to recipes to cook if its not there yet',() => {
+    user.chooseRecipe(greenHam, user.recipesToCook);
+    user.chooseRecipe(greenHam, user.recipesToCook);
+    expect(user.recipesToCook.length).to.equal(1);
+
+  })
 
   it('should only be able to add recipes to its recipe lists', () => {
     const recipe = 'Delicious food';

@@ -16,9 +16,11 @@ class User {
   constructor(userData) {
     this.name = this.createName(userData.name);
     this.id = createId(userData.id);
-    this.pantry = userData.pantry || [];
-    this.favoriteRecipes = [];
-    this.recipesToCook = [];
+    this.pantry = new Pantry(userData.pantry);
+    this.favoriteRecipes = this.retrieveListFromStorage(`${this.name} favorite recipes`) 
+      || [];
+    this.recipesToCook = this.retrieveListFromStorage(`${this.name} recipes to cook`) 
+      || [];
   }
 
   createName(data) {
@@ -29,6 +31,7 @@ class User {
     if (recipe instanceof Recipe && !recipeList.includes(recipe)) {
       recipeList.push(recipe);
     }
+    this.saveListToStorage(recipeList);
   }
 
   searchRecipesByName(searchInput, recipeList) {
@@ -87,7 +90,22 @@ class User {
     });
     return indicator;
   }
+
+  saveListToStorage = (list) => {
+    let name = `${this.name}`;
+    if (list === this.favoriteRecipes){
+      name += ` favorite recipes`
+    } else {
+      name += ` recipes to cook`
+    }
+    localStorage.setItem(name, JSON.stringify(list));
+  }
+
+  retrieveListFromStorage = (name) => {
+    return JSON.parse(localStorage.getItem(name))
+  }
 }
+
 
 
 if (typeof module !== 'undefined') {

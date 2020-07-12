@@ -2,6 +2,7 @@ body {
   margin: 0px;
   box-sizing: border-box;
 }
+
 nav {
   align-items: center; 
   border-bottom: 2px solid #000;
@@ -46,11 +47,16 @@ button {
   width: 20em;
 }
 
-.all-recipes-display {
+.all-recipes-display,
+.favorite-recipes {
+  align-content: flex-start;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 2em auto;
+  height: 100%;
+  justify-self: center;
+  margin-top: 2em auto;
+  overflow: scroll;
+  max-width: 100%;
 }
 
 .recipe-card {
@@ -95,6 +101,32 @@ button {
 .star-icon {
   height: 1em;
   width: 1em;
+}
+
+.user-window {
+  display: flex;
+}
+
+.users-pantry {
+  height: 10em;
+  font-size: 2em;
+  padding: 1em 5em;
+  
+}
+
+.supply-list {
+  border: 1px solid;
+  border-radius: 5%;
+  height: 15em;
+  font-size: 1em;
+  margin-top: .5em;
+  overflow: scroll;
+  padding: 1em;
+  width: 10em;
+}
+
+.users-recipes-display {
+  width: 65%;
 }
 
 .hidden {
