@@ -158,9 +158,9 @@ describe('Pantry', () => {
       'id': 12283, 
       'img':'img', 
       'ingredients':[
-        {id: 11477, amount: 5}, 
-        {id: 11297, amount: 4}, 
-        {id: 16069, amount: 1}
+        {id: 11477, quantity: {amount: 5}}, 
+        {id: 11297, quantity: {amount: 4}}, 
+        {id: 16069, quantity: {amount: 1}}
       ], 
       "name": "Grandma's Ham", 
       "tags": ["delicious", "terrifying"]
@@ -169,8 +169,8 @@ describe('Pantry', () => {
       'id': 12283,
       'img': 'img',
       'ingredients': [
-        { id: 20081, amount: 5 },
-        { id: 11215, amount: 5 },
+        { id: 20081, quantity: {amount: 5}},
+        { id: 11215, quantity: {amount: 5}},
       ],
       "name": "A perfect egg",
       "tags": ["beautiful", "satisfying"]
@@ -247,18 +247,18 @@ describe('Pantry', () => {
   })
 
   it('should know how many ingredients are needed to make a recipe', () => {
-    let missingIngredients = pantry.findMissingIngredients(greenHam);
+    let missingIngredients = pantry.showMissingIngredients(greenHam);
     expect(missingIngredients).to.equal('You still need 1 zucchini squash ' +
     'and 1 legumes to make Grandma\'s Ham')
   });
 
   it('won\'t check for missing ingredients if not provided with a recipe', () => {
-    let missingIngredients = pantry.findMissingIngredients('rotten eggs');
+    let missingIngredients = pantry.showMissingIngredients('rotten eggs');
     expect(missingIngredients).to.equal('This is not a recipe');
   })
 
   it('should know when a pantry has all the required ingredients', () => {
-    let wellPreparedPantry = pantry.findMissingIngredients(aPerfectEgg);
+    let wellPreparedPantry = pantry.showMissingIngredients(aPerfectEgg);
     expect(wellPreparedPantry).to.equal('All the required ingredients are in the pantry');
   });
 
@@ -272,5 +272,10 @@ describe('Pantry', () => {
     pantry.useIngredients(greenHam);
     expect(pantry.supplies[0].amount).to.equal(4);
     expect(pantry.supplies[1].amount).to.equal(4);
+  });
+
+  it('should be able to calculate the cost of the missing ingredients', () => {
+    let cost = pantry.findIngredientsCost(greenHam);
+    expect(cost).to.equal(7.42 + 9.03);
   });
 });

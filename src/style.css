@@ -114,10 +114,15 @@ button {
 }
 
 .ingredient-check,
-.exit-button {
+.exit-button,
+.cost-calculator {
   border: 1px solid;
   margin: .3em auto;
   width: 18em;
+}
+
+.cost {
+  margin: 1em auto;
 }
 
 .instructions,
@@ -134,6 +139,9 @@ button {
 }
 
 .generated-message {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
   margin: 0em auto;
   width: 85%;
 }
