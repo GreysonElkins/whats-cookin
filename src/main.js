@@ -10,7 +10,8 @@ mainRecipeCard.addEventListener('click', recipeEventHandler);
 
 function cardEventHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    console.log(`Oh you think recipe ${event.path[2].id} looks good?`)
+    currentRecipe = retrieveRecipe(event.path[2].id);
+    favoriteHandler(currentRecipe);
   } else if (event.target.id) {
     console.log(`I see recipe ${event.target.id}`);
     showRecipeCard(event);
@@ -30,6 +31,10 @@ function navEventHandler(event) {
 function recipeEventHandler(event) {
   if (event.target.classList.contains('exit-button')) {
     hideRecipeCard();
+  } else if (event.target.classList.contains('star-icon')) {
+    console.log(event.path[1]);
+    currentRecipe = retrieveRecipe(event.path[2].id);
+    favoriteHandler(currentRecipe);
   }
 }
 
@@ -44,6 +49,16 @@ const propagateCards = (recipeCards) => {
     </div>
     </div>`
   })
+}
+
+const alertFavorite = (recipe) => {
+  window.alert(`${recipe.name} has been added to your favorite recipes`);
+};
+
+const favoriteHandler = (recipe) => {
+  recipe.toggleFavorite;
+  currentUser.favoriteRecipes.push(recipe);
+  alertFavorite(recipe);
 }
 
 const goToUser = () => {
@@ -63,7 +78,7 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = new Recipe(retrieveCard(event.target.id));
+  const currentRecipe = new Recipe(retrieveRecipe(event.target.id));
   const ingredientList = currentRecipe.createIngredientList();
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
@@ -132,6 +147,6 @@ window.onload = showUser();
 
 // other (could possibly put this in one of the class files, I'll start with it here)
 
-const retrieveCard = (cardID) => {
+const retrieveRecipe = (cardID) => {
   return recipeData.find(recipe => recipe.id == cardID);
 }
