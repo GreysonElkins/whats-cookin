@@ -94,8 +94,8 @@ describe('recipe', () => {
   }) 
 
   it('should be able to return its instructions', () => {
-    expect(recipe.giveInstructions()).to.equal('1: Get two chickens and set the mood' +
-      '<br>2: Leave them alone<br>');
+    expect(recipe.giveInstructions()).to.deep.equal(['1: Get two chickens and set the mood',
+      '2: Leave them alone']);
   });
 
   it('should be able to return the total cost of its ingredients', () => {

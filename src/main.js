@@ -103,19 +103,6 @@ const populateInstructions = (instructionList) => {
   })
 }
 
-const generateReadableIngredientList = (ingredientList, recipe) => {
-  const measurements = createMeasurementList(recipe);
-  const fullDirectionList = measurements.reduce((directions, measurement) => {
-    const ingredientMatch = ingredientList.find(ingredient => {
-      return ingredientList.indexOf(ingredient) === measurements.indexOf(measurement);
-    });
-    const fullDirectionSentence = measurement + ingredientMatch.name;
-    return directions.concat(fullDirectionSentence);
-  }, []);
-    
-  return fullDirectionList;
-}
-
 const createMeasurementList = (recipe) => {
   return recipe.requiredIngredients.map((ingredient) => {
     return `${ingredient.quantity.amount} ${ingredient.quantity.unit} of `
