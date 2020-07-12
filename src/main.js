@@ -31,7 +31,6 @@ function smallRecipeHandler(event) {
     console.log(`I see recipe ${event.target.id}`);
     bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
-    console.log(event.target.id);
   } 
 }
 
@@ -88,13 +87,17 @@ function propagateCards(recipeCards, section) {
 }
 
 const alertFavorite = (recipe) => {
-  window.alert(`${recipe.name} has been added to your favorite recipes!`);
+  if (currentUser.favoriteRecipes.includes(recipe)) {
+    window.alert(`You've already added ${recipe.name} to your favorites!`);
+  } else {
+    window.alert(`${recipe.name} has been added to your favorite recipes!`);
+  }
 };
 
 const favoriteHandler = (recipe) => {
+  alertFavorite(recipe);
   recipe.toggleFavorite;
   currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
-  alertFavorite(recipe);
 }
 // big recipe card
 const showRecipeCard = (event) => {
