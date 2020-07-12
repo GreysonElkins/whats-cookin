@@ -91,6 +91,7 @@ const populateRecipeCard = (event) => {
 const insertCardHTML = (recipe) => {
   mainRecipeCard.innerHTML =
   `<button class="exit-button">Back to all recipes</button>
+  <h2 class="recipe-title">${recipe.name}</h2>
   <img class="star-icon"" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
   <img class="recipe-img" src="${recipe.image}"></img>
   <h2>Ingredients</h2>
