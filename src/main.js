@@ -3,13 +3,15 @@ const allRecipesDisplay = document.querySelector('.all-recipes-display');
 const userPageDisplay = document.querySelector('.user-window');
 const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const nav = document.querySelector('nav');
+const blackout = document.querySelector('.body-blackout')
 //data instantiation
-// const currentUser = new User(generateRandomUser());
-const currentUser = new User(usersData[0]);
+const currentUser = new User(generateRandomUser());
+// const currentUser = new User(usersData[0]);
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 //onload 
 window.onload = handleLoad();
 //event listening
+blackout.addEventListener('click', hideRecipeCard);
 allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
@@ -118,23 +120,27 @@ const populateRecipeCard = (event) => {
 
 const insertCardHTML = (recipe) => {
   bigRecipeCard.innerHTML =
-  `<img class="recipe-img" src="${recipe.image}"></img>
-  <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
-  <div class="recipe-card-nav">
-     <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
-    <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-    <button class="exit-button">Back to all recipes</button>
+  `<div class="container">
+    <img class="recipe-img" src="${recipe.image}"></img>
+  </div>
+  <div class="big-recipe-text">
+    <div class="recipe-header">
+      <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
+      <div class="recipe-card-nav">
+        <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+        <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
+        <button class="exit-button">Back to all recipes</button>
+      </div>
     </div>
     <br><div class="generated-message"></div>
- 
-  <article class="recipe-info">
-    <div class="ingredients">
-      <h2>Ingredients</h2>
-    </div>
-    <div class="instructions">
-      <h2>Instructions</h2>
+    <article class="recipe-info">
+      <div class="ingredients">
+        <h2>Ingredients</h2>
+      </div>
+      <div class="instructions">
+        <h2>Instructions</h2>
+    </article>
   </div>
-  </article>
   `
 }
 
@@ -162,7 +168,7 @@ const createMeasurementList = (recipe) => {
   });
 }
 
-const hideRecipeCard = () => {
+function hideRecipeCard() {
   const blackout = document.querySelector('.body-blackout');
   bigRecipeCard.classList.add('hidden');
 
@@ -183,7 +189,7 @@ const printMissingIngredients = (event) => {
 const printIngredientsCost = (event) => {
   let thisRecipe = findById(event.target.id, instantiatedRecipes);
   let costMessage = document.querySelector('.cost');
-  costMessage.innerText = `It will cost $${currentUser.pantry.findIngredientsCost(thisRecipe)}.`
+  costMessage.innerText = `It will cost $${currentUser.pantry.findIngredientsCost(thisRecipe).toFixed(2)}.`
 }
 //user page
 const makeFavoriteRecipe = (event) => {

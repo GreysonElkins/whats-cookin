@@ -1,5 +1,5 @@
 h1 {
-  margin: .3em auto;
+  margin: 1em auto 0em auto;
 }
 
 body {
@@ -72,6 +72,11 @@ button {
   margin: 2em;
 }
 
+.recipe-header {
+  display: flex;
+  flex-direction: column;
+}
+
 .recipe-card-nav {
   display:flex;
   justify-content: center;
@@ -95,30 +100,34 @@ button {
   display: flex;
   flex-direction: column;
   height: 80%;
-  left: 20%;
+  left: 27.5%;
   position: absolute;
   top: 8em;
-  width: 60%;
+  width: 45%;
   z-index: 10;
 }
 
-.recipe-img {
-  margin-top: 0px;
+.recipe-img { 
+  border-radius: 5% 5% 0% 0%;
+  display: block;
   width: 100%;
+}
+
+.big-recipe-text {
+  overflow: scroll;
 }
 
 .recipe-info {
   display: flex;
   flex-direction: row;
-  overflow: scroll;
 }
 
 .ingredient-check,
 .exit-button,
 .cost-calculator {
   border: 1px solid;
-  margin: .3em auto;
-  width: 18em;
+  margin: .3em .5em;
+  width: auto;
 }
 
 .cost {
@@ -130,8 +139,12 @@ button {
   padding: 0em 1.5em
 }
 
+.instructions {
+  width: 70%;
+}
+
 .ingredients {
-  width: 20%;
+  width: 30%;
 }
 
 .instructions {
