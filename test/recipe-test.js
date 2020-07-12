@@ -12,8 +12,8 @@ describe('recipe', () => {
       id: 0,
       image: 'egg',
       ingredients: [
-        {"id": 20081},
-        {"id": 18372},
+        {"id": 20081, quantity: {amount: 1}},
+        {"id": 18372, quantity: {amount: 2}},
       ],
       instructions: [{
         'instruction': 'Get two chickens and set the mood', 'number': 1

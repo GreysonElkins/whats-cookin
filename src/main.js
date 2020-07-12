@@ -139,6 +139,7 @@ const insertCardHTML = (recipe) => {
       </div>
       <div class="instructions">
         <h2>Instructions</h2>
+      </div>
     </article>
   </div>
   `

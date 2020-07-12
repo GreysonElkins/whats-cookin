@@ -33,13 +33,13 @@ class Recipe {
     const ingredientList = this.createIngredientList();
 
     return ingredientList.reduce((totalPrice, ingredient) => {
-      return totalPrice += ingredient.estimatedCostInCents / 100;
+      return totalPrice += ingredient.cost * ingredient.qty / 100;
     }, 0);
   }
 
   createIngredientList() {
     return this.requiredIngredients.reduce((ingredientList, ingredient) => {
-      return ingredientList.concat(this.checkIngredientMatch(ingredient));
+      return ingredientList.concat({cost: this.checkIngredientMatch(ingredient).estimatedCostInCents, qty: ingredient.quantity.amount});
     }, []);
   }
 
