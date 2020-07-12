@@ -15,19 +15,20 @@ favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
 nav.addEventListener('click', navHandler);
 //event handling
+
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
   showUserName();
   labelPantry();
   populatePantry();
   displayFavorites();
-  toggleFavoriteLogo(instantiatedRecipes);
 }
 
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    currentRecipe = findById(event.path[2].id, instantiatedRecipes);
+    currentRecipe = findById(event.target.id, instantiatedRecipes);
     favoriteHandler(currentRecipe);
+    changeIcon(event);
   } else if (event.target.id) {
     bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
@@ -51,9 +52,9 @@ function bigRecipeHandler(event) {
     printMissingIngredients(event);
   } else if (event.target.classList.contains('cost-calculator')) {
     printIngredientsCost(event);
-  } 
-
+  }
 }
+
 // user functions
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
@@ -61,7 +62,6 @@ function generateRandomUser() {
 
 function showUserName() {
   userButton = document.getElementById('user-page-button');
-
   userButton.innerText = currentUser.name.toUpperCase();
 }
 // page views
@@ -79,13 +79,21 @@ const goToPage = (buttonID) => {
 function propagateCards(recipeCards, section) {
   recipeCards.forEach((recipe) => {
     section.innerHTML +=
-      `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+    `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
     <div class="card-info">
-    <img class="star-icon" id="${recipe.id}" src="" />
+    <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
     <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
     </div>
     </div>`
   });
+}
+
+const changeIcon = (event) => {
+  if (event.target.src.includes('hollow-star.svg')) {
+    event.target.src = '../assets/filled-in-star.svg';
+  } else {
+    event.target.src = '../assets/hollow-star.svg'
+  }
 }
 
 const alertFavorite = (recipe) => {
@@ -100,17 +108,6 @@ const favoriteHandler = (recipe) => {
   alertFavorite(recipe);
   recipe.toggleFavorite;
   currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
-}
-
-const toggleFavoriteLogo = (recipes) => {
-  const starIcon = document.querySelectorAll('.star-icon');
-  recipes.forEach(recipe => {
-    if (recipe.isFavorite === true) {
-      starIcon.src = '../assets/filled-in-star.svg';
-    } else {
-      starIcon.src = '../assets/hollow-star.svg';
-    }
-  })
 }
 
 // big recipe card
@@ -135,23 +132,6 @@ const populateRecipeCard = (event) => {
 
 const insertCardHTML = (recipe) => {
   bigRecipeCard.innerHTML =
-<<<<<<< HEAD
-    `<img class="recipe-img" src="${recipe.image}"></img>
-    <h1>${recipe.name}</h1> <br>
-    <div class="recipe-card-nav">
-      <img class="star-icon" id="${recipe.id}" src="" />
-      <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-      <button class="exit-button">Back to all recipes</button>
-      </div>
-      <br><div class="generated-message"></div>
-  
-    <article class="recipe-info">
-      <div class="ingredients">
-        <h2>Ingredients</h2>
-      </div>
-      <div class="instructions">
-        <h2>Instructions</h2>
-=======
   `<img class="recipe-img" src="${recipe.image}"></img>
   <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
   <div class="recipe-card-nav">
@@ -160,14 +140,15 @@ const insertCardHTML = (recipe) => {
     <button class="exit-button">Back to all recipes</button>
     </div>
     <br><div class="generated-message"></div>
- 
   <article class="recipe-info">
     <div class="ingredients">
       <h2>Ingredients</h2>
->>>>>>> master
     </div>
-    </article>
-    `
+    <div class="instructions">
+      <h2>Instructions</h2>
+    </div>
+  </article>
+  `
 }
 
 const populateIngredients = (fullIngredientList) => {
