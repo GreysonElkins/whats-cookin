@@ -28,10 +28,8 @@ function smallRecipeHandler(event) {
     currentRecipe = findById(event.path[2].id, instantiatedRecipes);
     favoriteHandler(currentRecipe);
   } else if (event.target.id) {
-    console.log(`I see recipe ${event.target.id}`);
     bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
-    console.log(event.target.id);
   } 
 }
 
@@ -43,17 +41,17 @@ function navHandler(event) {
 
 function bigRecipeHandler(event) {
   const currentRecipe = findById(event.path[2].classList[1], instantiatedRecipes);
-
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
-  } else if (event.target.classList.contains('ingredient-check')) {
-    findMissingIngredients(event);
   } else if (event.target.classList.contains('star-icon')) {
     favoriteHandler(currentRecipe);
+  } else if (event.target.classList.contains('ingredient-check')) {
+    printMissingIngredients(event);
   } else if (event.target.classList.contains('cost-calculator')) {
-    findMissingIngredients(event);
-  }
+    printIngredientsCost(event);
+  } 
+
 }
 // user functions
 function generateRandomUser() {
@@ -171,13 +169,22 @@ const hideRecipeCard = () => {
   blackout.classList.add('hidden');
 }
 
-const findMissingIngredients = (event) => {
+const printMissingIngredients = (event) => {
   let thisRecipe = findById(event.target.id, instantiatedRecipes);
-  messageHolder = document.querySelector('.generated-message');
-    messageHolder.innerHTML = `${currentUser.pantry.findMissingIngredients(thisRecipe)}
-    <br><div class="recipe-card-nav">;`
+  let messageHolder = document.querySelector('.generated-message');
+  messageHolder.innerHTML = `${currentUser.pantry.showMissingIngredients(thisRecipe)}
+    <br><div class="cost">
+      <div class="recipe-card-nav">
+        <button class="cost-calculator" id=${thisRecipe.id}>How much will these cost?</button>
+      </div>
+    </div>`
 }
 
+const printIngredientsCost = (event) => {
+  let thisRecipe = findById(event.target.id, instantiatedRecipes);
+  let costMessage = document.querySelector('.cost');
+  costMessage.innerText = `It will cost $${currentUser.pantry.findIngredientsCost(thisRecipe)}.`
+}
 //user page
 const makeFavoriteRecipe = (event) => {
   let chosenRecipe = findById(event.target.id, instantiatedRecipes);

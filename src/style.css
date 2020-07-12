@@ -121,6 +121,10 @@ button {
   width: 18em;
 }
 
+.cost {
+  margin: 1em auto;
+}
+
 .instructions,
 .ingredients {
   padding: 0em 1.5em
@@ -135,6 +139,9 @@ button {
 }
 
 .generated-message {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
   margin: 0em auto;
   width: 85%;
 }
