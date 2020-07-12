@@ -22,6 +22,7 @@ function handleLoad() {
   populatePantry();
   displayFavorites();
 }
+
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
     currentRecipe = findById(event.path[2].id, instantiatedRecipes);
@@ -70,6 +71,7 @@ const goToPage = (buttonID) => {
   } else if (buttonID === "user-page-button") {
     allRecipesDisplay.classList.add('hidden');
     userPageDisplay.classList.remove('hidden');
+    displayFavorites();
   }
 }
 
@@ -182,7 +184,6 @@ function displayFavorites() {
   const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
   favoriteRecipesDisplay.innerHTML = '';
   propagateCards(currentUser.favoriteRecipes, favoriteRecipesDisplay);
-
 }
 
 function labelPantry() {
