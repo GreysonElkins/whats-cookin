@@ -131,6 +131,13 @@ describe('user', () => {
     expect(user.recipesToCook).to.deep.equal([]);
   });
 
+  it('should only add unique recipes to its favorites', () => {
+    user.chooseRecipe(greenHam, user.favoriteRecipes);
+    user.chooseRecipe(greenHam, user.favoriteRecipes);
+
+    expect(user.favoriteRecipes).to.deep.equal([greenHam]);
+  });
+
   it('should let the user search for a recipe by name', () => {
     user.chooseRecipe(aPerfectEgg, user.recipesToCook);
     user.chooseRecipe(aPerfectEgg, user.favoriteRecipes);

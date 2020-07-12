@@ -24,9 +24,11 @@ function handleLoad() {
 }
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    makeFavoriteRecipe(event);
-    displayFavorites();
+    currentRecipe = retrieveRecipe(event.path[2].id);
+    favoriteHandler(currentRecipe);
   } else if (event.target.id) {
+    console.log(`I see recipe ${event.target.id}`);
+    bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
     console.log(event.target.id);
   } 
@@ -39,11 +41,16 @@ function navHandler(event) {
 }
 
 function bigRecipeHandler(event) {
+  const currentRecipe = retrieveRecipe(event.path[1].classList[1]);
+
   if (event.target.classList.contains('exit-button')) {
+    bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
   } else if (event.target.classList.contains('ingredient-check')) {
     showIngredientsNeeded(event);
-  } 
+  } else if (event.target.classList.contains('star-icon')) {
+    favoriteHandler(currentRecipe);
+  }
 }
 // user functions
 function generateRandomUser() {
@@ -75,7 +82,17 @@ function propagateCards(recipeCards, section) {
     <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
     </div>
     </div>`
-  })
+  });
+}
+
+const alertFavorite = (recipe) => {
+  window.alert(`${recipe.name} has been added to your favorite recipes!`);
+};
+
+const favoriteHandler = (recipe) => {
+  recipe.toggleFavorite;
+  currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
+  alertFavorite(recipe);
 }
 // big recipe card
 const showRecipeCard = (event) => {
@@ -87,7 +104,7 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = new Recipe(retrieveCard(event.target.id));
+  const currentRecipe = new Recipe(retrieveRecipe(event.target.id));
   const ingredientList = currentRecipe.createIngredientList();
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
@@ -135,19 +152,6 @@ const populateInstructions = (instructionList) => {
     instructionsSection.innerHTML +=
       `<p class="instruction">${instruction}</p>`
   })
-}
-
-const generateReadableIngredientList = (ingredientList, recipe) => {
-  const measurements = createMeasurementList(recipe);
-  const fullDirectionList = measurements.reduce((directions, measurement) => {
-    const ingredientMatch = ingredientList.find(ingredient => {
-      return ingredientList.indexOf(ingredient) === measurements.indexOf(measurement);
-    });
-    const fullDirectionSentence = measurement + ingredientMatch.name;
-    return directions.concat(fullDirectionSentence);
-  }, []);
-
-  return fullDirectionList;
 }
 
 const createMeasurementList = (recipe) => {
@@ -198,7 +202,7 @@ function populatePantry() {
   }  
 }
 // other (could possibly put this in one of the class files, I'll start with it here)
-const retrieveCard = (cardID) => {
+const retrieveRecipe = (cardID) => {
   return recipeData.find(recipe => recipe.id == cardID);
 }
 
