@@ -30,7 +30,8 @@ function smallRecipeHandler(event) {
     console.log(`I see recipe ${event.target.id}`);
     bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
-  }
+    console.log(event.target.id);
+  } 
 }
 
 function navHandler(event) {
@@ -45,6 +46,8 @@ function bigRecipeHandler(event) {
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
+  } else if (event.target.classList.contains('ingredient-check')) {
+    showIngredientsNeeded(event);
   } else if (event.target.classList.contains('star-icon')) {
     favoriteHandler(currentRecipe);
   }
@@ -113,14 +116,23 @@ const populateRecipeCard = (event) => {
 
 const insertCardHTML = (recipe) => {
 bigRecipeCard.innerHTML =
-  `<button class="exit-button">Back to all recipes</button>
-  <h2 class="recipe-name">${recipe.name}</h2>
-  <img class="star-icon"" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
-  <img class="recipe-img" src="${recipe.image}"></img>
-  <h2>Ingredients</h2>
-  <section class="ingredients"></section>
-  <h2>Instructions</h2>
-  <section class="instructions"></section>
+  `<img class="recipe-img" src="${recipe.image}"></img>
+  <h1>${recipe.name}</h1> <br>
+  <div class="recipe-card-nav">
+     <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+    <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
+    <button class="exit-button">Back to all recipes</button>
+    </div>
+    <br><div class="generated-message"></div>
+ 
+  <article class="recipe-info">
+    <div class="ingredients">
+      <h2>Ingredients</h2>
+    </div>
+    <div class="instructions">
+      <h2>Instructions</h2>
+  </div>
+  </article>
   `
 }
 
@@ -154,8 +166,13 @@ const hideRecipeCard = () => {
 
   blackout.classList.add('hidden');
 }
-//user page
 
+const showIngredientsNeeded = (event) => {
+  let thisRecipe = findById(event.target.id, instantiatedRecipes);
+  messageHolder = document.querySelector('.generated-message');
+  messageHolder.innerHTML = currentUser.pantry.findMissingIngredients(thisRecipe);
+}
+//user page
 const makeFavoriteRecipe = (event) => {
   let chosenRecipe = findById(event.target.id, instantiatedRecipes);
   currentUser.chooseRecipe(chosenRecipe, currentUser.favoriteRecipes);

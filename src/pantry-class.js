@@ -32,19 +32,17 @@ class Pantry {
   }
 
   checkPantryForRecipeIngredients = (recipe) => {
-    // maybe split into two and checkout `.every()`
     if (recipe instanceof Recipe === false) {
       return 'This is not a recipe'
     }
     let supplyList = [];
-    
-    for (let i = 0; i < recipe.requiredIngredients.length; i++) {
-      this.supplies.forEach(ingredient => {
-        if (this.compareIngredients(recipe.requiredIngredients[i], ingredient)) {
-          supplyList.push(ingredient);
+    recipe.requiredIngredients.forEach(reqIngredient => {
+      this.supplies.forEach(supIngredient => {
+        if (this.compareIngredients(reqIngredient, supIngredient)) {
+          supplyList.push(supIngredient);
         }
-      }); 
-    }
+      })
+    })
     return supplyList
   }
 
@@ -65,9 +63,9 @@ class Pantry {
     
     recipe.requiredIngredients.forEach(ingredient => {
       let pantryItem = this.findItem(supplyList, ingredient);
-      let qtyDifference = pantryItem ? ingredient.amount - pantryItem.amount : ingredient.amount;
+      let qtyDifference = pantryItem ? ingredient.quantity.amount - pantryItem.amount : ingredient.quantity.amount;
       
-      qtyDifference > 0 ? message.push(`${qtyDifference} ${this.findIngredientName(ingredient.id)}`) : '';
+      qtyDifference > 0 ? message.push(`${qtyDifference} ${this.findIngredientName(ingredient.id)}`) : () => {};
     });
     if (message.length > 0) {
       return `You still need ${message.join(' and ')} to make ${recipe.name}`
@@ -83,7 +81,7 @@ class Pantry {
 
     recipe.requiredIngredients.forEach(ingredient => {
       let pantryItem = this.findItem(this.supplies, ingredient);
-      pantryItem.amount -= ingredient.amount;
+      pantryItem.amount -= ingredient.quantity.amount;
     })
   }
 

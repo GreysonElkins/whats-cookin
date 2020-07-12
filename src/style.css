@@ -1,3 +1,7 @@
+h1 {
+  margin: .3em auto;
+}
+
 body {
   margin: 0px;
   box-sizing: border-box;
@@ -68,6 +72,12 @@ button {
   margin: 2em;
 }
 
+.recipe-card-nav {
+  display:flex;
+  justify-content: center;
+  margin: .3em auto;
+}
+
 .body-blackout {
   position: absolute;
   left: 0;
@@ -80,13 +90,52 @@ button {
 }
 
 .recipe-pop-up {
-  position: absolute;
-  top: 160px;
-  left: 10%;
-  width: 80%;
-  height: 1000px;
-  z-index: 10;
   background: #fff;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  left: 20%;
+  position: absolute;
+  top: 8em;
+  width: 60%;
+  z-index: 10;
+}
+
+.recipe-img {
+  margin-top: 0px;
+  width: 100%;
+}
+
+.recipe-info {
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+}
+
+.ingredient-check,
+.exit-button {
+  border: 1px solid;
+  margin: .3em auto;
+  width: 18em;
+}
+
+.instructions,
+.ingredients {
+  padding: 0em 1.5em
+}
+
+.ingredients {
+  width: 20%;
+}
+
+.instructions {
+  border-left: 1px solid;
+}
+
+.generated-message {
+  margin: 0em auto;
+  width: 85%;
 }
 
 .card-info {
