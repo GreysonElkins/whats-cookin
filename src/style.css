@@ -114,7 +114,8 @@ button {
 }
 
 .ingredient-check,
-.exit-button {
+.exit-button,
+.cost-calculator {
   border: 1px solid;
   margin: .3em auto;
   width: 18em;

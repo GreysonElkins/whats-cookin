@@ -158,9 +158,9 @@ describe('Pantry', () => {
       'id': 12283, 
       'img':'img', 
       'ingredients':[
-        {id: 11477, amount: 5}, 
-        {id: 11297, amount: 4}, 
-        {id: 16069, amount: 1}
+        {id: 11477, quantity: {amount: 5}}, 
+        {id: 11297, quantity: {amount: 4}}, 
+        {id: 16069, quantity: {amount: 1}}
       ], 
       "name": "Grandma's Ham", 
       "tags": ["delicious", "terrifying"]
@@ -169,8 +169,8 @@ describe('Pantry', () => {
       'id': 12283,
       'img': 'img',
       'ingredients': [
-        { id: 20081, amount: 5 },
-        { id: 11215, amount: 5 },
+        { id: 20081, quantity: {amount: 5}},
+        { id: 11215, quantity: {amount: 5}},
       ],
       "name": "A perfect egg",
       "tags": ["beautiful", "satisfying"]
