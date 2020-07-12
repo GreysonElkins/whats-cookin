@@ -63,6 +63,13 @@ button {
   max-width: 100%;
 }
 
+.favorite-alert {
+  background: grey;
+  z-index: 11;
+  width: 80%;
+  height: 300px;
+}
+
 .recipe-card {
   background-size: cover;
   border-radius: 5%;

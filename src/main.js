@@ -35,8 +35,8 @@ function smallRecipeHandler(event) {
 }
 
 function navHandler(event) {
-  if (event.target.id.includes('page')){
-  goToPage(event.target.id) 
+  if (event.target.id.includes('page')) {
+    goToPage(event.target.id); 
   }
 }
 
@@ -99,6 +99,11 @@ const favoriteHandler = (recipe) => {
   recipe.toggleFavorite;
   currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
 }
+
+// const confirmFavorite = (recipe) => {
+
+// };
+
 // big recipe card
 const showRecipeCard = (event) => {
   const blackout = document.querySelector('.body-blackout');
@@ -120,25 +125,25 @@ const populateRecipeCard = (event) => {
 }
 
 const insertCardHTML = (recipe) => {
-bigRecipeCard.innerHTML =
-  `<img class="recipe-img" src="${recipe.image}"></img>
-  <h1>${recipe.name}</h1> <br>
-  <div class="recipe-card-nav">
-     <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
-    <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-    <button class="exit-button">Back to all recipes</button>
+  bigRecipeCard.innerHTML =
+    `<img class="recipe-img" src="${recipe.image}"></img>
+    <h1>${recipe.name}</h1> <br>
+    <div class="recipe-card-nav">
+      <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+      <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
+      <button class="exit-button">Back to all recipes</button>
+      </div>
+      <br><div class="generated-message"></div>
+  
+    <article class="recipe-info">
+      <div class="ingredients">
+        <h2>Ingredients</h2>
+      </div>
+      <div class="instructions">
+        <h2>Instructions</h2>
     </div>
-    <br><div class="generated-message"></div>
- 
-  <article class="recipe-info">
-    <div class="ingredients">
-      <h2>Ingredients</h2>
-    </div>
-    <div class="instructions">
-      <h2>Instructions</h2>
-  </div>
-  </article>
-  `
+    </article>
+    `
 }
 
 const populateIngredients = (fullIngredientList) => {
