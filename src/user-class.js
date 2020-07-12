@@ -26,7 +26,7 @@ class User {
   }
 
   chooseRecipe(recipe, recipeList) {
-    if (recipe instanceof Recipe) {
+    if (recipe instanceof Recipe && !recipeList.includes(recipe)) {
       recipeList.push(recipe);
     }
   }

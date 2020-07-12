@@ -50,7 +50,7 @@ const propagateCards = (recipeCards) => {
     <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
     </div>
     </div>`
-  })
+  });
 }
 
 const alertFavorite = (recipe) => {
@@ -59,7 +59,7 @@ const alertFavorite = (recipe) => {
 
 const favoriteHandler = (recipe) => {
   recipe.toggleFavorite;
-  currentUser.favoriteRecipes.push(recipe);
+  currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
   alertFavorite(recipe);
 }
 
