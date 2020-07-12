@@ -14,6 +14,7 @@ function cardEventHandler(event) {
     favoriteHandler(currentRecipe);
   } else if (event.target.id) {
     console.log(`I see recipe ${event.target.id}`);
+    mainRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
   }
 }
@@ -29,11 +30,12 @@ function navEventHandler(event) {
 }
 
 function recipeEventHandler(event) {
+  const currentRecipe = retrieveRecipe(event.path[1].classList[1]);
+
   if (event.target.classList.contains('exit-button')) {
+    mainRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
   } else if (event.target.classList.contains('star-icon')) {
-    console.log(event.path[1]);
-    currentRecipe = retrieveRecipe(event.path[2].id);
     favoriteHandler(currentRecipe);
   }
 }
@@ -52,7 +54,7 @@ const propagateCards = (recipeCards) => {
 }
 
 const alertFavorite = (recipe) => {
-  window.alert(`${recipe.name} has been added to your favorite recipes`);
+  window.alert(`${recipe.name} has been added to your favorite recipes!`);
 };
 
 const favoriteHandler = (recipe) => {
@@ -91,7 +93,7 @@ const populateRecipeCard = (event) => {
 const insertCardHTML = (recipe) => {
   mainRecipeCard.innerHTML =
   `<button class="exit-button">Back to all recipes</button>
-  <h2 class="recipe-title">${recipe.name}</h2>
+  <h2 class="recipe-name">${recipe.name}</h2>
   <img class="star-icon"" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
   <img class="recipe-img" src="${recipe.image}"></img>
   <h2>Ingredients</h2>
