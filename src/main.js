@@ -24,7 +24,7 @@ function handleLoad() {
 }
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    currentRecipe = retrieveRecipe(event.path[2].id);
+    currentRecipe = findById(event.path[2].id, instantiatedRecipes);
     favoriteHandler(currentRecipe);
   } else if (event.target.id) {
     console.log(`I see recipe ${event.target.id}`);
@@ -41,7 +41,7 @@ function navHandler(event) {
 }
 
 function bigRecipeHandler(event) {
-  const currentRecipe = retrieveRecipe(event.path[1].classList[1]);
+  const currentRecipe = findById(event.path[2].classList[1], instantiatedRecipes);
 
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
@@ -97,14 +97,14 @@ const favoriteHandler = (recipe) => {
 // big recipe card
 const showRecipeCard = (event) => {
   const blackout = document.querySelector('.body-blackout');
-  bigRecipeCard.classList.remove('hidden');
 
+  bigRecipeCard.classList.remove('hidden');
   blackout.classList.remove('hidden');
   populateRecipeCard(event);
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = new Recipe(retrieveRecipe(event.target.id));
+  const currentRecipe = findById(event.target.id, instantiatedRecipes);
   const ingredientList = currentRecipe.createIngredientList();
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
@@ -202,9 +202,6 @@ function populatePantry() {
   }  
 }
 // other (could possibly put this in one of the class files, I'll start with it here)
-const retrieveRecipe = (cardID) => {
-  return recipeData.find(recipe => recipe.id == cardID);
-}
 
 function findById(id, location) {
   id = typeof id !== 'number' ? parseInt(id) : id;
