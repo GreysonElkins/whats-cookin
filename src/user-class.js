@@ -98,11 +98,17 @@ class User {
     } else {
       name += ` recipes to cook`
     }
-    localStorage.setItem(name, JSON.stringify(list));
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(name, JSON.stringify(list));
+    }
   }
 
   retrieveListFromStorage = (name) => {
-    return JSON.parse(localStorage.getItem(name))
+    if (typeof localStorage !== 'undefined') {
+      return JSON.parse(localStorage.getItem(name))
+    } else {
+      return undefined
+    }
   }
 }
 
