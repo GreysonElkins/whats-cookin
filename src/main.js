@@ -15,9 +15,8 @@ favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
 nav.addEventListener('click', navHandler);
 //event handling
-
 function handleLoad() {
-  propagateCards(instantiatedRecipes, allRecipesDisplay);
+  propagateCards(recipeData, allRecipesDisplay);
   showUserName();
   labelPantry();
   populatePantry();
@@ -26,9 +25,8 @@ function handleLoad() {
 
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    currentRecipe = findById(event.target.id, instantiatedRecipes);
+    currentRecipe = findById(event.path[2].id, instantiatedRecipes);
     favoriteHandler(currentRecipe);
-    changeIcon(event);
   } else if (event.target.id) {
     bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
@@ -36,8 +34,8 @@ function smallRecipeHandler(event) {
 }
 
 function navHandler(event) {
-  if (event.target.id.includes('page')) {
-    goToPage(event.target.id); 
+  if (event.target.id.includes('page')){
+  goToPage(event.target.id) 
   }
 }
 
@@ -52,18 +50,19 @@ function bigRecipeHandler(event) {
     printMissingIngredients(event);
   } else if (event.target.classList.contains('cost-calculator')) {
     printIngredientsCost(event);
-  }
-}
+  } 
 
+}
 // user functions
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
 }
 
 function showUserName() {
-  userButton = document.getElementById('user-page-button');
+  const userButton = document.getElementById('user-page-button');
   userButton.innerText = currentUser.name.toUpperCase();
 }
+
 // page views
 const goToPage = (buttonID) => {
   if (buttonID === "recipe-page-button") {
@@ -79,9 +78,9 @@ const goToPage = (buttonID) => {
 function propagateCards(recipeCards, section) {
   recipeCards.forEach((recipe) => {
     section.innerHTML +=
-    `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+      `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
     <div class="card-info">
-    <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+    <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
     <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
     </div>
     </div>`
@@ -95,19 +94,18 @@ const changeIcon = (event) => {
     event.target.src = '../assets/hollow-star.svg'
   }
 }
-
 const alertFavorite = (recipe) => {
   if (currentUser.favoriteRecipes.includes(recipe)) {
     window.alert(`You've already added ${recipe.name} to your favorites!`);
-  } else {
+  } else {    
     window.alert(`${recipe.name} has been added to your favorite recipes!`);
   }
 };
 
 const favoriteHandler = (recipe) => {
-  alertFavorite(recipe);
   recipe.toggleFavorite;
   currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
+  alertFavorite(recipe);
 }
 
 // big recipe card
@@ -140,13 +138,14 @@ const insertCardHTML = (recipe) => {
     <button class="exit-button">Back to all recipes</button>
     </div>
     <br><div class="generated-message"></div>
+ 
   <article class="recipe-info">
     <div class="ingredients">
       <h2>Ingredients</h2>
     </div>
     <div class="instructions">
       <h2>Instructions</h2>
-    </div>
+  </div>
   </article>
   `
 }
