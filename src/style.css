@@ -70,14 +70,6 @@ button {
   height: 300px;
 }
 
-.favorite {
-  content:url('../assets/filled-in-star.svg');
-}
-
-.not-favorite {
-  content:url('../assets/hollow-star.svg');
-}
-
 .recipe-card {
   background-size: cover;
   border-radius: 5%;

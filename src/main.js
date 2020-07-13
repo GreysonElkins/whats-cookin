@@ -18,7 +18,7 @@ bigRecipeCard.addEventListener('click', bigRecipeHandler);
 nav.addEventListener('click', navHandler);
 //event handling
 function handleLoad() {
-  propagateCards(recipeData, allRecipesDisplay);
+  propagateCards(instantiatedRecipes, allRecipesDisplay);
   showUserName();
   labelPantry();
   populatePantry();
@@ -83,14 +83,36 @@ const goToPage = (buttonID) => {
 
 function propagateCards(recipeCards, section) {
   recipeCards.forEach((recipe) => {
-    section.innerHTML +=
+      section.innerHTML +=
       `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-    <div class="card-info">
-    <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
-    <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
-    </div>
-    </div>`
+      <div class="card-info">
+      <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+      <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
+      </div>
+      </div>`
   });
+}
+
+function propagateFavoriteCards(recipeCards, section) {
+  recipeCards.forEach((recipe) => {
+      section.innerHTML +=
+      `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+      <div class="card-info">
+      <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
+      <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
+      </div>
+      </div>`
+  });
+}
+
+const favoriteHandler = (recipe) => {
+  recipe.toggleFavorite;
+  if (!currentUser.favoriteRecipes.includes(recipe)) {
+    currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
+  } else {
+    currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
+    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+  }
 }
 
 const changeIcon = (event) => {
@@ -100,14 +122,6 @@ const changeIcon = (event) => {
     event.target.src = '../assets/hollow-star.svg'
   }
 }
-
-// const alertFavorite = (recipe) => {
-//   if (currentUser.favoriteRecipes.includes(recipe)) {
-//     window.alert(`You've already added ${recipe.name} to your favorites!`);
-//   } else {    
-//     window.alert(`${recipe.name} has been added to your favorite recipes!`);
-//   }
-// };
 
 // big recipe card
 const showRecipeCard = (event) => {
@@ -212,16 +226,7 @@ const makeFavoriteRecipe = (event) => {
 function displayFavorites() {
   const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
   favoriteRecipesDisplay.innerHTML = '';
-  propagateCards(currentUser.favoriteRecipes, favoriteRecipesDisplay);
-}
-
-const favoriteHandler = (recipe) => {
-  recipe.toggleFavorite;
-  if (!currentUser.favoriteRecipes.includes(recipe)) {
-    currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
-  } else {
-    currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
-  }
+  propagateFavoriteCards(currentUser.favoriteRecipes, favoriteRecipesDisplay);
 }
 
 function labelPantry() {
