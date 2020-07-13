@@ -22,12 +22,13 @@ function handleLoad() {
   showUserName();
   labelPantry();
   populatePantry();
-  displayFavorites();
+  // displayFavorites();
 }
 
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
     currentRecipe = findById(event.path[2].id, instantiatedRecipes);
+    changeIcon(event);
     favoriteHandler(currentRecipe);
   } else if (event.target.id) {
     bigRecipeCard.classList.add(event.target.id);
@@ -36,13 +37,16 @@ function smallRecipeHandler(event) {
 }
 
 function navHandler(event) {
-  if (event.target.id.includes('page')){
-  goToPage(event.target.id) 
+  if (event.target.id.includes('user')) {
+    displayFavorites();
+    goToPage(event.target.id); 
+  } else if (event.target.id.includes('recipe')) {
+    goToPage(event.target.id);
   }
 }
 
 function bigRecipeHandler(event) {
-  const currentRecipe = findById(event.path[2].classList[1], instantiatedRecipes);
+  const currentRecipe = findById(event.path[4].classList[1], instantiatedRecipes);
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
@@ -82,7 +86,7 @@ function propagateCards(recipeCards, section) {
     section.innerHTML +=
       `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
     <div class="card-info">
-    <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+    <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
     <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
     </div>
     </div>`
@@ -96,19 +100,14 @@ const changeIcon = (event) => {
     event.target.src = '../assets/hollow-star.svg'
   }
 }
-const alertFavorite = (recipe) => {
-  if (currentUser.favoriteRecipes.includes(recipe)) {
-    window.alert(`You've already added ${recipe.name} to your favorites!`);
-  } else {    
-    window.alert(`${recipe.name} has been added to your favorite recipes!`);
-  }
-};
 
-const favoriteHandler = (recipe) => {
-  recipe.toggleFavorite;
-  currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
-  alertFavorite(recipe);
-}
+// const alertFavorite = (recipe) => {
+//   if (currentUser.favoriteRecipes.includes(recipe)) {
+//     window.alert(`You've already added ${recipe.name} to your favorites!`);
+//   } else {    
+//     window.alert(`${recipe.name} has been added to your favorite recipes!`);
+//   }
+// };
 
 // big recipe card
 const showRecipeCard = (event) => {
@@ -139,7 +138,7 @@ const insertCardHTML = (recipe) => {
     <div class="recipe-header">
       <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
       <div class="recipe-card-nav">
-        <img class="star-icon" id="${recipe.id}" src="https://www.clipartmax.com/png/middle/175-1753277_free-image-on-pixabay-star-icon-png.png" />
+        <img class="star-icon" id="${recipe.id}" src="">
         <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
         <button class="exit-button">Back to all recipes</button>
       </div>
@@ -214,6 +213,15 @@ function displayFavorites() {
   const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
   favoriteRecipesDisplay.innerHTML = '';
   propagateCards(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+}
+
+const favoriteHandler = (recipe) => {
+  recipe.toggleFavorite;
+  if (!currentUser.favoriteRecipes.includes(recipe)) {
+    currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
+  } else {
+    currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
+  }
 }
 
 function labelPantry() {
