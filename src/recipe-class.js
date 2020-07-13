@@ -39,7 +39,11 @@ class Recipe {
 
   createIngredientList() {
     return this.requiredIngredients.reduce((ingredientList, ingredient) => {
-      return ingredientList.concat({cost: this.checkIngredientMatch(ingredient).estimatedCostInCents, qty: ingredient.quantity.amount});
+      return ingredientList.concat({
+          name: this.checkIngredientMatch(ingredient).name, 
+          cost: this.checkIngredientMatch(ingredient).estimatedCostInCents, 
+          qty: ingredient.quantity.amount
+        });
     }, []);
   }
 
