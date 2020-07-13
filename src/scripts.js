@@ -8,7 +8,16 @@ function checkModule(send) {
   }
 }
 
-
+function createIngredientList(recipe) {
+  return recipe.requiredIngredients.reduce((ingredientList, ingredient) => {
+    return ingredientList.concat({
+      name: recipe.checkIngredientMatch(ingredient).name,
+      id: ingredient.id,
+      cost: recipe.checkIngredientMatch(ingredient).estimatedCostInCents,
+      qty: ingredient.quantity.amount
+    });
+  }, []);
+}
 
 function generateReadableIngredientList(ingredientList, recipe)  {
   const measurements = createMeasurementList(recipe);
@@ -25,5 +34,5 @@ function generateReadableIngredientList(ingredientList, recipe)  {
 // why doesn't this send a class?
 
 if (typeof module !== 'undefined') {
-  module.exports = {createId, checkModule}
+  module.exports = {createId, checkModule, createIngredientList}
 }

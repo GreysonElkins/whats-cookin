@@ -99,7 +99,7 @@ describe('recipe', () => {
   });
 
   it('should be able to return the total cost of its ingredients', () => {
-    expect(recipe.getTotalCost()).to.equal(7.24);
+    expect(recipe.getTotalCost()).to.equal((582 * 2 + 142) / 100);
   });
 
   it('should be able to become a favorite', () => {
