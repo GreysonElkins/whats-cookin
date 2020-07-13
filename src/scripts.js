@@ -8,6 +8,8 @@ function checkModule(send) {
   }
 }
 
+
+
 function generateReadableIngredientList(ingredientList, recipe)  {
   const measurements = createMeasurementList(recipe);
   const fullDirectionList = measurements.reduce((directions, measurement) => {
