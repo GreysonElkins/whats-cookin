@@ -48,11 +48,13 @@ function navHandler(event) {
 
 function bigRecipeHandler(event) {
   const currentRecipe = findById(event.path[4].classList[1], instantiatedRecipes);
+  
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
   } else if (event.target.classList.contains('star-icon')) {
     favoriteHandler(currentRecipe);
+    changeIcon(event);
   } else if (event.target.classList.contains('ingredient-check')) {
     printMissingIngredients(event);
   } else if (event.target.classList.contains('cost-calculator')) {
@@ -95,7 +97,7 @@ function propagateCards(recipeCards, section) {
       </div>`
     } else {
       section.innerHTML +=
-        `<div class="favorite-recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
       <div class="card-info">
       <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
       <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
@@ -144,30 +146,57 @@ const populateRecipeCard = (event) => {
 }
 
 const insertCardHTML = (recipe) => {
-  bigRecipeCard.innerHTML =
-  `<div class="container">
-    <img class="recipe-img" src="${recipe.image}"></img>
-  </div>
-  <div class="big-recipe-text">
-    <div class="recipe-header">
-      <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
-      <div class="recipe-card-nav">
-        <img class="star-icon" id="${recipe.id}" src="">
-        <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-        <button class="exit-button">Back to all recipes</button>
+  if (!currentUser.favoriteRecipes.includes(recipe)) {
+    bigRecipeCard.innerHTML =
+    `<div class="container">
+      <img class="recipe-img" src="${recipe.image}"></img>
+    </div>
+    <div class="big-recipe-text">
+      <div class="recipe-header">
+        <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
+        <div class="recipe-card-nav">
+          <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+          <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
+          <button class="exit-button">Back to all recipes</button>
+        </div>
       </div>
+      <br><div class="generated-message"></div>
+   
+    <article class="recipe-info">
+      <div class="ingredients">
+        <h2>Ingredients</h2>
+      </div>
+      <div class="instructions">
+        <h2>Instructions</h2>
     </div>
-    <br><div class="generated-message"></div>
- 
-  <article class="recipe-info">
-    <div class="ingredients">
-      <h2>Ingredients</h2>
+    </article>
+    `
+  } else {
+    bigRecipeCard.innerHTML =
+      `<div class="container">
+      <img class="recipe-img" src="${recipe.image}"></img>
     </div>
-    <div class="instructions">
-      <h2>Instructions</h2>
-  </div>
-  </article>
-  `
+    <div class="big-recipe-text">
+      <div class="recipe-header">
+        <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
+        <div class="recipe-card-nav">
+          <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
+          <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
+          <button class="exit-button">Back to all recipes</button>
+        </div>
+      </div>
+      <br><div class="generated-message"></div>
+   
+    <article class="recipe-info">
+      <div class="ingredients">
+        <h2>Ingredients</h2>
+      </div>
+      <div class="instructions">
+        <h2>Instructions</h2>
+    </div>
+    </article>
+    `
+  }
 }
 
 const populateIngredients = (fullIngredientList) => {
@@ -199,6 +228,7 @@ function hideRecipeCard() {
   bigRecipeCard.classList.add('hidden');
 
   blackout.classList.add('hidden');
+  propagateCards(instantiatedRecipes, allRecipesDisplay);
 }
 
 const printMissingIngredients = (event) => {
