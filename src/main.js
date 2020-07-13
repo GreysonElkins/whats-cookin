@@ -22,7 +22,7 @@ function handleLoad() {
   showUserName();
   labelPantry();
   populatePantry();
-  // displayFavorites();
+  displayFavorites();
 }
 
 function smallRecipeHandler(event) {
@@ -41,6 +41,7 @@ function navHandler(event) {
     displayFavorites();
     goToPage(event.target.id); 
   } else if (event.target.id.includes('recipe')) {
+    propagateCards(instantiatedRecipes, allRecipesDisplay);
     goToPage(event.target.id);
   }
 }
@@ -82,26 +83,25 @@ const goToPage = (buttonID) => {
 }
 
 function propagateCards(recipeCards, section) {
+  section.innerHTML = '';
   recipeCards.forEach((recipe) => {
+    if (!currentUser.favoriteRecipes.includes(recipe)) {
       section.innerHTML +=
-      `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
       <div class="card-info">
       <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
       <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
       </div>
       </div>`
-  });
-}
-
-function propagateFavoriteCards(recipeCards, section) {
-  recipeCards.forEach((recipe) => {
+    } else {
       section.innerHTML +=
-      `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+        `<div class="favorite-recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
       <div class="card-info">
       <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
       <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
       </div>
       </div>`
+    }
   });
 }
 
@@ -226,7 +226,7 @@ const makeFavoriteRecipe = (event) => {
 function displayFavorites() {
   const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
   favoriteRecipesDisplay.innerHTML = '';
-  propagateFavoriteCards(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+  propagateCards(currentUser.favoriteRecipes, favoriteRecipesDisplay);
 }
 
 function labelPantry() {
