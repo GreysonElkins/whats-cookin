@@ -129,7 +129,7 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = findById(event.path[1].id, instantiatedRecipes);
+  const currentRecipe = findById(event.target.id, instantiatedRecipes);
   const ingredientList = createIngredientList(currentRecipe);
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
