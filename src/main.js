@@ -52,7 +52,7 @@ function bigRecipeHandler(event) {
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
-  } else if (event.target.classList.contains('star-icon')) {
+  } else if (event.target.classList.contains('big-star-icon')) {
     favoriteHandler(currentRecipe);
     changeIcon(event);
   } else if (event.target.classList.contains('ingredient-check')) {
@@ -157,7 +157,7 @@ const insertCardHTML = (recipe) => {
       <div class="recipe-header">
         <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
         <div class="recipe-card-nav">
-          <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+          <img class="big-star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
           <button class="exit-button">Exit</button>
         </div>
@@ -182,7 +182,7 @@ const insertCardHTML = (recipe) => {
       <div class="recipe-header">
         <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
         <div class="recipe-card-nav">
-          <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
+          <img class="big-star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
           <button class="exit-button">Exit</button>
         </div>

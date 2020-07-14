@@ -116,6 +116,13 @@ button {
   left: 8em;
 }
 
+.big-star-icon {
+  display: inline-block;
+  align-self: center;
+  width: 25px;
+  height: 25px;
+}
+
 .recipe-header {
   display: flex;
   flex-direction: column;
