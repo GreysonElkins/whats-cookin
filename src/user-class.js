@@ -33,7 +33,7 @@ class User {
     if (recipe instanceof Recipe && !findById(recipe.id, this.favoriteRecipes)) {
       recipeList.push(recipe);
     } else {
-      this.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
+      this.favoriteRecipes.splice(this.favoriteRecipes.indexOf(recipe), 1);
     }
     this.saveListToStorage(recipeList);
   }

@@ -223,12 +223,4 @@ describe('user', () => {
     expect(searchResults2).to.be.false;
     expect(searchResults3).to.be.true;
   });
-
-  it.only('should be able to identify a favorite recipe as the same as an instantiated recipe', () => {
-    const cookieRecipe = new Recipe(recipeData[0]);
-
-    user.toggleFavorite(cookieRecipe, user.favoriteRecipes);
-
-    expect(user.favoriteRecipes[0]).to.deep.equal(cookieRecipe);
-  });
 });

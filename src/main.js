@@ -36,7 +36,7 @@ function navHandler(event) {
 
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
-  currentUser.toggleFavorite(recipe, currentUser.favoriteRecipes);
+  currentUser.toggleFavorite(recipe, 'favorite');
   displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
 }
 
@@ -45,16 +45,14 @@ function smallRecipeHandler(event) {
     changeIcon(event);
     favoriteHandler(event); // handler event
   } else if (event.target.id) {
-    bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
   } 
 }
 
 function bigRecipeHandler(event) {
   if (event.target.classList.contains('exit-button')) {
-    bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
-  } else if (event.target.classList.contains('star-icon')) {
+  } else if (event.target.classList.contains('big-star-icon')) {
     favoriteHandler(event);
     changeIcon(event);
   } else if (event.target.classList.contains('ingredient-check')) {
@@ -90,7 +88,7 @@ function propagateCards(recipeCards, section) {
   let starIconSrc;
   section.innerHTML = '';
   recipeCards.forEach((recipe) => {
-    if (!findById(recipe.id, currentUser.favoriteRecipes)) {
+    if (!findById(recipe.id, currentUser.list.favoriteRecipes)) {
       starIconSrc = '../assets/hollow-star.svg';
     } else {
       starIconSrc = '../assets/filled-in-star.svg';
@@ -136,7 +134,7 @@ const populateRecipeCard = (event) => {
 const insertCardHTML = (recipe) => {
   let starIconSrc;
 
-  if (!findById(recipe.id, currentUser.favoriteRecipes)) {
+  if (!findById(recipe.id, currentUser.list.favoriteRecipes)) {
     starIconSrc = '../assets/hollow-star.svg';
   } else {
     starIconSrc = '../assets/filled-in-star.svg';
@@ -220,7 +218,7 @@ const printIngredientsCost = (event) => {
 //user page
 const makeFavoriteRecipe = (event) => {
   let chosenRecipe = findById(event.target.id, instantiatedRecipes);
-  currentUser.toggleFavorite(chosenRecipe, currentUser.favoriteRecipes);
+  currentUser.toggleFavorite(chosenRecipe, 'favorite');
 }
 
 function displayFavorites() {
