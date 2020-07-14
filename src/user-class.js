@@ -4,7 +4,9 @@ try {
   ingredientsData = require('../data/ingredients.js');
   scripts = require('./scripts');
   createId = scripts.createId;
+  createIngredientList = scripts.createIngredientList
 } catch(e) {
+  let createIngredientList;
   let scripts
   let createId
   let Pantry;
@@ -45,9 +47,12 @@ class User {
 
   searchRecipesByIngredient(searchInput, recipeList) {
     const ingredientID = this.convertIngredientNameToID(searchInput);
-    const searchResults = recipeList.filter(recipe => {
-      return this.generateIngredientList(recipe).includes(ingredientID);
-    });
+    const searchResults = recipeList.reduce((matchingRecipes, recipe) => {
+      createIngredientList(recipe).forEach(recipeObject => {
+        if (recipeObject.id === ingredientID) matchingRecipes.push(recipe);
+      })
+      return matchingRecipes;
+    }, []);
 
     return searchResults; 
   }
@@ -69,14 +74,6 @@ class User {
     });
     
     return ingredient ? ingredient.id : [];
-  }
-
-  generateIngredientList = (recipe) => {
-    if (recipe instanceof Recipe) {
-      return recipe.requiredIngredients.map(ingredient => ingredient.id);
-    } else {
-      return [];
-    }
   }
 
   matchAllTags = (searchTags, recipeTags) => {

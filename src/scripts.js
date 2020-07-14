@@ -9,13 +9,17 @@ function checkModule(send) {
 }
 
 function createIngredientList(recipe) {
+  debugger
   return recipe.requiredIngredients.reduce((ingredientList, ingredient) => {
     return ingredientList.concat({
       name: recipe.checkIngredientMatch(ingredient).name,
       id: ingredient.id,
       cost: recipe.checkIngredientMatch(ingredient).estimatedCostInCents,
       qty: ingredient.quantity.amount
-    });
+      //qty: ingredient.quantity === 'undefined' ? ingredient.quantity.amount : `qty difference n/a`
+    }
+    
+    );
   }, []);
 }
 
