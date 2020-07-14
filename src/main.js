@@ -109,13 +109,11 @@ function propagateCards(recipeCards, section) {
 }
 
 const favoriteHandler = (recipe) => {
-  recipe.toggleFavorite;
   if (!currentUser.favoriteRecipes.includes(recipe)) {
     currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
   } else {
     currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
-    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
-    recipe.toggleFavorite();
+    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay); 
   }
 }
 

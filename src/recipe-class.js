@@ -18,17 +18,12 @@ class Recipe {
     this.instructions = recipe.instructions || ['No instructions were provided, <br>I guess it\'s one of those make it up as you go cakes <br>🤷🏽‍♀️'];
     this.name = recipe.name || 'untitled';
     this.tags = recipe.tags || [];
-    this.isFavorite = false;  
   }
 
   giveInstructions() {
     return this.instructions.reduce((list, direction) => {
       return list.concat(`${direction.number}: ${direction.instruction}`)
     }, []);
-  }
-
-  toggleFavorite() {
-    this.isFavorite = this.isFavorite ? false : true;
   }
 
   getTotalCost() {
