@@ -89,23 +89,23 @@ function propagateCards(recipeCards, section) {
   recipeCards.forEach((recipe) => {
     if (!currentUser.favoriteRecipes.includes(recipe)) {
       section.innerHTML +=
-        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-      <div class="image-overlay"></div>
-      <div class="card-info">
-      <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
-      <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
-      </div>
-      </div>`
+       `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+        <div class="image-overlay"></div>
+          <div class="card-info">
+            <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+            <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
+          </div>
+        </div>`
     } else {
       section.innerHTML +=
-        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-      <div class="image-overlay"></div>
-      <div class="card-info">
-      <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
-      <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
-      </div>
-      </div>`
-    }
+       `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+        <div class="image-overlay"></div>
+          <div class="card-info">
+            <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
+            <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
+          </div>
+        </div>`
+      }
   });
 }
 
