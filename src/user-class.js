@@ -30,8 +30,10 @@ class User {
   }
 
   chooseRecipe(recipe, recipeList) {
-    if (recipe instanceof Recipe && !recipeList.includes(recipe)) {
+    if (recipe instanceof Recipe && !findById(recipe.id, this.favoriteRecipes)) {
       recipeList.push(recipe);
+    } else {
+      this.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
     }
     this.saveListToStorage(recipeList);
   }

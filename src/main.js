@@ -26,7 +26,6 @@ function handleLoad() {
 
 function navHandler(event) {
   if (event.target.id.includes('user')) {
-    console.log(event);
     displayFavorites();
     goToPage(event.target.id);
   } else if (event.target.id.includes('recipe')) {
@@ -37,12 +36,8 @@ function navHandler(event) {
 
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
-  if (!currentUser.favoriteRecipes.includes(recipe)) {
-    currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
-  } else {
-    currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
-    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
-  }
+  currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
+  displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
 }
 
 function smallRecipeHandler(event) {
@@ -56,8 +51,6 @@ function smallRecipeHandler(event) {
 }
 
 function bigRecipeHandler(event) {
-  console.log(event);
-  
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
@@ -97,8 +90,7 @@ function propagateCards(recipeCards, section) {
   let starIconSrc;
   section.innerHTML = '';
   recipeCards.forEach((recipe) => {
-    console.log(currentUser.favoriteRecipes.includes(recipe));
-    if (!currentUser.favoriteRecipes.includes(recipe)) {
+    if (!findById(recipe.id, currentUser.favoriteRecipes)) {
       starIconSrc = '../assets/hollow-star.svg';
     } else {
       starIconSrc = '../assets/filled-in-star.svg';
@@ -144,7 +136,7 @@ const populateRecipeCard = (event) => {
 const insertCardHTML = (recipe) => {
   let starIconSrc;
 
-  if(!currentUser.favoriteRecipes.includes(recipe)) {
+  if (!findById(recipe.id, currentUser.favoriteRecipes)) {
     starIconSrc = '../assets/hollow-star.svg';
   } else {
     starIconSrc = '../assets/filled-in-star.svg';

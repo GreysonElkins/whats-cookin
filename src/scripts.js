@@ -14,10 +14,12 @@ function findById(id, location) {
   if (!Array.isArray(location)) {
     return `this ain't gonna work (findById array issue)`
   }
-  let signifier = typeof location[0].id === "number" ? `id` : `ingredient`;
+  if (location[0]) {
+    let signifier = typeof location[0].id === "number" ? `id` : `ingredient`;
+    let ingredient = location.find(item => item[signifier] === id);
 
-  let ingredient = location.find(item => item[signifier] === id);
     return ingredient;
+  }
 }
 
 function createIngredientList(recipe) {
