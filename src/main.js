@@ -277,14 +277,3 @@ function populatePantry() {
   }  
 }
 // other (could possibly put this in one of the class files, I'll start with it here)
-function findById(id, location) {
-  id = typeof id !== 'number' ? parseInt(id) : id;
-  if (Array.isArray(location)) {
-    let ingredient = location.find(item => item.id === id);
-    return ingredient;
-  }
-}
-
-function getFirstName() {
-  return currentUser.name.split(" ")[0]
-}

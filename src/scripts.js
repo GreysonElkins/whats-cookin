@@ -1,11 +1,18 @@
+//class helper functions
 function createId(data) {
     return typeof data === 'number' ? data : Date.now();
 }
 
-function checkModule(send) {
-  if (typeof module !== 'undefined') {
-   module.exports = send;
+
+function findById(id, location) {
+  id = typeof id !== 'number' ? parseInt(id) : id;
+  if (!Array.isArray(location)) {
+    return `this ain't gonna work (findById array issue)`
   }
+  let signifier = typeof location[0].id === "number" ? `id` : `ingredient`;
+
+  let ingredient = location.find(item => item[signifier] === id);
+    return ingredient;
 }
 
 function createIngredientList(recipe) {
@@ -21,6 +28,10 @@ function createIngredientList(recipe) {
     );
   }, []);
 }
+// dom helper functions
+function getFirstName() {
+  return currentUser.name.split(" ")[0]
+}
 
 function generateReadableIngredientList(ingredientList, recipe)  {
   const measurements = createMeasurementList(recipe);
@@ -34,8 +45,7 @@ function generateReadableIngredientList(ingredientList, recipe)  {
 
   return fullDirectionList;
 }
-// why doesn't this send a class?
 
 if (typeof module !== 'undefined') {
-  module.exports = {createId, checkModule, createIngredientList}
+  module.exports = {createId, createIngredientList, findById}
 }

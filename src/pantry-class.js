@@ -1,7 +1,11 @@
 try {
   Recipe = require('./recipe-class.js');
   ingredientsData = require('../data/ingredients');
+  scripts = require('./scripts');
+  findById = scripts.findById;
 } catch (e) {
+  let findById
+  let scripts;
   let Recipe;
   let ingredientsData;
 }
@@ -46,12 +50,12 @@ class Pantry {
     return supplyList
   }
 
-  findIngredientName(id) {
-    if (typeof id === 'number') {
-      let ingredient = ingredientsData.find(item => item.id === id);
-      return ingredient.name;
-    }
-  }
+  // findIngredientName(id) {
+  //   if (typeof id === 'number') {
+  //     let ingredient = ingredientsData.find(item => item.id === id);
+  //     return ingredient.name;
+  //   }
+  // }
 
   showMissingIngredients = (recipe) => {
     if (recipe instanceof Recipe === false) {
@@ -62,10 +66,11 @@ class Pantry {
     let message = [];
     
     recipe.requiredIngredients.forEach(ingredient => {
-      let pantryItem = this.findItem(supplyList, ingredient);
+      // let pantryItem = this.findItem(supplyList, ingredient);
+      let pantryItem = findById(ingredient.id, supplyList);
       let qtyDifference = pantryItem ? ingredient.quantity.amount - pantryItem.amount : ingredient.quantity.amount;
       
-      qtyDifference > 0 ? message.push(`${qtyDifference} ${this.findIngredientName(ingredient.id)}`) : () => {};
+      qtyDifference > 0 ? message.push(`${qtyDifference} ${findById(ingredient.id, ingredientsData).name}`) : () => {};
     });
     if (message.length > 0) {
       return `You still need ${message.join(' and ')} to make ${recipe.name}`
