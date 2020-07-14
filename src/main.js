@@ -37,7 +37,7 @@ function navHandler(event) {
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
   currentUser.toggleListItem(recipe, 'favorite');
-  displayFavorites(currentUser.list.favoriteRecipes, favoriteRecipesDisplay);
+  displayFavorites(currentUser.lists.favoriteRecipes, favoriteRecipesDisplay);
 }
 
 function smallRecipeHandler(event) {
@@ -88,7 +88,7 @@ function propagateCards(recipeCards, section) {
   let starIconSrc;
   section.innerHTML = '';
   recipeCards.forEach((recipe) => {
-    if (!findById(recipe.id, currentUser.list.favoriteRecipes)) {
+    if (!findById(recipe.id, currentUser.lists.favoriteRecipes)) {
       starIconSrc = '../assets/hollow-star.svg';
     } else {
       starIconSrc = '../assets/filled-in-star.svg';
@@ -134,7 +134,7 @@ const populateRecipeCard = (event) => {
 const insertCardHTML = (recipe) => {
   let starIconSrc;
 
-  if (!findById(recipe.id, currentUser.list.favoriteRecipes)) {
+  if (!findById(recipe.id, currentUser.lists.favoriteRecipes)) {
     starIconSrc = '../assets/hollow-star.svg';
   } else {
     starIconSrc = '../assets/filled-in-star.svg';
@@ -224,7 +224,7 @@ const makeFavoriteRecipe = (event) => {
 function displayFavorites() {
   const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
   favoriteRecipesDisplay.innerHTML = '';
-  propagateCards(currentUser.list.favoriteRecipes, favoriteRecipesDisplay);
+  propagateCards(currentUser.lists.favoriteRecipes, favoriteRecipesDisplay);
 }
 
 function labelPantry() {
