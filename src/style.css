@@ -57,10 +57,12 @@ button {
   display: flex;
   justify-content: space-evenly;
   flex-flow: row wrap;
-  height: 100%;
-  margin-top: 2em auto;
   overflow: scroll;
-  max-width: 100%;
+  width: 100%;
+}
+
+.favorite-recipes {
+  grid-row: 2;
 }
 
 .all-recipes-display::after {
@@ -91,7 +93,7 @@ button {
   height: 100%;
   border-radius: inherit;
   background: rgba(0, 0, 0, 0.5);
-  z-index: -1;
+  z-index: 0;
 }
 
 .card-info {
@@ -214,14 +216,20 @@ button {
 }
 
 .user-window {
-  display: flex;
+  display: grid;
+  grid-template: 10% 1fr/ 66% 1fr;
+  height: 100%;
+}
+
+.user-title {
+  margin-left: 2em;
+  font-size: 2em;
 }
 
 .users-pantry {
   height: 10em;
   font-size: 2em;
   padding: 1em 5em;
-  
 }
 
 .supply-list {
@@ -236,7 +244,7 @@ button {
 }
 
 .users-recipes-display {
-  width: 65%;
+  width: 100%;
 }
 
 .hidden {
