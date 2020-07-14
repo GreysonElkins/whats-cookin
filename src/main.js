@@ -29,7 +29,6 @@ function handleLoad() {
 
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    console.log(event);
     currentRecipe = findById(event.target.id, instantiatedRecipes);
     changeIcon(event);
     favoriteHandler(currentRecipe); // handler event
@@ -57,7 +56,7 @@ function bigRecipeHandler(event) {
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
-  } else if (event.target.classList.contains('star-icon')) {
+  } else if (event.target.classList.contains('big-star-icon')) {
     favoriteHandler(currentRecipe);
     changeIcon(event);
   } else if (event.target.classList.contains('ingredient-check')) {
@@ -135,7 +134,7 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = findById(event.target.id, instantiatedRecipes);
+  const currentRecipe = findById(event.path[1].id, instantiatedRecipes);
   const ingredientList = createIngredientList(currentRecipe);
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
@@ -243,7 +242,7 @@ function displayFavorites() {
 
 function labelPantry() {
   const pantryName = document.querySelector('.users-pantry');
-  pantryName.innerHTML = `${getFirstName(currentUser)}'s Pantry: 
+  pantryName.innerHTML = `<h1 class="pantry-title">${getFirstName(currentUser)}'s Pantry:</h1> 
     <div class="supply-list"></div>`;
   }
 
@@ -253,7 +252,7 @@ function populatePantry() {
     pantryList.innerText = `You need some ingredients!`
     } else {
       currentUser.pantry.supplies.forEach(supply => {
-      pantryList.innerHTML += `${supply.amount} - ${findById(supply.ingredient, ingredientsData).name} <br>`
+      pantryList.innerHTML += `<p>${supply.amount} - ${findById(supply.ingredient, ingredientsData).name}</p>`
     })
   }  
 }
