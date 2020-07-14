@@ -29,7 +29,7 @@ class User {
     return typeof data === 'string' ? data : JSON.stringify(data);
   }
 
-  chooseRecipe(recipe, recipeList) {
+  toggleFavorite(recipe, recipeList) {
     if (recipe instanceof Recipe && !findById(recipe.id, this.favoriteRecipes)) {
       recipeList.push(recipe);
     } else {

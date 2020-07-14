@@ -102,46 +102,46 @@ describe('user', () => {
   });
 
   it('should be able to add a recipe to its list of favorites', () => {
-    user.chooseRecipe(greenHam, user.favoriteRecipes);
+    user.toggleFavorite(greenHam, user.favoriteRecipes);
     expect(user.favoriteRecipes[0]).to.deep.equal(greenHam);
   });
 
   it('should only be able to add a recipe to favorites if its not there already',() => {
-    user.chooseRecipe(greenHam, user.favoriteRecipes);
-    user.chooseRecipe(greenHam, user.favoriteRecipes);
+    user.toggleFavorite(greenHam, user.favoriteRecipes);
+    user.toggleFavorite(greenHam, user.favoriteRecipes);
     expect(user.favoriteRecipes.length).to.equal(1);
   })
 
   it('should be able to add a recipe to its list of recipes to cook', () => {
-    user.chooseRecipe(greenHam, user.recipesToCook);
+    user.toggleFavorite(greenHam, user.recipesToCook);
     expect(user.recipesToCook[0]).to.deep.equal(greenHam);
   });
 
   it('should only be able to add a recipe to recipes to cook if its not there yet',() => {
-    user.chooseRecipe(greenHam, user.recipesToCook);
-    user.chooseRecipe(greenHam, user.recipesToCook);
+    user.toggleFavorite(greenHam, user.recipesToCook);
+    user.toggleFavorite(greenHam, user.recipesToCook);
     expect(user.recipesToCook.length).to.equal(1);
   });
 
   it('should only be able to add recipes to its recipe lists', () => {
     const recipe = 'Delicious food';
     const otherRecipe = 42;
-    user.chooseRecipe(recipe, user.favoriteRecipes);
-    user.chooseRecipe(otherRecipe, user.recipesToCook);
+    user.toggleFavorite(recipe, user.favoriteRecipes);
+    user.toggleFavorite(otherRecipe, user.recipesToCook);
     expect(user.favoriteRecipes).to.deep.equal([]);
     expect(user.recipesToCook).to.deep.equal([]);
   });
 
   it('should only add unique recipes to its favorites', () => {
-    user.chooseRecipe(greenHam, user.favoriteRecipes);
-    user.chooseRecipe(greenHam, user.favoriteRecipes);
+    user.toggleFavorite(greenHam, user.favoriteRecipes);
+    user.toggleFavorite(greenHam, user.favoriteRecipes);
 
     expect(user.favoriteRecipes).to.deep.equal([greenHam]);
   });
 
   it('should let the user search for a recipe by name', () => {
-    user.chooseRecipe(aPerfectEgg, user.recipesToCook);
-    user.chooseRecipe(aPerfectEgg, user.favoriteRecipes);
+    user.toggleFavorite(aPerfectEgg, user.recipesToCook);
+    user.toggleFavorite(aPerfectEgg, user.favoriteRecipes);
 
     const searchResults1 = user.searchRecipesByName('A perfect egg', user.recipesToCook);
     const searchResults2 = user.searchRecipesByName('A perfect egg', user.favoriteRecipes);
@@ -169,10 +169,10 @@ describe('user', () => {
 
 
   it('should be able to return a list of recipes that include a specified ingredient', () => {
-    user.chooseRecipe(aPerfectEgg, user.favoriteRecipes);
-    user.chooseRecipe(greenHam, user.favoriteRecipes);
-    user.chooseRecipe(aPerfectEgg, user.recipesToCook);
-    user.chooseRecipe(greenHam, user.recipesToCook);
+    user.toggleFavorite(aPerfectEgg, user.favoriteRecipes);
+    user.toggleFavorite(greenHam, user.favoriteRecipes);
+    user.toggleFavorite(aPerfectEgg, user.recipesToCook);
+    user.toggleFavorite(greenHam, user.recipesToCook);
 
     const searchResults1 = user.searchRecipesByIngredient('wheat flour', user.favoriteRecipes);
     const searchResults2 = user.searchRecipesByIngredient('zucchini squash', user.recipesToCook);
@@ -192,10 +192,10 @@ describe('user', () => {
   });
 
   it('should be able to return a list of recipes with tags that match a provided list', () => {
-    user.chooseRecipe(aPerfectEgg, user.favoriteRecipes);
-    user.chooseRecipe(greenHam, user.favoriteRecipes);
-    user.chooseRecipe(aPerfectEgg, user.recipesToCook);
-    user.chooseRecipe(greenHam, user.recipesToCook);
+    user.toggleFavorite(aPerfectEgg, user.favoriteRecipes);
+    user.toggleFavorite(greenHam, user.favoriteRecipes);
+    user.toggleFavorite(aPerfectEgg, user.recipesToCook);
+    user.toggleFavorite(greenHam, user.recipesToCook);
 
     const searchResults1 = user.searchRecipesByTag('beautiful', user.recipesToCook);
     const searchResults2 = user.searchRecipesByTag('terrifying', user.favoriteRecipes);
@@ -227,7 +227,7 @@ describe('user', () => {
   it.only('should be able to identify a favorite recipe as the same as an instantiated recipe', () => {
     const cookieRecipe = new Recipe(recipeData[0]);
 
-    user.chooseRecipe(cookieRecipe, user.favoriteRecipes);
+    user.toggleFavorite(cookieRecipe, user.favoriteRecipes);
 
     expect(user.favoriteRecipes[0]).to.deep.equal(cookieRecipe);
   });
