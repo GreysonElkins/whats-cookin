@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 h1 {
   margin: 1em auto 0em auto;
 }
@@ -48,7 +51,8 @@ button {
   display: flex;
   margin: 0em 2em 0em 0em;
   justify-content: flex-end;
-  width: 20em;
+  font-family: 'Lobster', cursive;
+  font-size: 3em;
 }
 
 .all-recipes-display,
@@ -103,6 +107,7 @@ button {
   position: absolute;
   top: 0;
   margin: auto;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .recipe-title {
