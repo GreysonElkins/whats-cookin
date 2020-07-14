@@ -50,13 +50,6 @@ class Pantry {
     return supplyList
   }
 
-  // findIngredientName(id) {
-  //   if (typeof id === 'number') {
-  //     let ingredient = ingredientsData.find(item => item.id === id);
-  //     return ingredient.name;
-  //   }
-  // }
-
   showMissingIngredients = (recipe) => {
     if (recipe instanceof Recipe === false) {
       return 'This is not a recipe'
@@ -66,7 +59,6 @@ class Pantry {
     let message = [];
     
     recipe.requiredIngredients.forEach(ingredient => {
-      // let pantryItem = this.findItem(supplyList, ingredient);
       let pantryItem = findById(ingredient.id, supplyList);
       let qtyDifference = pantryItem ? ingredient.quantity.amount - pantryItem.amount : ingredient.quantity.amount;
       
@@ -78,13 +70,13 @@ class Pantry {
       return 'All the required ingredients are in the pantry'
     }
   }
-
+  
   findMissingIngredients = (recipe) => {
     let supplyList = this.checkPantryForRecipeIngredients(recipe);
     let missingIngredients = []
-
+    
     recipe.requiredIngredients.forEach(ingredient => {
-      let pantryItem = this.findItem(supplyList, ingredient);
+      let pantryItem = findById(ingredient.id, supplyList);
       let qtyDifference = pantryItem ? ingredient.quantity.amount - pantryItem.amount : ingredient.quantity.amount;
 
       qtyDifference > 0 ? missingIngredients.push({ingredient: ingredient.id, qty: qtyDifference}) : () => {};
@@ -109,15 +101,11 @@ class Pantry {
     }
 
     recipe.requiredIngredients.forEach(ingredient => {
-      let pantryItem = this.findItem(this.supplies, ingredient);
+      let pantryItem = findById(ingredient.id, this.supplies);
       pantryItem.amount -= ingredient.quantity.amount;
     })
   }
-
-  findItem = (location, ingredient) => {
-    return location.find(item => item.ingredient === ingredient.id)
-  }
- }
+}
 
 if (typeof module !== 'undefined') {
   module.exports = Pantry;

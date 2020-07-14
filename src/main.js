@@ -4,6 +4,7 @@ const userPageDisplay = document.querySelector('.user-window');
 const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const nav = document.querySelector('nav');
 const blackout = document.querySelector('.body-blackout')
+
 //data instantiation
 const currentUser = new User(generateRandomUser());
 // const currentUser = new User(usersData[0]);
@@ -16,6 +17,7 @@ allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
 nav.addEventListener('click', navHandler);
+
 //event handling
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
@@ -27,6 +29,7 @@ function handleLoad() {
 
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
+    console.log(event);
     currentRecipe = findById(event.path[2].id, instantiatedRecipes);
     changeIcon(event);
     favoriteHandler(currentRecipe);
@@ -38,6 +41,7 @@ function smallRecipeHandler(event) {
 
 function navHandler(event) {
   if (event.target.id.includes('user')) {
+    console.log(event);
     displayFavorites();
     goToPage(event.target.id); 
   } else if (event.target.id.includes('recipe')) {
@@ -47,6 +51,7 @@ function navHandler(event) {
 }
 
 function bigRecipeHandler(event) {
+  console.log(event);
   const currentRecipe = findById(event.path[4].classList[1], instantiatedRecipes);
   
   if (event.target.classList.contains('exit-button')) {
@@ -272,7 +277,7 @@ function populatePantry() {
     pantryList.innerText = `You need some ingredients!`
     } else {
       currentUser.pantry.supplies.forEach(supply => {
-      pantryList.innerHTML += `${supply.amount} - ${currentUser.pantry.findIngredientName(supply.ingredient)} <br>`
+      pantryList.innerHTML += `${supply.amount} - ${findById(supply.ingredient, ingredientsData).name} <br>`
     })
   }  
 }
