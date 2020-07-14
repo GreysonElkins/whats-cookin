@@ -18,7 +18,6 @@ class Recipe {
     this.instructions = recipe.instructions || ['No instructions were provided, <br>I guess it\'s one of those make it up as you go cakes <br>🤷🏽‍♀️'];
     this.name = recipe.name || 'untitled';
     this.tags = recipe.tags || [];
-    this.isFavorite = false;  
   }
 
   giveInstructions() {
@@ -27,30 +26,12 @@ class Recipe {
     }, []);
   }
 
-  toggleFavorite() {
-    this.isFavorite = this.isFavorite ? false : true;
-  }
-
   getTotalCost() {
     const ingredientList = createIngredientList(this);
 
     return ingredientList.reduce((totalPrice, ingredient) => {
       return totalPrice += ingredient.cost * ingredient.qty / 100;
     }, 0);
-  }
-
-  // createIngredientList() {
-  //   return this.requiredIngredients.reduce((ingredientList, ingredient) => {
-  //     return ingredientList.concat({
-  //         name: this.checkIngredientMatch(ingredient).name, 
-  //         cost: this.checkIngredientMatch(ingredient).estimatedCostInCents, 
-  //         qty: ingredient.quantity.amount
-  //       });
-  //   }, []);
-  // }
-
-  checkIngredientMatch(recipeIngredient) {
-    return ingredientsData.find(ingredient => ingredient.id === recipeIngredient.id);
   }
 }
 

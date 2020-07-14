@@ -4,6 +4,7 @@ const userPageDisplay = document.querySelector('.user-window');
 const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const nav = document.querySelector('nav');
 const blackout = document.querySelector('.body-blackout')
+
 //data instantiation
 const currentUser = new User(generateRandomUser());
 // const currentUser = new User(usersData[0]);
@@ -16,6 +17,7 @@ allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
 nav.addEventListener('click', navHandler);
+
 //event handling
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
@@ -27,9 +29,10 @@ function handleLoad() {
 
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    currentRecipe = findById(event.path[2].id, instantiatedRecipes);
+    console.log(event);
+    currentRecipe = findById(event.target.id, instantiatedRecipes);
     changeIcon(event);
-    favoriteHandler(currentRecipe);
+    favoriteHandler(currentRecipe); // handler event
   } else if (event.target.id) {
     bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
@@ -38,6 +41,7 @@ function smallRecipeHandler(event) {
 
 function navHandler(event) {
   if (event.target.id.includes('user')) {
+    console.log(event);
     displayFavorites();
     goToPage(event.target.id); 
   } else if (event.target.id.includes('recipe')) {
@@ -47,6 +51,7 @@ function navHandler(event) {
 }
 
 function bigRecipeHandler(event) {
+  console.log(event);
   const currentRecipe = findById(event.path[4].classList[1], instantiatedRecipes);
   
   if (event.target.classList.contains('exit-button')) {
@@ -85,35 +90,30 @@ const goToPage = (buttonID) => {
 }
 
 function propagateCards(recipeCards, section) {
+  let starIconSrc;
+  if (!currentUser.favoriteRecipes.includes(recipe)) {
+    starIconSrc = '../assets/hollow-star.svg';
+  } else {
+    starIconSrc = '..assets/filled-in-star.svg';
+  }
   section.innerHTML = '';
   recipeCards.forEach((recipe) => {
-    if (!currentUser.favoriteRecipes.includes(recipe)) {
       section.innerHTML +=
         `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
       <div class="card-info">
-      <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+      <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
       <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
       </div>
       </div>`
-    } else {
-      section.innerHTML +=
-        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-      <div class="card-info">
-      <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
-      <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
-      </div>
-      </div>`
-    }
   });
 }
 
 const favoriteHandler = (recipe) => {
-  recipe.toggleFavorite;
   if (!currentUser.favoriteRecipes.includes(recipe)) {
     currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
   } else {
     currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
-    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay); 
   }
 }
 
@@ -146,8 +146,15 @@ const populateRecipeCard = (event) => {
 }
 
 const insertCardHTML = (recipe) => {
-  if (!currentUser.favoriteRecipes.includes(recipe)) {
-    bigRecipeCard.innerHTML =
+  let starIconSrc;
+
+  if(!currentUser.favoriteRecipes.includes(recipe)) {
+    starIconSrc = '../assets/hollow-star.svg';
+  } else {
+    starIconSrc = '../assets/filled-in-star.svg';
+  }
+
+  bigRecipeCard.innerHTML =
     `<div class="container">
       <img class="recipe-img" src="${recipe.image}"></img>
     </div>
@@ -155,49 +162,23 @@ const insertCardHTML = (recipe) => {
       <div class="recipe-header">
         <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
         <div class="recipe-card-nav">
-          <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+          <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
           <button class="exit-button">Exit</button>
         </div>
       </div>
-      <br><div class="generated-message"></div>
-   
-    <article class="recipe-info">
-      <div class="ingredients">
-        <h2>Ingredients</h2>
+      <br>
+    <div class="generated-message"></div>
+      <article class="recipe-info">
+        <div class="ingredients">
+          <h2>Ingredients</h2>
+        </div>
+        <div class="instructions">
+          <h2>Instructions</h2>
       </div>
-      <div class="instructions">
-        <h2>Instructions</h2>
+      </article>
     </div>
-    </article>
     `
-  } else {
-    bigRecipeCard.innerHTML =
-      `<div class="container">
-      <img class="recipe-img" src="${recipe.image}"></img>
-    </div>
-    <div class="big-recipe-text">
-      <div class="recipe-header">
-        <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
-        <div class="recipe-card-nav">
-          <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
-          <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-          <button class="exit-button">Exit</button>
-        </div>
-      </div>
-      <br><div class="generated-message"></div>
-   
-    <article class="recipe-info">
-      <div class="ingredients">
-        <h2>Ingredients</h2>
-      </div>
-      <div class="instructions">
-        <h2>Instructions</h2>
-      </div>
-    </article>
-  </div>
-  `
-  }
 }
 
 const populateIngredients = (fullIngredientList) => {
@@ -272,19 +253,8 @@ function populatePantry() {
     pantryList.innerText = `You need some ingredients!`
     } else {
       currentUser.pantry.supplies.forEach(supply => {
-      pantryList.innerHTML += `${supply.amount} - ${currentUser.pantry.findIngredientName(supply.ingredient)} <br>`
+      pantryList.innerHTML += `${supply.amount} - ${findById(supply.ingredient, ingredientsData).name} <br>`
     })
   }  
 }
 // other (could possibly put this in one of the class files, I'll start with it here)
-function findById(id, location) {
-  id = typeof id !== 'number' ? parseInt(id) : id;
-  if (Array.isArray(location)) {
-    let ingredient = location.find(item => item.id === id);
-    return ingredient;
-  }
-}
-
-function getFirstName() {
-  return currentUser.name.split(" ")[0]
-}

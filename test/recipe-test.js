@@ -102,15 +102,4 @@ describe('recipe', () => {
     expect(recipe.getTotalCost()).to.equal((582 * 2 + 142) / 100);
   });
 
-  it('should be able to become a favorite', () => {
-    recipe.toggleFavorite();
-    expect(recipe.isFavorite).to.equal(true);
-  });
-
-  it('should be able to toggle isFavorite back to false', () => {
-    recipe.toggleFavorite();
-    expect(recipe.isFavorite).to.equal(true);
-    recipe.toggleFavorite();
-    expect(recipe.isFavorite).to.equal(false);
-  });
 });
