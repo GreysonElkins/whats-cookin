@@ -39,16 +39,6 @@ class Recipe {
     }, 0);
   }
 
-  // createIngredientList() {
-  //   return this.requiredIngredients.reduce((ingredientList, ingredient) => {
-  //     return ingredientList.concat({
-  //         name: this.checkIngredientMatch(ingredient).name, 
-  //         cost: this.checkIngredientMatch(ingredient).estimatedCostInCents, 
-  //         qty: ingredient.quantity.amount
-  //       });
-  //   }, []);
-  // }
-
   checkIngredientMatch(recipeIngredient) {
     return ingredientsData.find(ingredient => ingredient.id === recipeIngredient.id);
   }

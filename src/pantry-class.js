@@ -55,15 +55,13 @@ class Pantry {
       return 'This is not a recipe'
     }
 
-    let supplyList = this.checkPantryForRecipeIngredients(recipe); 
+    let missingIngredients = this.findMissingIngredients(recipe);
     let message = [];
     
-    recipe.requiredIngredients.forEach(ingredient => {
-      let pantryItem = findById(ingredient.id, supplyList);
-      let qtyDifference = pantryItem ? ingredient.quantity.amount - pantryItem.amount : ingredient.quantity.amount;
-      
-      qtyDifference > 0 ? message.push(`${qtyDifference} ${findById(ingredient.id, ingredientsData).name}`) : () => {};
+    missingIngredients.forEach(ingredient => {
+       message.push(`${ingredient.qty} ${findById(ingredient.ingredient, ingredientsData).name}`);
     });
+
     if (message.length > 0) {
       return `You still need ${message.join(' and ')} to make ${recipe.name}`
     } else {
