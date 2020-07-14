@@ -9,7 +9,6 @@ function checkModule(send) {
 }
 
 function createIngredientList(recipe) {
-  debugger
   return recipe.requiredIngredients.reduce((ingredientList, ingredient) => {
     return ingredientList.concat({
       name: recipe.checkIngredientMatch(ingredient).name,
