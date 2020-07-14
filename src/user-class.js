@@ -34,6 +34,7 @@ class User {
       recipeList.push(recipe);
     }
     this.saveListToStorage(recipeList);
+    recipe.toggleFavorite();
   }
 
   searchRecipesByName(searchInput, recipeList) {

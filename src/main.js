@@ -119,6 +119,7 @@ const favoriteHandler = (recipe) => {
   } else {
     currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
     displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+    recipe.toggleFavorite();
   }
 }
 
@@ -151,8 +152,14 @@ const populateRecipeCard = (event) => {
 }
 
 const insertCardHTML = (recipe) => {
-  if (!currentUser.favoriteRecipes.includes(recipe)) {
-    bigRecipeCard.innerHTML =
+  let starIconSrc;
+  
+  if(!currentUser.favoriteRecipes.includes(recipe)) {
+    starIconSrc = '../assets/hollow-star.svg';
+  } else {
+    starIconSrc = '../assets/filled-in-star.svg';
+  }
+  bigRecipeCard.innerHTML =
     `<div class="container">
       <img class="recipe-img" src="${recipe.image}"></img>
     </div>
@@ -160,49 +167,23 @@ const insertCardHTML = (recipe) => {
       <div class="recipe-header">
         <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
         <div class="recipe-card-nav">
-          <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
+          <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
           <button class="exit-button">Exit</button>
         </div>
       </div>
-      <br><div class="generated-message"></div>
-   
-    <article class="recipe-info">
-      <div class="ingredients">
-        <h2>Ingredients</h2>
+      <br>
+    <div class="generated-message"></div>
+      <article class="recipe-info">
+        <div class="ingredients">
+          <h2>Ingredients</h2>
+        </div>
+        <div class="instructions">
+          <h2>Instructions</h2>
       </div>
-      <div class="instructions">
-        <h2>Instructions</h2>
+      </article>
     </div>
-    </article>
     `
-  } else {
-    bigRecipeCard.innerHTML =
-      `<div class="container">
-      <img class="recipe-img" src="${recipe.image}"></img>
-    </div>
-    <div class="big-recipe-text">
-      <div class="recipe-header">
-        <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
-        <div class="recipe-card-nav">
-          <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
-          <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-          <button class="exit-button">Exit</button>
-        </div>
-      </div>
-      <br><div class="generated-message"></div>
-   
-    <article class="recipe-info">
-      <div class="ingredients">
-        <h2>Ingredients</h2>
-      </div>
-      <div class="instructions">
-        <h2>Instructions</h2>
-      </div>
-    </article>
-  </div>
-  `
-  }
 }
 
 const populateIngredients = (fullIngredientList) => {
