@@ -129,7 +129,7 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = findById(event.target.id, instantiatedRecipes);
+  const currentRecipe = findById(event.path[1].id, instantiatedRecipes);
   const ingredientList = createIngredientList(currentRecipe);
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
@@ -237,7 +237,7 @@ function displayFavorites() {
 
 function labelPantry() {
   const pantryName = document.querySelector('.users-pantry');
-  pantryName.innerHTML = `${getFirstName(currentUser)}'s Pantry: 
+  pantryName.innerHTML = `<h1 class="pantry-title">${getFirstName(currentUser)}'s Pantry:</h1> 
     <div class="supply-list"></div>`;
   }
 
@@ -247,7 +247,7 @@ function populatePantry() {
     pantryList.innerText = `You need some ingredients!`
     } else {
       currentUser.pantry.supplies.forEach(supply => {
-      pantryList.innerHTML += `${supply.amount} - ${findById(supply.ingredient, ingredientsData).name} <br>`
+      pantryList.innerHTML += `<p>${supply.amount} - ${findById(supply.ingredient, ingredientsData).name}</p>`
     })
   }  
 }
