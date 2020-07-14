@@ -37,7 +37,7 @@ function navHandler(event) {
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
   currentUser.toggleFavorite(recipe, 'favorite');
-  displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+  displayFavorites(currentUser.list.favoriteRecipes, favoriteRecipesDisplay);
 }
 
 function smallRecipeHandler(event) {
@@ -224,7 +224,7 @@ const makeFavoriteRecipe = (event) => {
 function displayFavorites() {
   const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
   favoriteRecipesDisplay.innerHTML = '';
-  propagateCards(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+  propagateCards(currentUser.list.favoriteRecipes, favoriteRecipesDisplay);
 }
 
 function labelPantry() {
