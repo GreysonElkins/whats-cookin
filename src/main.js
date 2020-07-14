@@ -98,11 +98,10 @@ function propagateCards(recipeCards, section) {
     }
     section.innerHTML +=
     `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-      <div class="image-overlay" id="${recipe.id}">
-        <div class="card-info">
-          <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
-          <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
-        </div>
+    <div class="image-overlay" id="${recipe.id}"></div>
+      <div class="card-info">
+        <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
+        <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
       </div>
     </div>`
   });
