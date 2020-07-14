@@ -21,7 +21,6 @@ function handleLoad() {
   showUserName();
   labelPantry();
   populatePantry();
-  // displayFavorites();
 }
 
 function navHandler(event) {
@@ -31,8 +30,15 @@ function navHandler(event) {
   } else if (event.target.id.includes('recipe')) {
     propagateCards(instantiatedRecipes, allRecipesDisplay);
     goToPage(event.target.id);
+  } else if (event.target.id.includes('search-button')) {
+    searchQuery = document.querySelector('input').value;
+    // pull input.value
+    // pass input.value as argument into search function
+    search(searchQuery);
   }
 }
+
+
 
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
