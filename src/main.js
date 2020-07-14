@@ -264,7 +264,7 @@ function displayFavorites() {
 
 function labelPantry() {
   const pantryName = document.querySelector('.users-pantry');
-  pantryName.innerHTML = `${getFirstName(currentUser)}'s Pantry: 
+  pantryName.innerHTML = `<h1 class="pantry-title">${getFirstName(currentUser)}'s Pantry:</h1> 
     <div class="supply-list"></div>`;
   }
 
@@ -274,7 +274,7 @@ function populatePantry() {
     pantryList.innerText = `You need some ingredients!`
     } else {
       currentUser.pantry.supplies.forEach(supply => {
-      pantryList.innerHTML += `${supply.amount} - ${currentUser.pantry.findIngredientName(supply.ingredient)} <br>`
+      pantryList.innerHTML += `<p>${supply.amount} - ${currentUser.pantry.findIngredientName(supply.ingredient)}</p>`
     })
   }  
 }

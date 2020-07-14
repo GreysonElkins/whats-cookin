@@ -63,6 +63,8 @@ button {
 
 .favorite-recipes {
   grid-row: 2;
+  justify-content: flex-start;
+  padding-left: 2em;
 }
 
 .all-recipes-display::after {
@@ -227,19 +229,19 @@ button {
 }
 
 .users-pantry {
+  grid-area: 1 / 2;
   height: 10em;
   font-size: 2em;
-  padding: 1em 5em;
+  margin: 0 auto;
 }
 
 .supply-list {
   border: 1px solid;
   border-radius: 5%;
   height: 15em;
-  font-size: 1em;
-  margin-top: .5em;
   overflow: scroll;
-  padding: 1em;
+  margin-top: .65em;
+  padding: 0 1em 1em 1em;
   width: 10em;
 }
 
