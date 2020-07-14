@@ -23,7 +23,7 @@ describe('user', () => {
       "tags": ["delicious", "terrifying"]
     });
     aPerfectEgg = new Recipe({
-      'id': 12283,
+      'id': 12803,
       'img': 'img',
       'ingredients': [
         { id: 20081, quantity: {amount: 5}},
@@ -92,59 +92,52 @@ describe('user', () => {
   })
 
   it('should start with an empty array of favorite recipes', () => {
-    expect(user.favoriteRecipes).to.be.an('array');
-    expect(user.favoriteRecipes).to.deep.equal([]);
+    expect(user.lists.favoriteRecipes).to.be.an('array');
+    expect(user.lists.favoriteRecipes).to.deep.equal([]);
   });
 
   it('should start with an empty array of recipes to cook', () => {
-    expect(user.recipesToCook).to.be.an('array');
-    expect(user.recipesToCook).to.deep.equal([]);
+    expect(user.lists.recipesToCook).to.be.an('array');
+    expect(user.lists.recipesToCook).to.deep.equal([]);
   });
 
   it('should be able to add a recipe to its list of favorites', () => {
-    user.toggleFavorite(greenHam, user.favoriteRecipes);
-    expect(user.favoriteRecipes[0]).to.deep.equal(greenHam);
+    user.toggleListItem(greenHam, `favorite`);
+    expect(user.lists.favoriteRecipes[0]).to.deep.equal(greenHam);
   });
 
-  it('should only be able to add a recipe to favorites if its not there already',() => {
-    user.toggleFavorite(greenHam, user.favoriteRecipes);
-    user.toggleFavorite(greenHam, user.favoriteRecipes);
-    expect(user.favoriteRecipes.length).to.equal(1);
+  it('should remove a recipe if its there already',() => {
+    user.toggleListItem(greenHam, `favorite`);
+    user.toggleListItem(greenHam, `favorite`);
+    expect(user.lists.favoriteRecipes).to.deep.equal([]);
   })
 
   it('should be able to add a recipe to its list of recipes to cook', () => {
-    user.toggleFavorite(greenHam, user.recipesToCook);
-    expect(user.recipesToCook[0]).to.deep.equal(greenHam);
+    user.toggleListItem(greenHam, `toCook`);
+    expect(user.lists.recipesToCook[0]).to.deep.equal(greenHam);
   });
 
-  it('should only be able to add a recipe to recipes to cook if its not there yet',() => {
-    user.toggleFavorite(greenHam, user.recipesToCook);
-    user.toggleFavorite(greenHam, user.recipesToCook);
-    expect(user.recipesToCook.length).to.equal(1);
+  it('should be able to remove a favorite recipe if its not there already', () => {
+    user.toggleListItem(greenHam, `toCook`);
+    user.toggleListItem(greenHam, `toCook`);
+    expect(user.lists.recipesToCook).to.deep.equal([]);
   });
 
   it('should only be able to add recipes to its recipe lists', () => {
     const recipe = 'Delicious food';
     const otherRecipe = 42;
-    user.toggleFavorite(recipe, user.favoriteRecipes);
-    user.toggleFavorite(otherRecipe, user.recipesToCook);
-    expect(user.favoriteRecipes).to.deep.equal([]);
-    expect(user.recipesToCook).to.deep.equal([]);
-  });
-
-  it('should only add unique recipes to its favorites', () => {
-    user.toggleFavorite(greenHam, user.favoriteRecipes);
-    user.toggleFavorite(greenHam, user.favoriteRecipes);
-
-    expect(user.favoriteRecipes).to.deep.equal([greenHam]);
+    user.toggleListItem(recipe, `favorite`);
+    user.toggleListItem(otherRecipe, `toCook`);
+    expect(user.lists.favoriteRecipes).to.deep.equal([]);
+    expect(user.lists.recipesToCook).to.deep.equal([]);
   });
 
   it('should let the user search for a recipe by name', () => {
-    user.toggleFavorite(aPerfectEgg, user.recipesToCook);
-    user.toggleFavorite(aPerfectEgg, user.favoriteRecipes);
+    user.toggleListItem(aPerfectEgg, `toCook`);
+    user.toggleListItem(aPerfectEgg,  `favorite`);
 
-    const searchResults1 = user.searchRecipesByName('A perfect egg', user.recipesToCook);
-    const searchResults2 = user.searchRecipesByName('A perfect egg', user.favoriteRecipes);
+    const searchResults1 = user.searchRecipesByName('A perfect egg', user.lists.recipesToCook);
+    const searchResults2 = user.searchRecipesByName('A perfect egg', user.lists.favoriteRecipes);
 
     expect(searchResults1[0]).to.equal(aPerfectEgg);
     expect(searchResults2[0]).to.equal(aPerfectEgg);
@@ -166,16 +159,13 @@ describe('user', () => {
     expect(randomSearch).to.deep.equal([]);
   });
 
-
-
   it('should be able to return a list of recipes that include a specified ingredient', () => {
-    user.toggleFavorite(aPerfectEgg, user.favoriteRecipes);
-    user.toggleFavorite(greenHam, user.favoriteRecipes);
-    user.toggleFavorite(aPerfectEgg, user.recipesToCook);
-    user.toggleFavorite(greenHam, user.recipesToCook);
-
-    const searchResults1 = user.searchRecipesByIngredient('wheat flour', user.favoriteRecipes);
-    const searchResults2 = user.searchRecipesByIngredient('zucchini squash', user.recipesToCook);
+    user.toggleListItem(aPerfectEgg, `favorite`);
+    user.toggleListItem(greenHam, `favorite`);
+    user.toggleListItem(aPerfectEgg, `toCook`);
+    user.toggleListItem(greenHam, `toCook`);
+    const searchResults1 = user.searchRecipesByIngredient('wheat flour', user.lists.favoriteRecipes);
+    const searchResults2 = user.searchRecipesByIngredient('zucchini squash', user.lists.recipesToCook);
 
     expect(searchResults1).to.deep.equal([aPerfectEgg]);
     expect(searchResults2).to.deep.equal([greenHam]);
@@ -192,16 +182,16 @@ describe('user', () => {
   });
 
   it('should be able to return a list of recipes with tags that match a provided list', () => {
-    user.toggleFavorite(aPerfectEgg, user.favoriteRecipes);
-    user.toggleFavorite(greenHam, user.favoriteRecipes);
-    user.toggleFavorite(aPerfectEgg, user.recipesToCook);
-    user.toggleFavorite(greenHam, user.recipesToCook);
+    user.toggleListItem(aPerfectEgg, 'favorite');
+    user.toggleListItem(greenHam, 'favorite');
+    user.toggleListItem(aPerfectEgg, `toCook`);
+    user.toggleListItem(greenHam, `toCook`);
 
-    const searchResults1 = user.searchRecipesByTag('beautiful', user.recipesToCook);
-    const searchResults2 = user.searchRecipesByTag('terrifying', user.favoriteRecipes);
+    const searchResults1 = user.searchRecipesByTag('beautiful', user.lists.recipesToCook);
+    const searchResults2 = user.searchRecipesByTag('terrifying', user.lists.favoriteRecipes);
 
     expect(searchResults1).to.deep.equal([aPerfectEgg]);
-    expect(searchResults2).to.deep.equal([greenHam]);
+    expect(searchResults2).to.deep.equal([greenHam]); 
   });
 
   it('should return false if any incorrect tags are present', () => {
@@ -224,11 +214,4 @@ describe('user', () => {
     expect(searchResults3).to.be.true;
   });
 
-  it.only('should be able to identify a favorite recipe as the same as an instantiated recipe', () => {
-    const cookieRecipe = new Recipe(recipeData[0]);
-
-    user.toggleFavorite(cookieRecipe, user.favoriteRecipes);
-
-    expect(user.favoriteRecipes[0]).to.deep.equal(cookieRecipe);
-  });
 });

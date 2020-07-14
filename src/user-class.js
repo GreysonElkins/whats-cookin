@@ -18,22 +18,23 @@ class User {
   constructor(userData) {
     this.name = this.createName(userData.name);
     this.id = createId(userData.id);
-    this.pantry = new Pantry(userData.pantry);    
-    this.favoriteRecipes = this.retrieveListFromStorage(`${this.name} favorite recipes`) 
-      || [];
-    this.recipesToCook = this.retrieveListFromStorage(`${this.name} recipes to cook`) 
-      || [];
+    this.pantry = new Pantry(userData.pantry);  
+    this.lists = {
+      favoriteRecipes: this.retrieveListFromStorage(`${this.name} favorite recipes`) || [],
+      recipesToCook: this.retrieveListFromStorage(`${this.name} recipes to cook`) || []
+    }  
   }
 
   createName(data) {
     return typeof data === 'string' ? data : JSON.stringify(data);
   }
 
-  toggleFavorite(recipe, recipeList) {
-    if (recipe instanceof Recipe && !findById(recipe.id, this.favoriteRecipes)) {
-      recipeList.push(recipe);
+  toggleListItem(recipe, recipeList) {
+    let list = recipeList === `favorite` ? `favoriteRecipes` : `recipesToCook`;
+    if (recipe instanceof Recipe && !findById(recipe.id, this.lists[list])) {
+      this.lists[list].push(recipe);
     } else {
-      this.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
+      this.lists[list].splice(this.lists[list].indexOf(recipe), 1);
     }
     this.saveListToStorage(recipeList);
   }
