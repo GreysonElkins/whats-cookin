@@ -165,19 +165,7 @@ describe('user', () => {
     expect(randomSearch).to.deep.equal([]);
   });
 
-  // it('should return a list of ingredients for a given recipe', () => {
-  //   expect(user.generateIngredientList(greenHam)).to.deep.equal([11477, 11297, 16069]);
-  // });
 
-  // it('should only take a recipe as an argument for generating an ingredient list', () => {
-  //   const number = 123;
-  //   const array = ['something', 'something'];
-  //   const bool = false;
-
-  //   expect(user.generateIngredientList(number)).to.deep.equal([]);
-  //   expect(user.generateIngredientList(array)).to.deep.equal([]);
-  //   expect(user.generateIngredientList(bool)).to.deep.equal([]);
-  //   });
 
   it('should be able to return a list of recipes that include a specified ingredient', () => {
     user.chooseRecipe(aPerfectEgg, user.favoriteRecipes);

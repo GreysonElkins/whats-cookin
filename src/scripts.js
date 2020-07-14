@@ -1,3 +1,9 @@
+try {
+  Recipe = require('./recipe-class');
+} catch (e) {
+  let Recipe;
+}
+
 //class helper functions
 function createId(data) {
     return typeof data === 'number' ? data : Date.now();
@@ -21,11 +27,10 @@ function createIngredientList(recipe) {
       id: ingredient.id,
       cost: findById(ingredient.id, ingredientsData).estimatedCostInCents,
       qty: ingredient.quantity.amount
-    }
-    
-    );
+    });
   }, []);
 }
+
 // dom helper functions
 function getFirstName() {
   return currentUser.name.split(" ")[0]
