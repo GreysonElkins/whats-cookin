@@ -1,25 +1,35 @@
+//class helper functions
 function createId(data) {
     return typeof data === 'number' ? data : Date.now();
 }
 
-function checkModule(send) {
-  if (typeof module !== 'undefined') {
-   module.exports = send;
+
+function findById(id, location) {
+  id = typeof id !== 'number' ? parseInt(id) : id;
+  if (!Array.isArray(location)) {
+    return `this ain't gonna work (findById array issue)`
   }
+  let signifier = typeof location[0].id === "number" ? `id` : `ingredient`;
+
+  let ingredient = location.find(item => item[signifier] === id);
+    return ingredient;
 }
 
 function createIngredientList(recipe) {
   return recipe.requiredIngredients.reduce((ingredientList, ingredient) => {
     return ingredientList.concat({
-      name: recipe.checkIngredientMatch(ingredient).name,
+      name: findById(ingredient.id, ingredientsData).name,
       id: ingredient.id,
-      cost: recipe.checkIngredientMatch(ingredient).estimatedCostInCents,
+      cost: findById(ingredient.id, ingredientsData).estimatedCostInCents,
       qty: ingredient.quantity.amount
-      //qty: ingredient.quantity === 'undefined' ? ingredient.quantity.amount : `qty difference n/a`
     }
     
     );
   }, []);
+}
+// dom helper functions
+function getFirstName() {
+  return currentUser.name.split(" ")[0]
 }
 
 function generateReadableIngredientList(ingredientList, recipe)  {
@@ -34,8 +44,7 @@ function generateReadableIngredientList(ingredientList, recipe)  {
 
   return fullDirectionList;
 }
-// why doesn't this send a class?
 
 if (typeof module !== 'undefined') {
-  module.exports = {createId, checkModule, createIngredientList}
+  module.exports = {createId, createIngredientList, findById}
 }
