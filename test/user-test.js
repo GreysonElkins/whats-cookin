@@ -3,6 +3,7 @@ const expect = chai.expect;
 const User = require('../src/user-class.js');
 const Recipe = require('../src/recipe-class.js');
 const Pantry = require('../src/pantry-class');
+const recipeData = require('../data/recipes');
 const scripts = require('../src/scripts');
 
 describe('user', () => {
@@ -233,5 +234,13 @@ describe('user', () => {
     expect(searchResults).to.be.false;
     expect(searchResults2).to.be.false;
     expect(searchResults3).to.be.true;
+  });
+
+  it.only('should be able to identify a favorite recipe as the same as an instantiated recipe', () => {
+    const cookieRecipe = new Recipe(recipeData[0]);
+
+    user.chooseRecipe(cookieRecipe, user.favoriteRecipes);
+
+    expect(user.favoriteRecipes[0]).to.deep.equal(cookieRecipe);
   });
 });

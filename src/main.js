@@ -24,7 +24,7 @@ function handleLoad() {
   showUserName();
   labelPantry();
   populatePantry();
-  displayFavorites();
+  // displayFavorites();
 }
 
 function smallRecipeHandler(event) {
@@ -91,6 +91,7 @@ function propagateCards(recipeCards, section) {
   let starIconSrc;
   section.innerHTML = '';
   recipeCards.forEach((recipe) => {
+    console.log(currentUser.favoriteRecipes.includes(recipe));
     if (!currentUser.favoriteRecipes.includes(recipe)) {
       starIconSrc = '../assets/hollow-star.svg';
     } else {

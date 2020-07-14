@@ -18,7 +18,7 @@ class User {
   constructor(userData) {
     this.name = this.createName(userData.name);
     this.id = createId(userData.id);
-    this.pantry = new Pantry(userData.pantry);
+    this.pantry = new Pantry(userData.pantry);    
     this.favoriteRecipes = this.retrieveListFromStorage(`${this.name} favorite recipes`) 
       || [];
     this.recipesToCook = this.retrieveListFromStorage(`${this.name} recipes to cook`) 
@@ -102,9 +102,14 @@ class User {
 
   retrieveListFromStorage = (name) => {
     if (typeof localStorage !== 'undefined') {
-      return JSON.parse(localStorage.getItem(name))
-    } else {
-      return undefined
+      let jason = JSON.parse(localStorage.getItem(name));
+      if (jason) {
+        return jason.map(recipe => {
+          return new Recipe(recipe)
+        })
+      } else {
+        return undefined
+      }
     }
   }
 }

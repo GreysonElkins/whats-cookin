@@ -14,11 +14,10 @@ class Recipe {
   constructor(recipe) {
     this.id = createId(recipe.id);
     this.image = recipe.image || 'https://spoonacular.com/recipeImages/698701-556x370.jpg';
-    this.requiredIngredients = recipe.ingredients || [`no ingredients are listed for this recipe`];
     this.instructions = recipe.instructions || ['No instructions were provided, <br>I guess it\'s one of those make it up as you go cakes <br>🤷🏽‍♀️'];
+    this.requiredIngredients = recipe.ingredients || recipe.requiredIngredients || [`no ingredients are listed for this recipe`];
     this.name = recipe.name || 'untitled';
     this.tags = recipe.tags || [];
-    this.isFavorite = true;
   }
 
   giveInstructions() {
