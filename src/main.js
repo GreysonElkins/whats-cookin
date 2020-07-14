@@ -6,8 +6,8 @@ const nav = document.querySelector('nav');
 const blackout = document.querySelector('.body-blackout')
 
 //data instantiation
-const currentUser = new User(generateRandomUser());
-// const currentUser = new User(usersData[0]);
+// const currentUser = new User(generateRandomUser());
+const currentUser = new User(usersData[0]);
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 //onload 
 window.onload = handleLoad();
@@ -50,7 +50,6 @@ function navHandler(event) {
 }
 
 function bigRecipeHandler(event) {
-  console.log(event);
   const currentRecipe = findById(event.path[4].classList[1], instantiatedRecipes);
   
   if (event.target.classList.contains('exit-button')) {
@@ -90,20 +89,22 @@ const goToPage = (buttonID) => {
 
 function propagateCards(recipeCards, section) {
   let starIconSrc;
-  if (!currentUser.favoriteRecipes.includes(recipe)) {
-    starIconSrc = '../assets/hollow-star.svg';
-  } else {
-    starIconSrc = '..assets/filled-in-star.svg';
-  }
   section.innerHTML = '';
   recipeCards.forEach((recipe) => {
-      section.innerHTML +=
-        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-      <div class="card-info">
-      <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
-      <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
+    if (!currentUser.favoriteRecipes.includes(recipe)) {
+      starIconSrc = '../assets/hollow-star.svg';
+    } else {
+      starIconSrc = '../assets/filled-in-star.svg';
+    }
+    section.innerHTML +=
+    `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
+      <div class="image-overlay" id="${recipe.id}">
+        <div class="card-info">
+          <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
+          <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
+        </div>
       </div>
-      </div>`
+    </div>`
   });
 }
 
@@ -134,8 +135,8 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = findById(event.path[1].id, instantiatedRecipes);
-  const ingredientList = createIngredientList(currentRecipe);
+  const currentRecipe = findById(event.target.id, instantiatedRecipes);
+  const ingredientList = createIngredientList(currentRecipe); 
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
 

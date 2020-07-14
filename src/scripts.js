@@ -3,7 +3,6 @@ function createId(data) {
     return typeof data === 'number' ? data : Date.now();
 }
 
-
 function findById(id, location) {
   id = typeof id !== 'number' ? parseInt(id) : id;
   if (!Array.isArray(location)) {
@@ -22,9 +21,7 @@ function createIngredientList(recipe) {
       id: ingredient.id,
       cost: findById(ingredient.id, ingredientsData).estimatedCostInCents,
       qty: ingredient.quantity.amount
-    }
-    
-    );
+    });
   }, []);
 }
 // dom helper functions
