@@ -27,6 +27,13 @@ nav {
   width: 20em;
 }
 
+.search-field {
+  display: flex;
+  align-content: center;
+  flex-direction: row;
+  margin-top: 3em auto;
+}
+
 input {
   border-radius: 10%;
   border-style: solid;
@@ -38,13 +45,7 @@ button {
   background-color: white;
   border: none;
   height: 2em;
-}
-
-.search-field {
-  align-content: center;
-  display: flex;
-  flex-direction: column;
-}
+} 
 
 .title {
   display: flex;
@@ -56,12 +57,15 @@ button {
 
 .all-recipes-display,
 .favorite-recipes {
-  grid-column: 2;
   display: flex;
   justify-content: space-evenly;
   flex-flow: row wrap;
   overflow: scroll;
   width: 100%;
+}
+
+.all-recipes-display {
+  grid-row: 2;
 }
 
 .favorite-recipes {
