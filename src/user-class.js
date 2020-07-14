@@ -34,11 +34,7 @@ class User {
     if (recipe instanceof Recipe && !findById(recipe.id, this.lists[list])) {
       this.lists[list].push(recipe);
     } else {
-<<<<<<< HEAD
-      this.favoriteRecipes.splice(this.favoriteRecipes.indexOf(recipe), 1);
-=======
       this.lists[list].splice(this.lists[list].indexOf(recipe), 1);
->>>>>>> c0efd98073cfb30a70c03eff644ffe8fd7c47922
     }
     this.saveListToStorage(recipeList);
   }

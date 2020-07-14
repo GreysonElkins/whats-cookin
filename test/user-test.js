@@ -213,8 +213,4 @@ describe('user', () => {
     expect(searchResults2).to.be.false;
     expect(searchResults3).to.be.true;
   });
-<<<<<<< HEAD
-=======
-
->>>>>>> c0efd98073cfb30a70c03eff644ffe8fd7c47922
 });
