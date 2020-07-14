@@ -76,6 +76,7 @@ button {
 }
 
 .recipe-card {
+  grid-template-rows: 1fr 1fr;
   position: relative;
   background-size: cover;
   border-radius: 5%;
@@ -98,6 +99,17 @@ button {
   position: absolute;
   top: 0;
   margin: auto;
+}
+
+.recipe-title {
+  position: absolute;
+  top: 0;
+}
+
+.star-icon {
+  position: absolute;
+  top: 5.5em;
+  left: 8em;
 }
 
 .recipe-header {
