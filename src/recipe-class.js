@@ -2,7 +2,9 @@ try {
   ingredientsData = require('../data/ingredients.js');
   scripts = require('./scripts');
   createId = scripts.createId;
+  createIngredientList = scripts.createIngredientList;
 } catch (e) {
+  let createIngredientList;
   let scripts
   let createId;
   let ingredientsData;
@@ -30,18 +32,22 @@ class Recipe {
   }
 
   getTotalCost() {
-    const ingredientList = this.createIngredientList();
+    const ingredientList = createIngredientList(this);
 
     return ingredientList.reduce((totalPrice, ingredient) => {
-      return totalPrice += ingredient.estimatedCostInCents / 100;
+      return totalPrice += ingredient.cost * ingredient.qty / 100;
     }, 0);
   }
 
-  createIngredientList() {
-    return this.requiredIngredients.reduce((ingredientList, ingredient) => {
-      return ingredientList.concat(this.checkIngredientMatch(ingredient));
-    }, []);
-  }
+  // createIngredientList() {
+  //   return this.requiredIngredients.reduce((ingredientList, ingredient) => {
+  //     return ingredientList.concat({
+  //         name: this.checkIngredientMatch(ingredient).name, 
+  //         cost: this.checkIngredientMatch(ingredient).estimatedCostInCents, 
+  //         qty: ingredient.quantity.amount
+  //       });
+  //   }, []);
+  // }
 
   checkIngredientMatch(recipeIngredient) {
     return ingredientsData.find(ingredient => ingredient.id === recipeIngredient.id);
@@ -50,4 +56,4 @@ class Recipe {
 
 if (typeof module !== 'undefined') {
   module.exports = Recipe;
-}
+  }

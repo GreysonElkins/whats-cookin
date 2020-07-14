@@ -12,8 +12,8 @@ describe('recipe', () => {
       id: 0,
       image: 'egg',
       ingredients: [
-        {"id": 20081},
-        {"id": 18372},
+        {"id": 20081, quantity: {amount: 1}},
+        {"id": 18372, quantity: {amount: 2}},
       ],
       instructions: [{
         'instruction': 'Get two chickens and set the mood', 'number': 1
@@ -99,7 +99,7 @@ describe('recipe', () => {
   });
 
   it('should be able to return the total cost of its ingredients', () => {
-    expect(recipe.getTotalCost()).to.equal(7.24);
+    expect(recipe.getTotalCost()).to.equal((582 * 2 + 142) / 100);
   });
 
   it('should be able to become a favorite', () => {
