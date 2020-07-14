@@ -36,7 +36,7 @@ function navHandler(event) {
 
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
-  currentUser.toggleFavorite(recipe, 'favorite');
+  currentUser.toggleListItem(recipe, 'favorite');
   displayFavorites(currentUser.list.favoriteRecipes, favoriteRecipesDisplay);
 }
 
@@ -218,7 +218,7 @@ const printIngredientsCost = (event) => {
 //user page
 const makeFavoriteRecipe = (event) => {
   let chosenRecipe = findById(event.target.id, instantiatedRecipes);
-  currentUser.toggleFavorite(chosenRecipe, 'favorite');
+  currentUser.toggleListItem(chosenRecipe, 'favorite');
 }
 
 function displayFavorites() {
