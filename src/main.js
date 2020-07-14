@@ -161,7 +161,7 @@ const insertCardHTML = (recipe) => {
       <div class="recipe-header">
         <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
         <div class="recipe-card-nav">
-          <img class="star-icon" id="${recipe.id}" src="${starIconSrc}">
+          <img class="big-star-icon" id="${recipe.id}" src="${starIconSrc}">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
           <button class="exit-button">Exit</button>
         </div>
