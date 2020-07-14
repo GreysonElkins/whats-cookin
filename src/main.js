@@ -27,11 +27,11 @@ function handleLoad() {
 
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
-    currentRecipe = findById(event.path[2].id, instantiatedRecipes);
+    currentRecipe = findById(event.target.id, instantiatedRecipes);
     changeIcon(event);
     favoriteHandler(currentRecipe);
-  } else if (event.path[1].id) {
-    bigRecipeCard.classList.add(event.path[1].id);
+  } else if (event.target.id) {
+    bigRecipeCard.classList.add(event.target.id);
     showRecipeCard(event);
   } 
 }
@@ -90,7 +90,7 @@ function propagateCards(recipeCards, section) {
     if (!currentUser.favoriteRecipes.includes(recipe)) {
       section.innerHTML +=
        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-        <div class="image-overlay"></div>
+        <div class="image-overlay" id="${recipe.id}"></div>
           <div class="card-info">
             <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
             <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
@@ -99,7 +99,7 @@ function propagateCards(recipeCards, section) {
     } else {
       section.innerHTML +=
        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
-        <div class="image-overlay"></div>
+        <div class="image-overlay" id="${recipe.id}"></div>
           <div class="card-info">
             <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
             <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
