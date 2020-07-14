@@ -18,9 +18,9 @@ function findById(id, location) {
 function createIngredientList(recipe) {
   return recipe.requiredIngredients.reduce((ingredientList, ingredient) => {
     return ingredientList.concat({
-      name: recipe.checkIngredientMatch(ingredient).name,
+      name: findById(ingredient.id, ingredientsData).name,
       id: ingredient.id,
-      cost: recipe.checkIngredientMatch(ingredient).estimatedCostInCents,
+      cost: findById(ingredient.id, ingredientsData).estimatedCostInCents,
       qty: ingredient.quantity.amount
     }
     

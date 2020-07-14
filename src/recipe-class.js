@@ -38,10 +38,6 @@ class Recipe {
       return totalPrice += ingredient.cost * ingredient.qty / 100;
     }, 0);
   }
-
-  checkIngredientMatch(recipeIngredient) {
-    return ingredientsData.find(ingredient => ingredient.id === recipeIngredient.id);
-  }
 }
 
 if (typeof module !== 'undefined') {
