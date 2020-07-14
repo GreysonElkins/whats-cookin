@@ -137,8 +137,13 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
+<<<<<<< HEAD
   const currentRecipe = findById(event.path[1].id, instantiatedRecipes);
   const ingredientList = currentRecipe.createIngredientList();
+=======
+  const currentRecipe = findById(event.target.id, instantiatedRecipes);
+  const ingredientList = createIngredientList(currentRecipe);
+>>>>>>> master
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
 
@@ -159,7 +164,7 @@ const insertCardHTML = (recipe) => {
         <div class="recipe-card-nav">
           <img class="star-icon" id="${recipe.id}" src="../assets/hollow-star.svg">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-          <button class="exit-button">Back to all recipes</button>
+          <button class="exit-button">Exit</button>
         </div>
       </div>
       <br><div class="generated-message"></div>
@@ -184,7 +189,7 @@ const insertCardHTML = (recipe) => {
         <div class="recipe-card-nav">
           <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-          <button class="exit-button">Back to all recipes</button>
+          <button class="exit-button">Exit</button>
         </div>
       </div>
       <br><div class="generated-message"></div>
@@ -195,9 +200,10 @@ const insertCardHTML = (recipe) => {
       </div>
       <div class="instructions">
         <h2>Instructions</h2>
-    </div>
+      </div>
     </article>
-    `
+  </div>
+  `
   }
 }
 

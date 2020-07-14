@@ -3,6 +3,7 @@ const expect = chai.expect;
 const User = require('../src/user-class.js');
 const Recipe = require('../src/recipe-class.js');
 const Pantry = require('../src/pantry-class');
+const scripts = require('../src/scripts');
 
 describe('user', () => {
 
@@ -13,9 +14,9 @@ describe('user', () => {
       'id': 12283,
       'img': 'img',
       'ingredients': [
-        { id: 11477, amount: 5 },
-        { id: 11297, amount: 4 },
-        { id: 16069, amount: 1 }
+        {id: 11477, quantity: {amount: 5}},
+        {id: 11297, quantity: {amount: 4}},
+        {id: 16069, quantity: {amount: 1}}
       ],
       "name": "Grandma's Ham",
       "tags": ["delicious", "terrifying"]
@@ -24,8 +25,8 @@ describe('user', () => {
       'id': 12283,
       'img': 'img',
       'ingredients': [
-        { id: 20081, amount: 5 },
-        { id: 11215, amount: 5 },
+        { id: 20081, quantity: {amount: 5}},
+        { id: 11215, quantity: {amount: 5}},
       ],
       "name": "A perfect egg",
       "tags": ["beautiful", "satisfying"]
@@ -119,8 +120,7 @@ describe('user', () => {
     user.chooseRecipe(greenHam, user.recipesToCook);
     user.chooseRecipe(greenHam, user.recipesToCook);
     expect(user.recipesToCook.length).to.equal(1);
-
-  })
+  });
 
   it('should only be able to add recipes to its recipe lists', () => {
     const recipe = 'Delicious food';
@@ -165,19 +165,19 @@ describe('user', () => {
     expect(randomSearch).to.deep.equal([]);
   });
 
-  it('should return a list of ingredients for a given recipe', () => {
-    expect(user.generateIngredientList(greenHam)).to.deep.equal([11477, 11297, 16069]);
-  });
+  // it('should return a list of ingredients for a given recipe', () => {
+  //   expect(user.generateIngredientList(greenHam)).to.deep.equal([11477, 11297, 16069]);
+  // });
 
-  it('should only take a recipe as an argument for generating an ingredient list', () => {
-    const number = 123;
-    const array = ['something', 'something'];
-    const bool = false;
+  // it('should only take a recipe as an argument for generating an ingredient list', () => {
+  //   const number = 123;
+  //   const array = ['something', 'something'];
+  //   const bool = false;
 
-    expect(user.generateIngredientList(number)).to.deep.equal([]);
-    expect(user.generateIngredientList(array)).to.deep.equal([]);
-    expect(user.generateIngredientList(bool)).to.deep.equal([]);
-    });
+  //   expect(user.generateIngredientList(number)).to.deep.equal([]);
+  //   expect(user.generateIngredientList(array)).to.deep.equal([]);
+  //   expect(user.generateIngredientList(bool)).to.deep.equal([]);
+  //   });
 
   it('should be able to return a list of recipes that include a specified ingredient', () => {
     user.chooseRecipe(aPerfectEgg, user.favoriteRecipes);
