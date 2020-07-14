@@ -1,10 +1,8 @@
-const bigRecipeCard = document.querySelector('.recipe-pop-up');
-const allRecipesDisplay = document.querySelector('.all-recipes-display');
-const userPageDisplay = document.querySelector('.user-window');
-const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const nav = document.querySelector('nav');
+const allRecipesDisplay = document.querySelector('.all-recipes-display');
+const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
+const bigRecipeCard = document.querySelector('.recipe-pop-up');
 const blackout = document.querySelector('.body-blackout')
-
 //data instantiation
 // const currentUser = new User(generateRandomUser());
 const currentUser = new User(usersData[0]);
@@ -12,12 +10,11 @@ const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 //onload 
 window.onload = handleLoad();
 //event listening
-blackout.addEventListener('click', hideRecipeCard);
+nav.addEventListener('click', navHandler);
 allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
-nav.addEventListener('click', navHandler);
-
+blackout.addEventListener('click', hideRecipeCard);
 //event handling
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
@@ -27,36 +24,45 @@ function handleLoad() {
   // displayFavorites();
 }
 
-function smallRecipeHandler(event) {
-  if (event.target.classList.contains('star-icon')) {
-    currentRecipe = findById(event.target.id, instantiatedRecipes);
-    changeIcon(event);
-    favoriteHandler(currentRecipe); // handler event
-  } else if (event.target.id) {
-    bigRecipeCard.classList.add(event.target.id);
-    showRecipeCard(event);
-  } 
-}
-
 function navHandler(event) {
   if (event.target.id.includes('user')) {
     console.log(event);
     displayFavorites();
-    goToPage(event.target.id); 
+    goToPage(event.target.id);
   } else if (event.target.id.includes('recipe')) {
     propagateCards(instantiatedRecipes, allRecipesDisplay);
     goToPage(event.target.id);
   }
 }
 
+const favoriteHandler = (event) => {
+  let recipe = findById(event.target.id, instantiatedRecipes);
+  if (!currentUser.favoriteRecipes.includes(recipe)) {
+    currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
+  } else {
+    currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
+    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay);
+  }
+}
+
+function smallRecipeHandler(event) {
+  if (event.target.classList.contains('star-icon')) {
+    changeIcon(event);
+    favoriteHandler(event); // handler event
+  } else if (event.target.id) {
+    bigRecipeCard.classList.add(event.target.id);
+    showRecipeCard(event);
+  } 
+}
+
 function bigRecipeHandler(event) {
-  const currentRecipe = findById(event.path[4].classList[1], instantiatedRecipes);
+  console.log(event);
   
   if (event.target.classList.contains('exit-button')) {
     bigRecipeCard.classList.remove(currentRecipe.id);
     hideRecipeCard();
-  } else if (event.target.classList.contains('big-star-icon')) {
-    favoriteHandler(currentRecipe);
+  } else if (event.target.classList.contains('star-icon')) {
+    favoriteHandler(event);
     changeIcon(event);
   } else if (event.target.classList.contains('ingredient-check')) {
     printMissingIngredients(event);
@@ -74,9 +80,9 @@ function showUserName() {
   const userButton = document.getElementById('user-page-button');
   userButton.innerText = currentUser.name.toUpperCase();
 }
-
 // page views
 const goToPage = (buttonID) => {
+  let userPageDisplay = document.querySelector('.user-window');
   if (buttonID === "recipe-page-button") {
     allRecipesDisplay.classList.remove('hidden');
     userPageDisplay.classList.add('hidden');
@@ -108,15 +114,6 @@ function propagateCards(recipeCards, section) {
   });
 }
 
-const favoriteHandler = (recipe) => {
-  if (!currentUser.favoriteRecipes.includes(recipe)) {
-    currentUser.chooseRecipe(recipe, currentUser.favoriteRecipes);
-  } else {
-    currentUser.favoriteRecipes.splice(currentUser.favoriteRecipes.indexOf(recipe), 1);
-    displayFavorites(currentUser.favoriteRecipes, favoriteRecipesDisplay); 
-  }
-}
-
 const changeIcon = (event) => {
   if (event.target.src.includes('hollow-star.svg')) {
     event.target.src = '../assets/filled-in-star.svg';
@@ -124,7 +121,6 @@ const changeIcon = (event) => {
     event.target.src = '../assets/hollow-star.svg'
   }
 }
-
 // big recipe card
 const showRecipeCard = (event) => {
   const blackout = document.querySelector('.body-blackout');
@@ -136,7 +132,7 @@ const showRecipeCard = (event) => {
 
 const populateRecipeCard = (event) => {
   const currentRecipe = findById(event.target.id, instantiatedRecipes);
-  const ingredientList = createIngredientList(currentRecipe); 
+  const ingredientList = createIngredientList(currentRecipe);
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
 
@@ -160,7 +156,7 @@ const insertCardHTML = (recipe) => {
     </div>
     <div class="big-recipe-text">
       <div class="recipe-header">
-        <h1>${recipe.name}, $${recipe.getTotalCost().toFixed(2)}</h1> <br>
+        <h1>${recipe.name} $${recipe.getTotalCost().toFixed(2)}</h1> <br>
         <div class="recipe-card-nav">
           <img class="big-star-icon" id="${recipe.id}" src="${starIconSrc}">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
@@ -257,4 +253,3 @@ function populatePantry() {
     })
   }  
 }
-// other (could possibly put this in one of the class files, I'll start with it here)

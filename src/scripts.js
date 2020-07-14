@@ -1,3 +1,9 @@
+try {
+  Recipe = require('./recipe-class');
+} catch (e) {
+  let Recipe;
+}
+
 //class helper functions
 function createId(data) {
     return typeof data === 'number' ? data : Date.now();
@@ -24,6 +30,7 @@ function createIngredientList(recipe) {
     });
   }, []);
 }
+
 // dom helper functions
 function getFirstName() {
   return currentUser.name.split(" ")[0]
