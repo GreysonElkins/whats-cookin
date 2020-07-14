@@ -1,18 +1,25 @@
+try {
+  Recipe = require('./recipe-class');
+} catch (e) {
+  let Recipe;
+}
+
 //class helper functions
 function createId(data) {
     return typeof data === 'number' ? data : Date.now();
 }
-
 
 function findById(id, location) {
   id = typeof id !== 'number' ? parseInt(id) : id;
   if (!Array.isArray(location)) {
     return `this ain't gonna work (findById array issue)`
   }
-  let signifier = typeof location[0].id === "number" ? `id` : `ingredient`;
+  if (location[0]) {
+    let signifier = typeof location[0].id === "number" ? `id` : `ingredient`;
+    let ingredient = location.find(item => item[signifier] === id);
 
-  let ingredient = location.find(item => item[signifier] === id);
     return ingredient;
+  }
 }
 
 function createIngredientList(recipe) {
@@ -22,11 +29,10 @@ function createIngredientList(recipe) {
       id: ingredient.id,
       cost: findById(ingredient.id, ingredientsData).estimatedCostInCents,
       qty: ingredient.quantity.amount
-    }
-    
-    );
+    });
   }, []);
 }
+
 // dom helper functions
 function getFirstName() {
   return currentUser.name.split(" ")[0]
