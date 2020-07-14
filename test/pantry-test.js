@@ -236,16 +236,6 @@ describe('Pantry', () => {
     expect(requiredIngredientsInPantry).to.deep.equal(expectedIngredients);
   });
 
-  // it('can find an ingredient\'s name from its Id', () => {
-  //   let name = pantry.findIngredientName(16069);
-  //   expect(name).to.equal('legumes');
-  // });
-
-  // it('won\'t search for IDs that aren\'t numbers', () => {
-  //   let name = pantry.findIngredientName('legumes');
-  //   expect(name).to.equal(undefined);
-  // })
-
   it('should know how many ingredients are needed to make a recipe', () => {
     let missingIngredients = pantry.showMissingIngredients(greenHam);
     expect(missingIngredients).to.equal('You still need 1 zucchini squash ' +
