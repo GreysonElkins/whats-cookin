@@ -30,8 +30,8 @@ function smallRecipeHandler(event) {
     currentRecipe = findById(event.path[2].id, instantiatedRecipes);
     changeIcon(event);
     favoriteHandler(currentRecipe);
-  } else if (event.target.id) {
-    bigRecipeCard.classList.add(event.target.id);
+  } else if (event.path[1].id) {
+    bigRecipeCard.classList.add(event.path[1].id);
     showRecipeCard(event);
   } 
 }
@@ -101,7 +101,7 @@ function propagateCards(recipeCards, section) {
        `<div class="recipe-card" id="${recipe.id}" style="background-image: url(${recipe.image})">
         <div class="image-overlay"></div>
           <div class="card-info">
-            <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.svg">
+            <img class="star-icon" id="${recipe.id}" src="../assets/filled-in-star.png">
             <div class="recipe-title" id="${recipe.id}">${recipe.name}</div>
           </div>
         </div>`
@@ -137,7 +137,7 @@ const showRecipeCard = (event) => {
 }
 
 const populateRecipeCard = (event) => {
-  const currentRecipe = findById(event.target.id, instantiatedRecipes);
+  const currentRecipe = findById(event.path[1].id, instantiatedRecipes);
   const ingredientList = currentRecipe.createIngredientList();
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
