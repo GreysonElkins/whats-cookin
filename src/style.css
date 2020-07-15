@@ -90,10 +90,10 @@ button {
   width: 100%;
 }
 
-.all-recipes-display::after {
+/* .all-recipes-display::after {
   content: '';
   flex: auto;
-}
+} */
 
 .favorite-recipes {
   grid-row: 2;

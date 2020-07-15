@@ -16,7 +16,7 @@ nav.addEventListener('click', navHandler);
 allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
-behindCardBlackout.addEventListener('click', hideRecipeCard);
+behindCardBlackout.addEventListener('click', hideBigRecipeCard);
 tagList.addEventListener('click', tagHandler);
 //event handling
 function handleLoad() {
@@ -39,66 +39,15 @@ function navHandler(event) {
   }
 }
 
-const searchIngredientsHandler = (event) => {
+function searchIngredientsHandler(event) {
   let searchResult;
   const searchQuery = document.querySelector('input').value;
   let recipeLocation = showSearchResults(searchQuery)
   showSearchMessage(searchQuery, recipeLocation)
 }
 
-const showSearchResults = (searchQuery) => {
-  if (!allRecipesDisplay.classList.contains('hidden')) {
-    searchResult = search(searchQuery, instantiatedRecipes);
-    propagateCards(searchResult, allRecipesDisplay);
-    recipeLocation = 'our recipes'
-  } else {
-    searchResult = search(searchQuery, currentUser.lists.favoriteRecipes);
-    propagateCards(searchResult, favoriteRecipesDisplay);
-    recipeLocation = 'your favorite recipes'
-  }
-  return recipeLocation
-}
 
-function showSearchMessage(searchQuery, recipeLocation) {
-  let sentenceQuery = searchQuery.split(', ').join(' and ');
-  if (searchResult.length === 0) {
-    searchMessage.innerText = `Sorry, ${recipeLocation === 'our recipes' ? 'we' : 'you'}` + 
-      `don't have any recipes with ${sentenceQuery} in any of ${recipeLocation}`
-  } else {
-    searchMessage.innerText = `Here are recipes including ${sentenceQuery} from ${recipeLocation}`
-  }
-  document.querySelector('input').value = ''  
-}
-
-const favoriteHandler = (event) => {
-  let recipe = findById(event.target.id, instantiatedRecipes);
-  currentUser.toggleListItem(recipe, 'favorite');
-  displayFavorites(currentUser.lists.favoriteRecipes, favoriteRecipesDisplay);
-}
-
-function smallRecipeHandler(event) {
-  if (event.target.classList.contains('star-icon')) {
-    changeIcon(event);
-    favoriteHandler(event); // handler event
-  } else if (event.target.id) {
-    showRecipeCard(event);
-  } 
-}
-
-function bigRecipeHandler(event) {
-  if (event.target.classList.contains('exit-button')) {
-    hideRecipeCard(event);
-  } else if (event.target.classList.contains('big-star-icon')) {
-    favoriteHandler(event);
-    changeIcon(event);
-  } else if (event.target.classList.contains('ingredient-check')) {
-    printMissingIngredients(event);
-  } else if (event.target.classList.contains('cost-calculator')) {
-    printIngredientsCost(event);
-  } 
-}
-
-function tagHandler(event) {
+function tagHandler (event) {
   if (event.target.className === 'tag-button') {
     console.log(event.target.id);
     tagsToSearch.push(event.target.id);
@@ -111,6 +60,33 @@ function tagHandler(event) {
   }
 }
 
+function favoriteRecipeHandler(event) {
+  let recipe = findById(event.target.id, instantiatedRecipes);
+  currentUser.toggleListItem(recipe, 'favorite');
+  displayFavorites(currentUser.lists.favoriteRecipes, favoriteRecipesDisplay);
+}
+
+function smallRecipeHandler(event) {
+  if (event.target.classList.contains('star-icon')) {
+    changeFavoriteIcon(event);
+    favoriteRecipeHandler(event); // handler event
+  } else if (event.target.id) {
+    showRecipeCard(event);
+  } 
+}
+
+function bigRecipeHandler(event) {
+  if (event.target.classList.contains('exit-button')) {
+    hideBigRecipeCard(event);
+  } else if (event.target.classList.contains('big-star-icon')) {
+    favoriteRecipeHandler(event);
+    changeFavoriteIcon(event);
+  } else if (event.target.classList.contains('ingredient-check')) {
+    printMissingIngredients(event);
+  } else if (event.target.classList.contains('cost-calculator')) {
+    printIngredientsCost(event);
+  } 
+}
 // user functions
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
@@ -136,7 +112,7 @@ const goToPage = (buttonID) => {
   }
   searchMessage.innerText = '';
 }
-
+// DOM Tags
 function propagateTagList() {
   const tagSection = document.querySelector('.tag-list');
   const tagList = createTagList();
@@ -159,6 +135,17 @@ function createTagList() {
   })
   return tagList;
 }
+// DOM recipes
+const changeFavoriteIcon = (star) => {
+  star = star === event ? event.target : star
+  if (star.src.includes('hollow-star')) {
+    star.src = '../assets/filled-in-star.svg';
+  } else if (star.classList.contains('big-star-icon')) {
+    star.src = '../assets/hollow-star.svg';
+  } else {
+    star.src = '../assets/hollow-star.png';
+  }
+}
 
 function propagateCards(recipeCards, section) {
   let starIconSrc;
@@ -180,24 +167,14 @@ function propagateCards(recipeCards, section) {
   });
 }
 
-const changeIcon = (star) => {
-  star = star === event ? event.target : star  
-  if (star.src.includes('hollow-star')) {
-    star.src = '../assets/filled-in-star.svg';
-  } else if (star.classList.contains('big-star-icon')) {
-    star.src = '../assets/hollow-star.svg';
-  } else {
-    star.src = '../assets/hollow-star.png';
-  }
-}
 // big recipe card
 const showRecipeCard = (event) => {
   behindCardBlackout.classList.remove('hidden');
   bigRecipeCard.classList.remove('hidden');
-  populateRecipeCard(event);
+  populateBigRecipeCard(event);
 }
 
-function hideRecipeCard(event) {
+function hideBigRecipeCard(event) {
   bigRecipeCard.classList.add('hidden');
   behindCardBlackout.classList.add('hidden');
   if (searchMessage.innerText === '') {
@@ -205,17 +182,16 @@ function hideRecipeCard(event) {
   } else {
     let allStars = document.querySelectorAll('.star-icon');
     for (i = 0; i < allStars.length / 2 - 1; i++) {
-      if (allStars[i].id === `${event.target.id.toString()}`) changeIcon(allStars[i]);
+      if (allStars[i].id === `${event.target.id.toString()}`) changeFavoriteIcon(allStars[i]);
     }
   }
 }
 
-const populateRecipeCard = (event) => {
+const populateBigRecipeCard = (event) => {
   const currentRecipe = findById(event.target.id, instantiatedRecipes);
   const ingredientList = createIngredientList(currentRecipe);
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
-
   insertBigCardHTML(currentRecipe);
   populateIngredients(fullIngredientList);
   populateInstructions(instructionList);
@@ -223,15 +199,12 @@ const populateRecipeCard = (event) => {
 
 const insertBigCardHTML = (recipe) => {
   let starIconSrc;
-
   if (!findById(recipe.id, currentUser.lists.favoriteRecipes)) {
     starIconSrc = '../assets/hollow-star.svg';
   } else {
     starIconSrc = '../assets/filled-in-star.svg';
   }
-
   behindCardBlackout.id = `${recipe.id}`;
-
   bigRecipeCard.innerHTML =
     `<div class="container">
       <img class="recipe-img" src="${recipe.image}"></img>
@@ -277,8 +250,6 @@ const populateInstructions = (instructionList) => {
   })
 }
 
-
-
 const printMissingIngredients = (event) => {
   let thisRecipe = findById(event.target.id, instantiatedRecipes);
   let messageHolder = document.querySelector('.generated-message');
@@ -322,4 +293,28 @@ function populatePantry() {
       pantryList.innerHTML += `<p>${supply.amount} - ${findById(supply.ingredient, ingredientsData).name}</p>`
     })
   }  
+}
+// search DOM helpers
+const showSearchResults = (searchQuery) => {
+  if (!allRecipesDisplay.classList.contains('hidden')) {
+    searchResult = search(searchQuery, instantiatedRecipes);
+    propagateCards(searchResult, allRecipesDisplay);
+    recipeLocation = 'our recipes'
+  } else {
+    searchResult = search(searchQuery, currentUser.lists.favoriteRecipes);
+    propagateCards(searchResult, favoriteRecipesDisplay);
+    recipeLocation = 'your favorite recipes'
+  }
+  return recipeLocation
+}
+
+function showSearchMessage(searchQuery, recipeLocation) {
+  let sentenceQuery = searchQuery.split(', ').join(' and ');
+  if (searchResult.length === 0) {
+    searchMessage.innerText = `Sorry, ${recipeLocation === 'our recipes' ? 'we' : 'you'}` +
+      `don't have any recipes with ${sentenceQuery} in any of ${recipeLocation}`
+  } else {
+    searchMessage.innerText = `Here are recipes including ${sentenceQuery} from ${recipeLocation}`
+  }
+  document.querySelector('input').value = ''
 }
