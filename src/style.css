@@ -62,28 +62,38 @@ button {
 }
 
 .side-pane {
+  grid-column: 2;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
 }
 
+.button-highlight {
+  background: black;
+  color: white;
+}
+
 .tag-list {
-  grid-area: 1 / 2;
-  display: block;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
   margin: 1em auto;
   width: 75%;
-  grid-column: 2;
   border: 1px solid black;
+  border-radius: 5%;
+  padding: 3em 1em;
 }
 
 .tag-list > button {
+  border: 1px solid black;
+  border-radius: 5%;
+  margin: 2px;
   font-size: 1.5em;
 }
 
 .clear-button {
-  display: block;
-  margin: auto;
+  align-self: center;
 }
 
 .all-recipes-display,
