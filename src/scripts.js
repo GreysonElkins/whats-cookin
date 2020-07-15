@@ -37,6 +37,12 @@ function getFirstName() {
   return currentUser.name.split(" ")[0]
 }
 
+const createMeasurementList = (recipe) => {
+  return recipe.requiredIngredients.map((ingredient) => {
+    return `${ingredient.quantity.amount} ${ingredient.quantity.unit} of `
+  });
+}
+
 function generateReadableIngredientList(ingredientList, recipe)  {
   const measurements = createMeasurementList(recipe);
   const fullDirectionList = measurements.reduce((directions, measurement) => {
@@ -47,7 +53,9 @@ function generateReadableIngredientList(ingredientList, recipe)  {
     return directions.concat(fullDirectionSentence);
   }, []);
 
-  return fullDirectionList;
+  let filteredList = [... new Set(fullDirectionList)]
+
+  return filteredList;
 }
 // SEARCH IT
 function search(searchQuery, list) {

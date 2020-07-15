@@ -195,12 +195,6 @@ const populateInstructions = (instructionList) => {
   })
 }
 
-const createMeasurementList = (recipe) => {
-  return recipe.requiredIngredients.map((ingredient) => {
-    return `${ingredient.quantity.amount} ${ingredient.quantity.unit} of `
-  });
-}
-
 function hideRecipeCard() {
   const blackout = document.querySelector('.body-blackout');
   bigRecipeCard.classList.add('hidden');
