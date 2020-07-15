@@ -279,8 +279,9 @@ button {
   grid-area: 1 / 2;
   position: relative;
   top: 3em;
+  width: 75%;
   margin: 0 auto;
-  font-size: 1.5em;
+  font-size: 1.75em;
 }
 
 .supply-list {
@@ -291,7 +292,6 @@ button {
   overflow: scroll;
   margin-top: .65em auto;
   padding: 0 1em 1em 1em;
-  width: 10em;
 }
 
 .users-recipes-display {
