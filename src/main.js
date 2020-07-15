@@ -43,7 +43,7 @@ function navHandler(event) {
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
   currentUser.toggleListItem(recipe, 'favorite');
-  displayFavorites(currentUser.lists.favoriteRecipes, favoriteRecipesDisplay);
+  displayFavorites();
 }
 
 function smallRecipeHandler(event) {
@@ -72,7 +72,6 @@ function tagHandler(event) {
   if (event.target.className === 'tag-button') {
     tagsToSearch.push(event.target.id);
     const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
-
     toggleTagHighlight(event);
     propagateCards(recipesToShow, allRecipesDisplay);
   } else if (event.target.className === 'clear-button') {
