@@ -10,9 +10,13 @@ body {
 }
 
 nav {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: white;
   align-items: center; 
   border-bottom: 2px solid #000;
-  display: flex;
   justify-content: space-between;
   margin: 0px auto;
   padding: 2em 0em;
@@ -51,12 +55,10 @@ button {
   background-color: white;
   border: none;
   height: 2em;
-} 
+}
 
 .title {
-  display: flex;
-  margin: 0em 2em 0em 0em;
-  justify-content: flex-end;
+  margin-right: .5em;
   font-family: 'Lobster', cursive;
   font-size: 3em;
 }
@@ -68,19 +70,6 @@ button {
   width: 100%;
 }
 
-.tag-list {
-  grid-area: 1 / 2;
-  display: block;
-  height: 500px;
-  grid-column: 2;
-  margin-top: 2em;
-  margin-right: 4em;
-}
-
-.tag-list > button {
-  font-size: 1.5em;
-}
-
 .all-recipes-display,
 .favorite-recipes {
   display: flex;
@@ -89,11 +78,6 @@ button {
   overflow: scroll;
   width: 100%;
 }
-
-/* .all-recipes-display::after {
-  content: '';
-  flex: auto;
-} */
 
 .favorite-recipes {
   grid-row: 2;
@@ -126,6 +110,10 @@ button {
   top: 0;
   margin: auto;
   font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  font-size: 2em;
+  margin: .5em;
+  width: 80%;
 }
 
 .recipe-title {
@@ -137,6 +125,8 @@ button {
   position: absolute;
   top: 5.5em;
   left: 8em;
+  height: 1em;
+  width: 1em;
 }
 
 .big-star-icon {
@@ -153,7 +143,7 @@ button {
 
 .recipe-card-nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: .3em auto;
 }
 
@@ -169,15 +159,16 @@ button {
 }
 
 .recipe-pop-up {
+  grid-area: 1 / 1;
+  position: sticky;
+  display: flex;
   background: #fff;
   border-radius: 5%;
-  display: flex;
   flex-direction: column;
-  height: 80%;
-  left: 27.5%;
-  position: absolute;
+  left: 10%;
   top: 8em;
-  width: 45%;
+  width: 80%;
+  height: 80vh;
   z-index: 50;
 }
 
@@ -194,6 +185,47 @@ button {
 .recipe-info {
   display: flex;
   flex-direction: row;
+}
+
+.side-pane {
+  grid-column: 2;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.button-highlight {
+  background: black;
+  color: white;
+}
+
+.tag-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  position: sticky;
+  top: 11em;
+  margin: 1em auto;
+  width: 75%;
+  border: 1px solid black;
+  border-radius: 5%;
+  padding: 3em 1em;
+}
+
+.tag-list > button {
+  border: 1px solid black;
+  border-radius: 5%;
+  margin: 2px;
+  font-size: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clear-button {
+  background: black;
+  color: white;
 }
 
 .ingredient-check,
@@ -214,15 +246,12 @@ button {
 }
 
 .instructions {
+  border-left: 1px solid;
   width: 70%;
 }
 
 .ingredients {
   width: 30%;
-}
-
-.instructions {
-  border-left: 1px solid;
 }
 
 .generated-message {
@@ -231,20 +260,6 @@ button {
   align-content: center;
   margin: 0em auto;
   width: 85%;
-}
-
-.card-info {
-  display: flex; 
-  color: #fff;
-  font-size: 2em;
-  justify-content: left;
-  margin: .5em;
-  width: 80%;
-}
-
-.star-icon {
-  height: 1em;
-  width: 1em;
 }
 
 .user-window {
@@ -259,11 +274,12 @@ button {
 }
 
 .users-pantry {
-  position: relative;
-  top: 10em;
   grid-area: 1 / 2;
-  height: 10em;
-  font-size: 1.5em;
+  position: sticky;
+  top: 15em;
+  width: 75%;
+  margin: 0 auto;
+  font-size: 1.75em;
 }
 
 .supply-list {
@@ -274,11 +290,6 @@ button {
   overflow: scroll;
   margin-top: .65em auto;
   padding: 0 1em 1em 1em;
-  width: 10em;
-}
-
-.users-recipes-display {
-  width: 100%;
 }
 
 .hidden {

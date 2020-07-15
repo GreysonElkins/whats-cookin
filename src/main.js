@@ -46,24 +46,27 @@ function searchIngredientsHandler(event) {
   showSearchMessage(searchQuery, recipeLocation)
 }
 
-
-function tagHandler (event) {
+function tagHandler(event) {
   if (event.target.className === 'tag-button') {
-    console.log(event.target.id);
     tagsToSearch.push(event.target.id);
     const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
-    
+    const userRecipesToShow = searchRecipesByTag(tagsToSearch, currentUser.lists.favoriteRecipes);
+
+    toggleTagHighlight(event);
     propagateCards(recipesToShow, allRecipesDisplay);
+    propagateCards(userRecipesToShow, favoriteRecipesDisplay);
   } else if (event.target.className === 'clear-button') {
     tagsToSearch = [];
+    propagateTagList();
     propagateCards(instantiatedRecipes, allRecipesDisplay);
+    displayFavorites();
   }
 }
 
 function favoriteRecipeHandler(event) {
   let recipe = findById(event.target.id, instantiatedRecipes);
   currentUser.toggleListItem(recipe, 'favorite');
-  displayFavorites(currentUser.lists.favoriteRecipes, favoriteRecipesDisplay);
+  displayFavorites();
 }
 
 function smallRecipeHandler(event) {
@@ -87,6 +90,7 @@ function bigRecipeHandler(event) {
     printIngredientsCost(event);
   } 
 }
+
 // user functions
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
@@ -116,10 +120,10 @@ const goToPage = (buttonID) => {
 function propagateTagList() {
   const tagSection = document.querySelector('.tag-list');
   const tagList = createTagList();
-  console.log(tagList);
-
+  
+  tagSection.innerHTML = '';
   tagList.forEach(tag => {
-    tagSection.innerHTML += `<button type="radio" class="tag-button" id="${tag}">${tag}</button>`;
+    tagSection.innerHTML += `<button class="tag-button" id="${tag}">${tag}</button>`;
   })
   tagSection.innerHTML += `<button class="clear-button">Clear your tags</button>`;
 }
@@ -134,6 +138,14 @@ function createTagList() {
     })
   })
   return tagList;
+}
+
+const toggleTagHighlight = (event) => {
+  if (event.target.classList.contains('button-highlight')) {
+    event.target.classList.remove('button-highlight')
+  } else {
+    event.target.classList.add('button-highlight')
+  }
 }
 // DOM recipes
 const changeFavoriteIcon = (star) => {
@@ -166,7 +178,6 @@ function propagateCards(recipeCards, section) {
     </div>`
   });
 }
-
 // big recipe card
 const showRecipeCard = (event) => {
   behindCardBlackout.classList.remove('hidden');
