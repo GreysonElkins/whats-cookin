@@ -31,12 +31,11 @@ function createIngredientList(recipe) {
     });
   }, []);
 }
-
 // dom helper functions
 function getFirstName() {
   return currentUser.name.split(" ")[0]
 }
-
+//big card ingredient helpers
 const createMeasurementList = (recipe) => {
   return recipe.requiredIngredients.map((ingredient) => {
     return `${ingredient.quantity.amount} ${ingredient.quantity.unit} of `
@@ -58,54 +57,6 @@ function generateReadableIngredientList(ingredientList, recipe)  {
   return filteredList;
 }
 // SEARCH IT
-function search(searchQuery, list) {
-  const queries = searchQuery.split(', ');
-  const queryIds = convertQueryNamesToIDs(queries);
-  const matchingRecipes = [];
-  list.forEach(recipe => {
-    let requiredIds = recipe.requiredIngredients.reduce((requiredIds, ingredient) => {
-      requiredIds.push(ingredient.id);
-      return requiredIds
-    }, [])
-    if (queryIds.some(query => requiredIds.includes(query))) {
-      matchingRecipes.push(recipe)
-    }
-  })
-  const result = trimResults(queries, matchingRecipes); 
-  return result
-}
-
-
-function convertIngredientNameToID(ingredientName) {
-  let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
-    if (ingredient.name && ingredient.name.includes(ingredientName)) idList.push(ingredient.id);
-    return idList;
-  }, []);
-
-  return ingredientIds;
-}
-
-function searchRecipesByIngredient(searchInputs, recipeList) {
-  const ingredientIDs = this.convertIngredientNameToID(searchInputs);
-  const searchResults = recipeList.reduce((matchingRecipes, recipe) => {
-    createIngredientList(recipe).forEach(recipeObject => {
-      if (ingredientIDs.includes(recipeObject.id)) return recipe;
-    })
-    return matchingRecipes;
-  }, []);
-
-  return searchResults;
-}
-
-function searchRecipesByTag(searchInputs, recipeList) {
-  const searchResults = recipeList.filter(recipe => {
-    return searchInputs.every(input => (recipe.tags.includes(input)))
-  })
-
-  return searchResults;
-}
-
-
 function convertQueryNamesToIDs(ingredientNames) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
     ingredientNames.forEach(query => {
@@ -132,6 +83,31 @@ function trimResults(queries, recipes) {
     })
   })
   return passableRecipes;
+}
+
+function search(searchQuery, list) {
+  const queries = searchQuery.split(', ');
+  const queryIds = convertQueryNamesToIDs(queries);
+  const matchingRecipes = [];
+  list.forEach(recipe => {
+    let requiredIds = recipe.requiredIngredients.reduce((requiredIds, ingredient) => {
+      requiredIds.push(ingredient.id);
+      return requiredIds
+    }, [])
+    if (queryIds.some(query => requiredIds.includes(query))) {
+      matchingRecipes.push(recipe)
+    }
+  })
+  const result = trimResults(queries, matchingRecipes);
+  return result
+}
+//TAG SEARCH
+function searchRecipesByTag(searchInputs, recipeList) {
+  const searchResults = recipeList.filter(recipe => {
+    return searchInputs.every(input => (recipe.tags.includes(input)))
+  })
+
+  return searchResults;
 }
 
 if (typeof module !== 'undefined') {
