@@ -8,6 +8,7 @@ const tagList = document.querySelector('.tag-list');
 // const currentUser = new User(generateRandomUser());
 const currentUser = new User(usersData[0]);
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
+const tagsToSearch = [];
 //onload 
 window.onload = handleLoad();
 //event listening
@@ -70,7 +71,12 @@ function bigRecipeHandler(event) {
 }
 
 function tagHandler(event) {
-  console.log(event.target.id);
+  if (event.target.className === 'tag-button') {
+    tagsToSearch.push(event.target.id);
+    const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
+    
+    propagateCards(recipesToShow, allRecipesDisplay);
+  }
 }
 
 // user functions
@@ -100,8 +106,9 @@ function propagateTagList() {
   const tagList = createTagList();
 
   tagList.forEach(tag => {
-    tagSection.innerHTML += `<button type="radio" id=${tag}>${tag}</button>`
+    tagSection.innerHTML += `<button type="radio" class="tag-button" id=${tag}>${tag}</button>`;
   })
+  tagSection.innerHTML += `<button class="clear-button">Clear your tags</button>`;
 }
 
 function createTagList() {
