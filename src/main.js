@@ -262,11 +262,9 @@ const populateInstructions = (instructionList) => {
 function hideRecipeCard() {
   const blackout = document.querySelector('.body-blackout');
   bigRecipeCard.classList.add('hidden');
-
   blackout.classList.add('hidden');
   
-  propagateCards(instantiatedRecipes, allRecipesDisplay)
-  ;
+  propagateCards(instantiatedRecipes, allRecipesDisplay);
 }
 
 const printMissingIngredients = (event) => {
