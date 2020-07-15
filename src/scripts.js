@@ -63,18 +63,38 @@ function search(searchQuery, list) {
       matchingRecipes.push(recipe)
     }
   })
-  return matchingRecipes
+
+  const result = trimResults(queries, matchingRecipes);
+
+  return result
 }
 
 function convertQueryNamesToIDs(ingredientNames) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
-    if (ingredient.name && ingredientNames.some(query => ingredient.name.includes(query))) {
-      idList.push(ingredient.id);
-    }
+    ingredientNames.forEach(query => {
+      if (ingredient.name && ingredientNames.some(query => ingredient.name.includes(query))) { 
+        idList.push(ingredient.id)
+      }
+      });
     return idList;
   }, []);
 
   return ingredientIds;
+}
+
+function trimResults(queries, recipes) {
+  let passableRecipes = []
+  recipes.forEach(recipe => {
+    let checkedQueries = [];
+    queries.forEach(query => {
+      recipe.requiredIngredients.forEach(ingredient => {
+        let info = findById(ingredient.id, ingredientsData);
+        if (info.name.includes(query)) checkedQueries.push(query);
+      })
+      if (queries.every(query => checkedQueries.includes(query))) passableRecipes.push(recipe)
+    })
+  })
+  return passableRecipes;
 }
 // function searchByTag();
 if (typeof module !== 'undefined') {
