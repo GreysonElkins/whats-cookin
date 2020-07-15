@@ -38,6 +38,7 @@ function navHandler(event) {
       let searchResult = search(searchQuery, currentUser.lists.favoriteRecipes);
       propagateCards(searchResult, favoriteRecipesDisplay);
     }
+    document.querySelector('input').value = ''
   }
 }
 
@@ -122,7 +123,7 @@ const changeIcon = (event) => {
 }
 // big recipe card
 const showRecipeCard = (event) => {
-  const blackout = document.querySelector('.body-blackout');
+  // const blackout = document.querySelector('.body-blackout');
 
   bigRecipeCard.classList.remove('hidden');
   blackout.classList.remove('hidden');
@@ -205,7 +206,7 @@ function hideRecipeCard() {
   bigRecipeCard.classList.add('hidden');
 
   blackout.classList.add('hidden');
-  propagateCards(instantiatedRecipes, allRecipesDisplay);
+  // propagateCards(instantiatedRecipes, allRecipesDisplay);
 }
 
 const printMissingIngredients = (event) => {
