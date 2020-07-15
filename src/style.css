@@ -58,9 +58,7 @@ button {
 }
 
 .title {
-  display: flex;
-  margin-right: 1em;
-  justify-content: flex-end;
+  margin-right: .5em;
   font-family: 'Lobster', cursive;
   font-size: 3em;
 }
@@ -145,7 +143,7 @@ button {
 
 .recipe-card-nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: .3em auto;
 }
 
