@@ -62,7 +62,7 @@ const searchHandler = (event) => {
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
   currentUser.toggleListItem(recipe, 'favorite');
-  displayFavorites(currentUser.lists.favoriteRecipes, favoriteRecipesDisplay);
+  displayFavorites();
 }
 
 function smallRecipeHandler(event) {
@@ -89,14 +89,18 @@ function bigRecipeHandler(event) {
 
 function tagHandler(event) {
   if (event.target.className === 'tag-button') {
-    console.log(event.target.id);
     tagsToSearch.push(event.target.id);
     const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
-    
+    const userRecipesToShow = searchRecipesByTag(tagsToSearch, currentUser.lists.favoriteRecipes);
+
+    toggleTagHighlight(event);
     propagateCards(recipesToShow, allRecipesDisplay);
+    propagateCards(userRecipesToShow, favoriteRecipesDisplay);
   } else if (event.target.className === 'clear-button') {
     tagsToSearch = [];
+    propagateTagList();
     propagateCards(instantiatedRecipes, allRecipesDisplay);
+    displayFavorites();
   }
 }
 
@@ -104,7 +108,7 @@ function tagHandler(event) {
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
 }
-// 
+
 function showUserName() {
   const userButton = document.getElementById('user-page-button');
   userButton.innerText = currentUser.name.toUpperCase();
@@ -128,10 +132,10 @@ const goToPage = (buttonID) => {
 function propagateTagList() {
   const tagSection = document.querySelector('.tag-list');
   const tagList = createTagList();
-  console.log(tagList);
-
+  
+  tagSection.innerHTML = '';
   tagList.forEach(tag => {
-    tagSection.innerHTML += `<button type="radio" class="tag-button" id="${tag}">${tag}</button>`;
+    tagSection.innerHTML += `<button class="tag-button" id="${tag}">${tag}</button>`;
   })
   tagSection.innerHTML += `<button class="clear-button">Clear your tags</button>`;
 }
@@ -178,6 +182,15 @@ const changeIcon = (event) => {
     event.target.src = '../assets/hollow-star.png';
   }
 }
+
+const toggleTagHighlight = (event) => {
+  if (event.target.classList.contains('button-highlight')) {
+    event.target.classList.remove('button-highlight')
+  } else {
+    event.target.classList.add('button-highlight')
+  }
+}
+
 // big recipe card
 const showRecipeCard = (event) => {
   bigRecipeCard.classList.remove('hidden');
@@ -253,11 +266,9 @@ const populateInstructions = (instructionList) => {
 function hideRecipeCard() {
   const blackout = document.querySelector('.body-blackout');
   bigRecipeCard.classList.add('hidden');
-
   blackout.classList.add('hidden');
   
-  propagateCards(instantiatedRecipes, allRecipesDisplay)
-  ;
+  propagateCards(instantiatedRecipes, allRecipesDisplay);
 }
 
 const printMissingIngredients = (event) => {
