@@ -106,7 +106,7 @@ class User {
   retrieveListFromStorage = (name) => {
     if (typeof localStorage !== 'undefined') {
       let jason = JSON.parse(localStorage.getItem(name));
-      if (jason) {
+      if (jason && typeof jason === 'object') {
         return jason.map(recipe => {
           return new Recipe(recipe)
         })

@@ -51,6 +51,63 @@ function generateReadableIngredientList(ingredientList, recipe)  {
   return fullDirectionList;
 }
 
+function convertIngredientNameToID(ingredientName) {
+  let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
+    if (ingredient.name && ingredient.name.includes(ingredientName)) idList.push(ingredient.id);
+    return idList;
+  }, []);
+
+  return ingredientIds;
+}
+
+function searchRecipesByIngredient(searchInputs, recipeList) {
+  const ingredientIDs = this.convertIngredientNameToID(searchInputs);
+  const searchResults = recipeList.reduce((matchingRecipes, recipe) => {
+    createIngredientList(recipe).forEach(recipeObject => {
+      if (ingredientIDs.includes(recipeObject.id)) return recipe;
+    })
+    return matchingRecipes;
+  }, []);
+
+  return searchResults;
+}
+
+function searchRecipesByTag(searchInputs, recipeList) {
+  const searchResults = recipeList.filter(recipe => {
+    return searchInputs.every(input => (recipe.tags.includes(input)))
+  })
+
+  return searchResults;
+}
+
+function joinLists(arr1, arr2) {
+  const combinedLists = arr1.forEach(item => {
+    if (!arr2.includes(item)) arr2.push(item);
+  })
+  return arr2;
+}
+
+function search(searchQuery) {
+  debugger
+  const queries = searchQuery.split(',');
+  const matchingRecipesByIngredient = searchRecipesByIngredient(queries, instantiatedRecipes);
+  console.log(matchingRecipesByIngredient);
+  const matchingRecipesByTag = searchRecipesByTag(queries, instantiatedRecipes);
+  console.log(matchingRecipesByTag);
+  const results = joinLists(matchingRecipesByIngredient, matchingRecipesByTag);
+
+  console.log(results);
+}
+
+function convertIngredientNamesToID(ingredientNames) {
+  let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
+    if (ingredient.name && ingredient.name.includes(ingredientNames)) idList.push(ingredient.id);
+    return idList;
+  }, []);
+
+  return ingredientIds;
+}
+
 if (typeof module !== 'undefined') {
   module.exports = {createId, createIngredientList, findById}
 }
