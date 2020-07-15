@@ -21,7 +21,7 @@ nav {
 
 main {
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 3fr 1fr;
 }
 
 .nav-buttons {
@@ -62,7 +62,12 @@ button {
 
 .tag-list {
   grid-column: 2;
-  margin: auto;
+  margin-top: 2em;
+  margin-right: 4em;
+}
+
+.tag-list > button {
+  font-size: 1.5em;
 }
 
 .all-recipes-display,

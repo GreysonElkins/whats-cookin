@@ -18,6 +18,7 @@ blackout.addEventListener('click', hideRecipeCard);
 //event handling
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
+  propagateTagList();
   showUserName();
   labelPantry();
   populatePantry();
