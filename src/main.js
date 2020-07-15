@@ -8,7 +8,7 @@ const tagList = document.querySelector('.tag-list');
 // const currentUser = new User(generateRandomUser());
 const currentUser = new User(usersData[0]);
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
-const tagsToSearch = [];
+let tagsToSearch = [];
 //onload 
 window.onload = handleLoad();
 //event listening
@@ -76,6 +76,9 @@ function tagHandler(event) {
     const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
     
     propagateCards(recipesToShow, allRecipesDisplay);
+  } else if (event.target.className === 'clear-button') {
+    tagsToSearch = [];
+    propagateCards(instantiatedRecipes, allRecipesDisplay);
   }
 }
 
