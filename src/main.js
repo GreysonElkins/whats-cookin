@@ -2,9 +2,9 @@ const nav = document.querySelector('nav');
 const allRecipesDisplay = document.querySelector('.all-recipes-display');
 const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const bigRecipeCard = document.querySelector('.recipe-pop-up');
-const blackout = document.querySelector('.body-blackout');
+const behindCardBlackout = document.querySelector('.body-blackout');
 const tagList = document.querySelector('.tag-list');
-//data instantiation
+//data instantiation & globals
 const currentUser = new User(generateRandomUser());
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 const searchMessage = document.querySelector('.search-message');
@@ -16,8 +16,8 @@ nav.addEventListener('click', navHandler);
 allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
+behindCardBlackout.addEventListener('click', hideRecipeCard);
 tagList.addEventListener('click', tagHandler);
-blackout.addEventListener('click', hideRecipeCard);
 //event handling
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
@@ -35,28 +35,42 @@ function navHandler(event) {
     propagateCards(instantiatedRecipes, allRecipesDisplay);
     goToPage(event.target.id);
   } else if (event.target.id.includes('search-button')) {
-    searchHandler(event); 
+    searchIngredientsHandler(event); 
   }
 }
 
-const searchHandler = (event) => {
+const searchIngredientsHandler = (event) => {
+  let searchResult;
   const searchQuery = document.querySelector('input').value;
-  let sentenceQuery = searchQuery.split(', ').join(' and ');
-  let searchResult
+  let recipeLocation = showSearchResults(searchQuery)
+  showSearchMessage(searchQuery, recipeLocation)
+}
+
+function showSearchResults(searchQuery) {
+  
+
   if (!allRecipesDisplay.classList.contains('hidden')) {
     searchResult = search(searchQuery, instantiatedRecipes);
     propagateCards(searchResult, allRecipesDisplay);
+    recipeLocation = 'our recipes'
   } else {
     searchResult = search(searchQuery, currentUser.lists.favoriteRecipes);
     propagateCards(searchResult, favoriteRecipesDisplay);
+    recipeLocation = 'your favorite recipes'
   }
 
-  document.querySelector('input').value = ''
+  return recipeLocation
+}
+
+function showSearchMessage(searchQuery, recipeLocation) {
+  let sentenceQuery = searchQuery.split(', ').join(' and ');
+
   if (searchResult.length === 0) {
-    searchMessage.innerText = `Sorry, we don't have any ingredients with ${sentenceQuery}`
+    searchMessage.innerText = `Sorry, ${recipeLocation === 'our recipes' ? 'we' : 'you'} don't have any recipes with ${sentenceQuery} in any of ${recipeLocation}`
   } else {
-    searchMessage.innerText = `Here are recipes including ${sentenceQuery}`
+    searchMessage.innerText = `Here are recipes including ${sentenceQuery} from ${recipeLocation}`
   }
+  document.querySelector('input').value = ''  
 }
 
 const favoriteHandler = (event) => {
@@ -180,8 +194,8 @@ const changeIcon = (event) => {
 }
 // big recipe card
 const showRecipeCard = (event) => {
+  behindCardBlackout.classList.remove('hidden');
   bigRecipeCard.classList.remove('hidden');
-  blackout.classList.remove('hidden');
   populateRecipeCard(event);
 }
 
@@ -191,12 +205,12 @@ const populateRecipeCard = (event) => {
   const fullIngredientList = generateReadableIngredientList(ingredientList, currentRecipe);
   const instructionList = currentRecipe.giveInstructions();
 
-  insertCardHTML(currentRecipe);
+  insertBigCardHTML(currentRecipe);
   populateIngredients(fullIngredientList);
   populateInstructions(instructionList);
 }
 
-const insertCardHTML = (recipe) => {
+const insertBigCardHTML = (recipe) => {
   let starIconSrc;
 
   if (!findById(recipe.id, currentUser.lists.favoriteRecipes)) {
@@ -253,8 +267,8 @@ const populateInstructions = (instructionList) => {
 function hideRecipeCard() {
   const blackout = document.querySelector('.body-blackout');
   bigRecipeCard.classList.add('hidden');
+  behindCardBlackout.classList.add('hidden');
 
-  blackout.classList.add('hidden');
   
   propagateCards(instantiatedRecipes, allRecipesDisplay)
   ;
