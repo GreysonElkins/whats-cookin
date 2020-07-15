@@ -203,6 +203,8 @@ button {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
+  position: sticky;
+  top: 11em;
   margin: 1em auto;
   width: 75%;
   border: 1px solid black;
