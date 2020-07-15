@@ -2,7 +2,8 @@ const nav = document.querySelector('nav');
 const allRecipesDisplay = document.querySelector('.all-recipes-display');
 const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const bigRecipeCard = document.querySelector('.recipe-pop-up');
-const blackout = document.querySelector('.body-blackout')
+const blackout = document.querySelector('.body-blackout');
+const tagList = document.querySelector('.tag-list');
 //data instantiation
 const currentUser = new User(generateRandomUser());
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
@@ -14,10 +15,12 @@ nav.addEventListener('click', navHandler);
 allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
+tagList.addEventListener('click', tagHandler);
 blackout.addEventListener('click', hideRecipeCard);
 //event handling
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
+  propagateTagList();
   showUserName();
   labelPantry();
   populatePantry();
@@ -35,7 +38,7 @@ function navHandler(event) {
   }
 }
 
-const searchHandler = (event) => {
+const searchHandler = () => {
   const searchQuery = document.querySelector('input').value;
   let sentenceQuery = searchQuery.split(', ').join(' and ');
   let searchResult
@@ -81,8 +84,21 @@ function bigRecipeHandler(event) {
   } else if (event.target.classList.contains('cost-calculator')) {
     printIngredientsCost(event);
   } 
-
 }
+
+function tagHandler(event) {
+  if (event.target.className === 'tag-button') {
+    console.log(event.target.id);
+    tagsToSearch.push(event.target.id);
+    const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
+    
+    propagateCards(recipesToShow, allRecipesDisplay);
+  } else if (event.target.className === 'clear-button') {
+    tagsToSearch = [];
+    propagateCards(instantiatedRecipes, allRecipesDisplay);
+  }
+}
+
 // user functions
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
@@ -94,15 +110,41 @@ function showUserName() {
 }
 // page views
 const goToPage = (buttonID) => {
-  let userPageDisplay = document.querySelector('.user-window');
+  const userPageDisplay = document.querySelector('.user-window');
+  const userPantry = document.querySelector('.users-pantry');
   if (buttonID === "recipe-page-button") {
     allRecipesDisplay.classList.remove('hidden');
     userPageDisplay.classList.add('hidden');
-  } else if (buttonID === "user-page-button") {
+    userPantry.classList.add('hidden');
+  } else if (buttonID === 'user-page-button') {
     allRecipesDisplay.classList.add('hidden');
     userPageDisplay.classList.remove('hidden');
+    userPantry.classList.remove('hidden');
     displayFavorites();
   }
+}
+
+function propagateTagList() {
+  const tagSection = document.querySelector('.tag-list');
+  const tagList = createTagList();
+  console.log(tagList);
+
+  tagList.forEach(tag => {
+    tagSection.innerHTML += `<button type="radio" class="tag-button" id="${tag}">${tag}</button>`;
+  })
+  tagSection.innerHTML += `<button class="clear-button">Clear your tags</button>`;
+}
+
+function createTagList() {
+  const tagList = [];
+  instantiatedRecipes.forEach(recipe => {
+    recipe.tags.forEach(tag => {
+      if (!tagList.includes(tag)) {
+        tagList.push(tag);
+      }
+    })
+  })
+  return tagList;
 }
 
 function propagateCards(recipeCards, section) {
