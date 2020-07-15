@@ -72,28 +72,6 @@ function searchRecipesByIngredient(searchInputs, recipeList) {
   return searchResults;
 }
 
-// function matchAllTags(searchTags, recipeTags) {
-//   let indicator;
-//   searchTags.forEach(tag => {
-//     if (recipeTags.includes(tag) && indicator !== false) {
-//       indicator = true;
-//     } else {
-//       indicator = false;
-//     }
-//   });
-//   return indicator;
-// }
-
-// function searchRecipesByTag(searchInputs, recipeList) {
-//   const searchResults = recipeList.filter(recipe => {
-//     if (matchAllTags(searchInputs, recipe.tags)) {
-//       return recipe;
-//     }
-//   });
-
-//   return searchResults;
-// }
-
 function searchRecipesByTag(searchInputs, recipeList) {
   const searchResults = recipeList.filter(recipe => {
     return searchInputs.every(input => (recipe.tags.includes(input)))
@@ -129,20 +107,6 @@ function convertIngredientNamesToID(ingredientNames) {
 
   return ingredientIds;
 }
-
-// function searchByIngredient(searchQuery) {
-//   const queries = searchQuery.split(',');
-//   const queryIds = convertIngredientNamesToID(queries);
-//   const matchingRecipes = [];
-//   instantiatedRecipes.forEach(recipe => {
-//     if (queryIds.some(queryId => recipe.requiredIngredients.includes(queryId))) {
-//       matchingRecipes.push(recipe);
-//     }
-//   });
-//   console.log(matchingRecipes);
-// }
-
-// function searchByTag();
 
 if (typeof module !== 'undefined') {
   module.exports = {createId, createIngredientList, findById}

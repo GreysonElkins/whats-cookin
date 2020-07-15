@@ -36,8 +36,6 @@ function navHandler(event) {
     goToPage(event.target.id);
   } else if (event.target.id.includes('search-button')) {
     searchQuery = document.querySelector('input').value;
-    // pull input.value
-    // pass input.value as argument into search function
     searchByIngredient(searchQuery);
   }
 }
@@ -94,13 +92,16 @@ function showUserName() {
 }
 // page views
 const goToPage = (buttonID) => {
-  let userPageDisplay = document.querySelector('.user-window');
+  const userPageDisplay = document.querySelector('.user-window');
+  const userPantry = document.querySelector('.users-pantry');
   if (buttonID === "recipe-page-button") {
     allRecipesDisplay.classList.remove('hidden');
     userPageDisplay.classList.add('hidden');
-  } else if (buttonID === "user-page-button") {
+    userPantry.classList.add('hidden');
+  } else if (buttonID === 'user-page-button') {
     allRecipesDisplay.classList.add('hidden');
     userPageDisplay.classList.remove('hidden');
+    userPantry.classList.remove('hidden');
     displayFavorites();
   }
 }

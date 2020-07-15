@@ -22,6 +22,7 @@ nav {
 main {
   display: grid;
   grid-template-columns: 3fr 1fr;
+  height: auto;
 }
 
 .nav-buttons {
@@ -60,7 +61,11 @@ button {
   font-size: 3em;
 }
 
+
 .tag-list {
+  grid-area: 1 / 2;
+  display: block;
+  height: 500px;
   grid-column: 2;
   margin-top: 2em;
   margin-right: 4em;
@@ -239,7 +244,7 @@ button {
 }
 
 .user-window {
-  display: grid;
+  grid-area: 1 / 1;
   grid-template: 10% 1fr/ 66% 1fr;
   height: 100%;
 }
@@ -250,18 +255,20 @@ button {
 }
 
 .users-pantry {
+  position: relative;
+  top: 10em;
   grid-area: 1 / 2;
   height: 10em;
-  font-size: 2em;
-  margin: 0 auto;
+  font-size: 1.5em;
 }
 
 .supply-list {
+  grid-column: 2;
   border: 1px solid;
   border-radius: 5%;
   height: 15em;
   overflow: scroll;
-  margin-top: .65em;
+  margin-top: .65em auto;
   padding: 0 1em 1em 1em;
   width: 10em;
 }
