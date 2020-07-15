@@ -4,8 +4,7 @@ const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const bigRecipeCard = document.querySelector('.recipe-pop-up');
 const blackout = document.querySelector('.body-blackout')
 //data instantiation
-// const currentUser = new User(generateRandomUser());
-const currentUser = new User(usersData[0]);
+const currentUser = new User(generateRandomUser());
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 //onload 
 window.onload = handleLoad();
@@ -32,13 +31,15 @@ function navHandler(event) {
     goToPage(event.target.id);
   } else if (event.target.id.includes('search-button')) {
     searchQuery = document.querySelector('input').value;
-    // pull input.value
-    // pass input.value as argument into search function
-    search(searchQuery);
+    if (!allRecipesDisplay.classList.contains('hidden')) {
+      let searchResult = search(searchQuery, instantiatedRecipes);   
+      propagateCards(searchResult, allRecipesDisplay);
+    } else {
+      let searchResult = search(searchQuery, currentUser.lists.favoriteRecipes);
+      propagateCards(searchResult, favoriteRecipesDisplay);
+    }
   }
 }
-
-
 
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
@@ -72,7 +73,7 @@ function bigRecipeHandler(event) {
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
 }
-
+// 
 function showUserName() {
   const userButton = document.getElementById('user-page-button');
   userButton.innerText = currentUser.name.toUpperCase();
@@ -95,7 +96,7 @@ function propagateCards(recipeCards, section) {
   section.innerHTML = '';
   recipeCards.forEach((recipe) => {
     if (!findById(recipe.id, currentUser.lists.favoriteRecipes)) {
-      starIconSrc = '../assets/hollow-star.svg';
+      starIconSrc = '../assets/hollow-star.png';
     } else {
       starIconSrc = '../assets/filled-in-star.svg';
     }
@@ -111,10 +112,12 @@ function propagateCards(recipeCards, section) {
 }
 
 const changeIcon = (event) => {
-  if (event.target.src.includes('hollow-star.svg')) {
+  if (event.target.src.includes('hollow-star')) {
     event.target.src = '../assets/filled-in-star.svg';
+  } else if (event.target.classList.contains('big-star-icon')) {
+    event.target.src = '../assets/hollow-star.svg';
   } else {
-    event.target.src = '../assets/hollow-star.svg'
+    event.target.src = '../assets/hollow-star.png';
   }
 }
 // big recipe card
