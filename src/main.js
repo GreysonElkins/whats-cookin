@@ -109,7 +109,6 @@ const goToPage = (buttonID) => {
 function propagateTagList() {
   const tagSection = document.querySelector('.tag-list');
   const tagList = createTagList();
-  console.log(tagList);
 
   tagList.forEach(tag => {
     tagSection.innerHTML += `<button type="radio" class="tag-button" id="${tag}">${tag}</button>`;
