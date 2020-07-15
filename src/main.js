@@ -91,12 +91,16 @@ function tagHandler(event) {
   if (event.target.className === 'tag-button') {
     tagsToSearch.push(event.target.id);
     const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
+    const userRecipesToShow = searchRecipesByTag(tagsToSearch, currentUser.lists.favoriteRecipes);
+
     toggleTagHighlight(event);
     propagateCards(recipesToShow, allRecipesDisplay);
+    propagateCards(userRecipesToShow, favoriteRecipesDisplay);
   } else if (event.target.className === 'clear-button') {
     tagsToSearch = [];
     propagateTagList();
     propagateCards(instantiatedRecipes, allRecipesDisplay);
+    displayFavorites();
   }
 }
 
@@ -104,7 +108,7 @@ function tagHandler(event) {
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
 }
-// 
+
 function showUserName() {
   const userButton = document.getElementById('user-page-button');
   userButton.innerText = currentUser.name.toUpperCase();
