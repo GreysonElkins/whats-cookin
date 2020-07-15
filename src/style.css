@@ -21,12 +21,12 @@ nav {
   margin: 0px auto;
   padding: 2em 0em;
   width: 100%;
+  height: 10%;
 }
 
 main {
   display: grid;
   grid-template-columns: 3fr 1fr;
-  height: auto;
 }
 
 .nav-buttons {
@@ -72,6 +72,7 @@ button {
 
 .all-recipes-display,
 .favorite-recipes {
+  grid-column: 1;
   display: flex;
   justify-content: space-evenly;
   flex-flow: row wrap;
@@ -86,7 +87,6 @@ button {
 }
 
 .recipe-card {
-  grid-template-rows: 1fr 1fr;
   position: relative;
   background-size: cover;
   border-radius: 5%;
@@ -159,17 +159,15 @@ button {
 }
 
 .recipe-pop-up {
-  grid-area: 1 / 1;
-  position: sticky;
+  position: fixed;
   display: flex;
   background: #fff;
   border-radius: 5%;
   flex-direction: column;
   left: 10%;
-  top: 8em;
   width: 80%;
-  height: 80vh;
-  z-index: 50;
+  height: 70vh;
+  z-index: 100;
 }
 
 .recipe-img { 
@@ -205,7 +203,6 @@ button {
   flex-flow: row wrap;
   justify-content: flex-start;
   position: sticky;
-  top: 11em;
   margin: 1em auto;
   width: 75%;
   border: 1px solid black;
