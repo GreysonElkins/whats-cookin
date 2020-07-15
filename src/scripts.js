@@ -57,12 +57,10 @@ function generateReadableIngredientList(ingredientList, recipe)  {
 // SEARCH IT
 function convertQueryNamesToIDs(ingredientNames) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
-    ingredientNames.forEach(query => {
       if (ingredient.name 
         && ingredientNames.some(query => ingredient.name.includes(query))) { 
         idList.push(ingredient.id)
       }
-    });
     return idList;
   }, []);
 
