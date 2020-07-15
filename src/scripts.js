@@ -52,9 +52,10 @@ function generateReadableIngredientList(ingredientList, recipe)  {
 }
 
 function convertIngredientNameToID(ingredientName) {
-  let ingredientIds = ingredientsData.filter(ingredient => {
-    if (ingredient.name && ingredient.name.includes(ingredientName)) return ingredient.id;
-  });
+  let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
+    if (ingredient.name && ingredient.name.includes(ingredientName)) idList.push(ingredient.id);
+    return idList;
+  }, []);
 
   return ingredientIds;
 }
@@ -63,7 +64,7 @@ function searchRecipesByIngredient(searchInputs, recipeList) {
   const ingredientIDs = this.convertIngredientNameToID(searchInputs);
   const searchResults = recipeList.reduce((matchingRecipes, recipe) => {
     createIngredientList(recipe).forEach(recipeObject => {
-      if (ingredientIDs.includes(recipeObject.id)) matchingRecipes.push(recipe);
+      if (ingredientIDs.includes(recipeObject.id)) return recipe;
     })
     return matchingRecipes;
   }, []);
@@ -112,20 +113,26 @@ function search(searchQuery) {
   console.log(results);
 }
 
-// function search(searchQuery) {
-//   const queries = searchQuery.split(',');
-//   const searchResults = queries.forEach(query => {
-//     const ingredientIds = convertIngredientNameToID(query);
-//     instantiatedRecipes.filter(recipe => {
-//       if (recipe.requiredIngredients.includes(ingredient)
-//     })
-//     // searchByTag();
-//   });
-// }
+function convertIngredientNamesToID(ingredientNames) {
+  let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
+    if (ingredient.name && ingredient.name.includes(ingredientNames)) idList.push(ingredient.id);
+    return idList;
+  }, []);
 
-function searchByIngredient(queries) {
-
+  return ingredientIds;
 }
+
+// function searchByIngredient(searchQuery) {
+//   const queries = searchQuery.split(',');
+//   const queryIds = convertIngredientNamesToID(queries);
+//   const matchingRecipes = [];
+//   instantiatedRecipes.forEach(recipe => {
+//     if (queryIds.some(queryId => recipe.requiredIngredients.includes(queryId))) {
+//       matchingRecipes.push(recipe);
+//     }
+//   });
+//   console.log(matchingRecipes);
+// }
 
 // function searchByTag();
 

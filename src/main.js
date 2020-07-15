@@ -34,11 +34,9 @@ function navHandler(event) {
     searchQuery = document.querySelector('input').value;
     // pull input.value
     // pass input.value as argument into search function
-    search(searchQuery);
+    searchByIngredient(searchQuery);
   }
 }
-
-
 
 const favoriteHandler = (event) => {
   let recipe = findById(event.target.id, instantiatedRecipes);
@@ -88,6 +86,27 @@ const goToPage = (buttonID) => {
     userPageDisplay.classList.remove('hidden');
     displayFavorites();
   }
+}
+
+function propagateTagList() {
+  const tagSection = document.querySelector('.tag-list');
+  const tagList = createTagList();
+
+  tagList.forEach(tag => {
+    tagSection.innerHTML += `<button type="radio">${tag}</button>`
+  })
+}
+
+function createTagList() {
+  const tagList = [];
+  instantiatedRecipes.forEach(recipe => {
+    recipe.tags.forEach(tag => {
+      if (!tagList.includes(tag)) {
+        tagList.push(tag);
+      }
+    })
+  })
+  return tagList;
 }
 
 function propagateCards(recipeCards, section) {
