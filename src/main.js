@@ -8,6 +8,7 @@ const tagList = document.querySelector('.tag-list');
 const currentUser = new User(generateRandomUser());
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 const searchMessage = document.querySelector('.search-message');
+let tagsToSearch = [];
 //onload 
 window.onload = handleLoad();
 //event listening
@@ -38,7 +39,7 @@ function navHandler(event) {
   }
 }
 
-const searchHandler = () => {
+const searchHandler = (event) => {
   const searchQuery = document.querySelector('input').value;
   let sentenceQuery = searchQuery.split(', ').join(' and ');
   let searchResult
