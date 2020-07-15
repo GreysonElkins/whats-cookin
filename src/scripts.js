@@ -70,9 +70,11 @@ function search(searchQuery, list) {
     if (queryIds.some(query => requiredIds.includes(query))) {
       matchingRecipes.push(recipe)
     }
-  return fullDirectionList;
-  });
+  })
+  const result = trimResults(queries, matchingRecipes); 
+  return result
 }
+
 
 function convertIngredientNameToID(ingredientName) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
@@ -103,15 +105,6 @@ function searchRecipesByTag(searchInputs, recipeList) {
   return searchResults;
 }
 
-function joinLists(arr1, arr2) {
-  const combinedLists = arr1.forEach(item => {
-    if (!arr2.includes(item)) arr2.push(item);
-  })
-
-  const result = trimResults(queries, matchingRecipes);
-
-  return result
-}
 
 function convertQueryNamesToIDs(ingredientNames) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
@@ -140,7 +133,7 @@ function trimResults(queries, recipes) {
   })
   return passableRecipes;
 }
-// function searchByTag();
+
 if (typeof module !== 'undefined') {
   module.exports = {createId, createIngredientList, findById}
 }
