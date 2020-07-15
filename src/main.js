@@ -72,10 +72,12 @@ function tagHandler(event) {
   if (event.target.className === 'tag-button') {
     tagsToSearch.push(event.target.id);
     const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
-    
+
+    toggleTagHighlight(event);
     propagateCards(recipesToShow, allRecipesDisplay);
   } else if (event.target.className === 'clear-button') {
     tagsToSearch = [];
+    propagateTagList();
     propagateCards(instantiatedRecipes, allRecipesDisplay);
   }
 }
@@ -108,7 +110,8 @@ const goToPage = (buttonID) => {
 function propagateTagList() {
   const tagSection = document.querySelector('.tag-list');
   const tagList = createTagList();
-
+  
+  tagSection.innerHTML = '';
   tagList.forEach(tag => {
     tagSection.innerHTML += `<button class="tag-button" id="${tag}">${tag}</button>`;
   })
@@ -154,6 +157,15 @@ const changeIcon = (event) => {
     event.target.src = '../assets/hollow-star.svg'
   }
 }
+
+const toggleTagHighlight = (event) => {
+  if (event.target.classList.contains('button-highlight')) {
+    event.target.classList.remove('button-highlight')
+  } else {
+    event.target.classList.add('button-highlight')
+  }
+}
+
 // big recipe card
 const showRecipeCard = (event) => {
   const blackout = document.querySelector('.body-blackout');
