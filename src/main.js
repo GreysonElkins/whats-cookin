@@ -2,7 +2,8 @@ const nav = document.querySelector('nav');
 const allRecipesDisplay = document.querySelector('.all-recipes-display');
 const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const bigRecipeCard = document.querySelector('.recipe-pop-up');
-const blackout = document.querySelector('.body-blackout')
+const blackout = document.querySelector('.body-blackout');
+const tagList = document.querySelector('.tag-list');
 //data instantiation
 // const currentUser = new User(generateRandomUser());
 const currentUser = new User(usersData[0]);
@@ -14,6 +15,7 @@ nav.addEventListener('click', navHandler);
 allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
+tagList.addEventListener('click', tagHandler);
 blackout.addEventListener('click', hideRecipeCard);
 //event handling
 function handleLoad() {
@@ -65,8 +67,12 @@ function bigRecipeHandler(event) {
   } else if (event.target.classList.contains('cost-calculator')) {
     printIngredientsCost(event);
   } 
-
 }
+
+function tagHandler(event) {
+  console.log(event.target.id);
+}
+
 // user functions
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
@@ -94,7 +100,7 @@ function propagateTagList() {
   const tagList = createTagList();
 
   tagList.forEach(tag => {
-    tagSection.innerHTML += `<button type="radio">${tag}</button>`
+    tagSection.innerHTML += `<button type="radio" id=${tag}>${tag}</button>`
   })
 }
 
