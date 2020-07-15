@@ -1,18 +1,15 @@
-try {
-  Recipe = require('./recipe-class');
-} catch (e) {
-  let Recipe;
-}
 //class helper functions
 function createId(data) {
-    return typeof data === 'number' ? data : Date.now();
+  return typeof data === 'number' ? data : Date.now();
 }
 
 function findById(id, location) {
   id = typeof id !== 'number' ? parseInt(id) : id;
+  
   if (!Array.isArray(location)) {
     return `this ain't gonna work (findById array issue)`
   }
+
   if (location[0]) {
     let signifier = typeof location[0].id === "number" ? `id` : `ingredient`;
     let ingredient = location.find(item => item[signifier] === id);
@@ -46,7 +43,8 @@ function generateReadableIngredientList(ingredientList, recipe)  {
   const measurements = createMeasurementList(recipe);
   const fullDirectionList = measurements.reduce((directions, measurement) => {
     const ingredientMatch = ingredientList.find(ingredient => {
-      return ingredientList.indexOf(ingredient) === measurements.indexOf(measurement);
+      return ingredientList.indexOf(ingredient) === 
+        measurements.indexOf(measurement);
     });
     const fullDirectionSentence = measurement + ingredientMatch.name;
     return directions.concat(fullDirectionSentence);
@@ -60,10 +58,11 @@ function generateReadableIngredientList(ingredientList, recipe)  {
 function convertQueryNamesToIDs(ingredientNames) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
     ingredientNames.forEach(query => {
-      if (ingredient.name && ingredientNames.some(query => ingredient.name.includes(query))) { 
+      if (ingredient.name 
+        && ingredientNames.some(query => ingredient.name.includes(query))) { 
         idList.push(ingredient.id)
       }
-      });
+    });
     return idList;
   }, []);
 
@@ -77,9 +76,13 @@ function trimResults(queries, recipes) {
     queries.forEach(query => {
       recipe.requiredIngredients.forEach(ingredient => {
         let info = findById(ingredient.id, ingredientsData);
-        if (info.name.includes(query)) checkedQueries.push(query);
+        if (info.name.includes(query)){
+          checkedQueries.push(query)
+        }
       })
-      if (queries.every(query => checkedQueries.includes(query))) passableRecipes.push(recipe)
+      if (queries.every(query => checkedQueries.includes(query))) {
+        passableRecipes.push(recipe)
+      }
     })
   })
   return passableRecipes;
@@ -90,10 +93,11 @@ function search(searchQuery, list) {
   const queryIds = convertQueryNamesToIDs(queries);
   const matchingRecipes = [];
   list.forEach(recipe => {
-    let requiredIds = recipe.requiredIngredients.reduce((requiredIds, ingredient) => {
-      requiredIds.push(ingredient.id);
-      return requiredIds
-    }, [])
+    let requiredIds = 
+      recipe.requiredIngredients.reduce((requiredIds, ingredient) => {
+        requiredIds.push(ingredient.id);
+        return requiredIds
+      }, [])
     if (queryIds.some(query => requiredIds.includes(query))) {
       matchingRecipes.push(recipe)
     }
