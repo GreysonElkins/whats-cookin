@@ -3,7 +3,6 @@ try {
 } catch (e) {
   let Recipe;
 }
-
 //class helper functions
 function createId(data) {
     return typeof data === 'number' ? data : Date.now();
@@ -38,6 +37,12 @@ function getFirstName() {
   return currentUser.name.split(" ")[0]
 }
 
+const createMeasurementList = (recipe) => {
+  return recipe.requiredIngredients.map((ingredient) => {
+    return `${ingredient.quantity.amount} ${ingredient.quantity.unit} of `
+  });
+}
+
 function generateReadableIngredientList(ingredientList, recipe)  {
   const measurements = createMeasurementList(recipe);
   const fullDirectionList = measurements.reduce((directions, measurement) => {
@@ -48,8 +53,28 @@ function generateReadableIngredientList(ingredientList, recipe)  {
     return directions.concat(fullDirectionSentence);
   }, []);
 
-  return fullDirectionList;
+  let filteredList = [... new Set(fullDirectionList)]
+
+  return filteredList;
 }
+// SEARCH IT
+function search(searchQuery, list) {
+  const queries = searchQuery.split(', ');
+  const queryIds = convertQueryNamesToIDs(queries);
+  const matchingRecipes = [];
+  list.forEach(recipe => {
+    let requiredIds = recipe.requiredIngredients.reduce((requiredIds, ingredient) => {
+      requiredIds.push(ingredient.id);
+      return requiredIds
+    }, [])
+    if (queryIds.some(query => requiredIds.includes(query))) {
+      matchingRecipes.push(recipe)
+    }
+  })
+  const result = trimResults(queries, matchingRecipes); 
+  return result
+}
+
 
 function convertIngredientNameToID(ingredientName) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
@@ -80,32 +105,33 @@ function searchRecipesByTag(searchInputs, recipeList) {
   return searchResults;
 }
 
-function joinLists(arr1, arr2) {
-  const combinedLists = arr1.forEach(item => {
-    if (!arr2.includes(item)) arr2.push(item);
-  })
-  return arr2;
-}
 
-function search(searchQuery) {
-  debugger
-  const queries = searchQuery.split(',');
-  const matchingRecipesByIngredient = searchRecipesByIngredient(queries, instantiatedRecipes);
-  console.log(matchingRecipesByIngredient);
-  const matchingRecipesByTag = searchRecipesByTag(queries, instantiatedRecipes);
-  console.log(matchingRecipesByTag);
-  const results = joinLists(matchingRecipesByIngredient, matchingRecipesByTag);
-
-  console.log(results);
-}
-
-function convertIngredientNamesToID(ingredientNames) {
+function convertQueryNamesToIDs(ingredientNames) {
   let ingredientIds = ingredientsData.reduce((idList, ingredient) => {
-    if (ingredient.name && ingredient.name.includes(ingredientNames)) idList.push(ingredient.id);
+    ingredientNames.forEach(query => {
+      if (ingredient.name && ingredientNames.some(query => ingredient.name.includes(query))) { 
+        idList.push(ingredient.id)
+      }
+      });
     return idList;
   }, []);
 
   return ingredientIds;
+}
+
+function trimResults(queries, recipes) {
+  let passableRecipes = []
+  recipes.forEach(recipe => {
+    let checkedQueries = [];
+    queries.forEach(query => {
+      recipe.requiredIngredients.forEach(ingredient => {
+        let info = findById(ingredient.id, ingredientsData);
+        if (info.name.includes(query)) checkedQueries.push(query);
+      })
+      if (queries.every(query => checkedQueries.includes(query))) passableRecipes.push(recipe)
+    })
+  })
+  return passableRecipes;
 }
 
 if (typeof module !== 'undefined') {
