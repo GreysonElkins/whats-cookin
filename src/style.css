@@ -55,7 +55,7 @@ button {
 
 .title {
   display: flex;
-  margin: 0em 2em 0em 0em;
+  margin-right: 1em;
   justify-content: flex-end;
   font-family: 'Lobster', cursive;
   font-size: 3em;
@@ -110,11 +110,6 @@ button {
   flex-flow: row wrap;
   overflow: scroll;
   width: 100%;
-}
-
-.all-recipes-display::after {
-  content: '';
-  flex: auto;
 }
 
 .favorite-recipes {
@@ -283,9 +278,9 @@ button {
 .users-pantry {
   grid-area: 1 / 2;
   position: relative;
-  top: 8em;
+  top: 3em;
   margin: 0 auto;
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 .supply-list {
