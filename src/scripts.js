@@ -72,24 +72,32 @@ function searchRecipesByIngredient(searchInputs, recipeList) {
   return searchResults;
 }
 
-function matchAllTags(searchTags, recipeTags) {
-  let indicator;
-  searchTags.forEach(tag => {
-    if (recipeTags.includes(tag) && indicator !== false) {
-      indicator = true;
-    } else {
-      indicator = false;
-    }
-  });
-  return indicator;
-}
+// function matchAllTags(searchTags, recipeTags) {
+//   let indicator;
+//   searchTags.forEach(tag => {
+//     if (recipeTags.includes(tag) && indicator !== false) {
+//       indicator = true;
+//     } else {
+//       indicator = false;
+//     }
+//   });
+//   return indicator;
+// }
+
+// function searchRecipesByTag(searchInputs, recipeList) {
+//   const searchResults = recipeList.filter(recipe => {
+//     if (matchAllTags(searchInputs, recipe.tags)) {
+//       return recipe;
+//     }
+//   });
+
+//   return searchResults;
+// }
 
 function searchRecipesByTag(searchInputs, recipeList) {
   const searchResults = recipeList.filter(recipe => {
-    if (matchAllTags(searchInputs, recipe.tags)) {
-      return recipe;
-    }
-  });
+    return searchInputs.every(input => (recipe.tags.includes(input)))
+  })
 
   return searchResults;
 }

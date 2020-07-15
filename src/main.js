@@ -72,6 +72,7 @@ function bigRecipeHandler(event) {
 
 function tagHandler(event) {
   if (event.target.className === 'tag-button') {
+    console.log(event.target.id);
     tagsToSearch.push(event.target.id);
     const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
     
@@ -107,9 +108,10 @@ const goToPage = (buttonID) => {
 function propagateTagList() {
   const tagSection = document.querySelector('.tag-list');
   const tagList = createTagList();
+  console.log(tagList);
 
   tagList.forEach(tag => {
-    tagSection.innerHTML += `<button type="radio" class="tag-button" id=${tag}>${tag}</button>`;
+    tagSection.innerHTML += `<button type="radio" class="tag-button" id="${tag}">${tag}</button>`;
   })
   tagSection.innerHTML += `<button class="clear-button">Clear your tags</button>`;
 }
