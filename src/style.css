@@ -159,15 +159,15 @@ button {
 }
 
 .recipe-pop-up {
+  display: flex;
+  position: sticky;
   background: #fff;
   border-radius: 5%;
-  display: flex;
   flex-direction: column;
   height: 80%;
-  left: 27.5%;
-  position: absolute;
+  left: 10%;
   top: 8em;
-  width: 45%;
+  width: 80%;
   z-index: 50;
 }
 
