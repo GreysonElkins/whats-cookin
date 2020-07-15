@@ -81,6 +81,11 @@ button {
   font-size: 1.5em;
 }
 
+.clear-button {
+  display: block;
+  margin: auto;
+}
+
 .all-recipes-display,
 .favorite-recipes {
   display: flex;
