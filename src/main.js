@@ -46,9 +46,7 @@ const searchIngredientsHandler = (event) => {
   showSearchMessage(searchQuery, recipeLocation)
 }
 
-function showSearchResults(searchQuery) {
-  
-
+const showSearchResults = (searchQuery) => {
   if (!allRecipesDisplay.classList.contains('hidden')) {
     searchResult = search(searchQuery, instantiatedRecipes);
     propagateCards(searchResult, allRecipesDisplay);
@@ -58,15 +56,14 @@ function showSearchResults(searchQuery) {
     propagateCards(searchResult, favoriteRecipesDisplay);
     recipeLocation = 'your favorite recipes'
   }
-
   return recipeLocation
 }
 
 function showSearchMessage(searchQuery, recipeLocation) {
   let sentenceQuery = searchQuery.split(', ').join(' and ');
-
   if (searchResult.length === 0) {
-    searchMessage.innerText = `Sorry, ${recipeLocation === 'our recipes' ? 'we' : 'you'} don't have any recipes with ${sentenceQuery} in any of ${recipeLocation}`
+    searchMessage.innerText = `Sorry, ${recipeLocation === 'our recipes' ? 'we' : 'you'}` + 
+      `don't have any recipes with ${sentenceQuery} in any of ${recipeLocation}`
   } else {
     searchMessage.innerText = `Here are recipes including ${sentenceQuery} from ${recipeLocation}`
   }
@@ -90,7 +87,7 @@ function smallRecipeHandler(event) {
 
 function bigRecipeHandler(event) {
   if (event.target.classList.contains('exit-button')) {
-    hideRecipeCard();
+    hideRecipeCard(event);
   } else if (event.target.classList.contains('big-star-icon')) {
     favoriteHandler(event);
     changeIcon(event);
@@ -118,7 +115,7 @@ function tagHandler(event) {
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
 }
-// 
+
 function showUserName() {
   const userButton = document.getElementById('user-page-button');
   userButton.innerText = currentUser.name.toUpperCase();
@@ -137,6 +134,7 @@ const goToPage = (buttonID) => {
     userPantry.classList.remove('hidden');
     displayFavorites();
   }
+  searchMessage.innerText = '';
 }
 
 function propagateTagList() {
@@ -180,16 +178,16 @@ function propagateCards(recipeCards, section) {
       </div>
     </div>`
   });
-  searchMessage.innerText = '';
 }
 
-const changeIcon = (event) => {
-  if (event.target.src.includes('hollow-star')) {
-    event.target.src = '../assets/filled-in-star.svg';
-  } else if (event.target.classList.contains('big-star-icon')) {
-    event.target.src = '../assets/hollow-star.svg';
+const changeIcon = (star) => {
+  star = star === event ? event.target : star  
+  if (star.src.includes('hollow-star')) {
+    star.src = '../assets/filled-in-star.svg';
+  } else if (star.classList.contains('big-star-icon')) {
+    star.src = '../assets/hollow-star.svg';
   } else {
-    event.target.src = '../assets/hollow-star.png';
+    star.src = '../assets/hollow-star.png';
   }
 }
 // big recipe card
@@ -197,6 +195,19 @@ const showRecipeCard = (event) => {
   behindCardBlackout.classList.remove('hidden');
   bigRecipeCard.classList.remove('hidden');
   populateRecipeCard(event);
+}
+
+function hideRecipeCard(event) {
+  bigRecipeCard.classList.add('hidden');
+  behindCardBlackout.classList.add('hidden');
+  if (searchMessage.innerText === '') {
+    propagateCards(instantiatedRecipes, allRecipesDisplay);
+  } else {
+    let allStars = document.querySelectorAll('.star-icon');
+    for (i = 0; i < allStars.length / 2 - 1; i++) {
+      if (allStars[i].id === `${event.target.id.toString()}`) changeIcon(allStars[i]);
+    }
+  }
 }
 
 const populateRecipeCard = (event) => {
@@ -219,6 +230,8 @@ const insertBigCardHTML = (recipe) => {
     starIconSrc = '../assets/filled-in-star.svg';
   }
 
+  behindCardBlackout.id = `${recipe.id}`;
+
   bigRecipeCard.innerHTML =
     `<div class="container">
       <img class="recipe-img" src="${recipe.image}"></img>
@@ -229,7 +242,7 @@ const insertBigCardHTML = (recipe) => {
         <div class="recipe-card-nav">
           <img class="big-star-icon" id="${recipe.id}" src="${starIconSrc}">
           <button class="ingredient-check" id="${recipe.id}">Do I have enough ingredients?</button>
-          <button class="exit-button">Exit</button>
+          <button class="exit-button" id="${recipe.id}">Exit</button>
         </div>
       </div>
       <br>
@@ -264,15 +277,7 @@ const populateInstructions = (instructionList) => {
   })
 }
 
-function hideRecipeCard() {
-  const blackout = document.querySelector('.body-blackout');
-  bigRecipeCard.classList.add('hidden');
-  behindCardBlackout.classList.add('hidden');
 
-  
-  propagateCards(instantiatedRecipes, allRecipesDisplay)
-  ;
-}
 
 const printMissingIngredients = (event) => {
   let thisRecipe = findById(event.target.id, instantiatedRecipes);
