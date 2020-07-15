@@ -274,8 +274,8 @@ button {
 
 .users-pantry {
   grid-area: 1 / 2;
-  position: relative;
-  top: 3em;
+  position: sticky;
+  top: 15em;
   width: 75%;
   margin: 0 auto;
   font-size: 1.75em;
