@@ -39,6 +39,10 @@ class User {
     this.saveListToStorage(recipeList);
   }
 
+  // We ended up refactoring and creating a master search function in scripts -
+  // we ran out of time to refactor these and write new tests in scripts. These
+  // are still here because they pass all of the tests in user-test.
+
   searchRecipesByName(searchInput, recipeList) {
     let searchResults = recipeList.filter(recipe => {
       let recipeName = recipe.name.toLowerCase();
