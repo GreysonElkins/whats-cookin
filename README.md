@@ -1,51 +1,26 @@
-# What's Cookin'? Starter Kit 
+# What's Cookin'?
+**Mod 2 Pair Project**  
+[Project Link](https://greysonelkins.github.io/whats-cookin/src)
 
-The details of this project are outlined in the <a href="https://frontend.turing.io/projects/whats-cookin.html" target="\__blank">project spec</a>.
+**Authors**
+- [Nick Hart](https://github.com/nickhartdev)
+- [Greyson Elkins](https://github.com/GreysonElkins)
 
-## Set Up 
+### Overview
+What's Cookin' was a project done completely remote by a team of two - it's a single page web application that lets a user interact with a collection of recipes.
 
-1. Within your group, decide on one person to have the project repository on their Github account. This person will *fork* this repository - on the top right corner of the page, click the fork button. 
-2. Both group members should then clone down the forked repository (make sure that everyone is added as a collaborator as well). Since you don't want your project to be named "whats-cookin-starter-kit", add an optional argument after the repo url when cloning. The command should look like this: `git clone [remote-address] [what you want to name the repo]`.
-3. Once you have cloned the repo, change into the directory and install the project dependencies. Run npm install to install project dependencies.
-4. Run open src/index.html in the terminal to see the HTML page (you should see some boilerplate HTML displayed on the page)
-5. Make sure both members of your team are collaborators on the forked repo.
+### Key Features
+- Save and view favorite recipes (locally, per user)
+- Calculate the cost of ingredients they need to buy to cook a selected recipe
+- Search favorite recipes or all recipes by ingredient
+- Filter recipes by predefined tags
+- View instructions and ingredients for given recipes
+- View a list of ingredients that they possess
 
-## Testing 
+### Technologies Used
+- HTML, CSS, ES6 JavaScript
+- Git version control
+- GitHub Projects
 
-There is no boilerplate for testing in this starter-kit repo. You will need to set this up yourself. However, if you ran npm install, then the tooling you need to start testing is already installed (mocha and chai).
-
-## Linting Your Code 
-
-Run the command in your terminal npm run lint to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit, but that's ok - the linter is still running successfully.
-
-Your linter will look only at the JavaScript files you have within the src and the test directories.
-
-
-## Data Model
-### Users
-```js
-{
-  "id": [number],
-  "name": [string],
-  "pantry": [array of objects with amount and ingredient id properties]
-},
-```
-
-### Recipes
-```js
-{
-  "ingredients" [array of objects with ingredients ids(connection to ingredients), ingredient names, and quantity data],
-  "instructions": [array of objects with instructions properties and numbered steps],
-  "name": [string],
-  "tags": [array of strings representing info about the recipes]
-}
-```
-
-### Ingredients
-```js
-{
-  "estimatedCostInCents": [number],
-  "id": [number -- connection to users and recipes],
-  "name": [string]
-}
-```
+### App Demo
+![App Demo](./src/readme/whats-cookin.gif)
