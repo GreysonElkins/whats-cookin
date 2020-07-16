@@ -162,10 +162,11 @@ button {
   position: fixed;
   display: flex;
   background: #fff;
+  top: 10em;
   border-radius: 5%;
   flex-direction: column;
-  left: 10%;
-  width: 80%;
+  left: 30%;
+  width: 40%;
   height: 70vh;
   z-index: 100;
 }
