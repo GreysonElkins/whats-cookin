@@ -1,6 +1,6 @@
 # What's Cookin'?
-**Mod 2 Pair Project**
-  [Project Link](https://greysonelkins.github.io/whats-cookin/src)
+**Mod 2 Pair Project**  
+[Project Link](https://greysonelkins.github.io/whats-cookin/src)
 
 **Authors**
 - [Nick Hart](https://github.com/nickhartdev)
