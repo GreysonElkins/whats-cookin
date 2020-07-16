@@ -4,21 +4,21 @@ const favoriteRecipesDisplay = document.querySelector('.favorite-recipes');
 const bigRecipeCard = document.querySelector('.recipe-pop-up');
 const behindCardBlackout = document.querySelector('.body-blackout');
 const tagList = document.querySelector('.tag-list');
-//data instantiation & globals
+// data instantiation & globals
 const currentUser = new User(generateRandomUser());
 const instantiatedRecipes = recipeData.map(recipe => new Recipe(recipe));
 const searchMessage = document.querySelector('.search-message');
 let tagsToSearch = [];
 //onload 
 window.onload = handleLoad();
-//event listening
+// event listening
 nav.addEventListener('click', navHandler);
 allRecipesDisplay.addEventListener('click', smallRecipeHandler);
 favoriteRecipesDisplay.addEventListener('click', smallRecipeHandler);
 bigRecipeCard.addEventListener('click', bigRecipeHandler);
 behindCardBlackout.addEventListener('click', hideBigRecipeCard);
 tagList.addEventListener('click', tagHandler);
-//event handling
+// event handling
 function handleLoad() {
   propagateCards(instantiatedRecipes, allRecipesDisplay);
   propagateTagList();
@@ -45,22 +45,21 @@ function searchIngredientsHandler(event) {
   let recipeLocation = showSearchResults(searchQuery)
   showSearchMessage(searchQuery, recipeLocation)
 }
-
+//if array contains this splice array at indexof this
 function tagHandler(event) {
-  if (event.target.className === 'tag-button') {
-    tagsToSearch.push(event.target.id);
-    const recipesToShow = searchRecipesByTag(tagsToSearch, instantiatedRecipes);
-    const userRecipesToShow = searchRecipesByTag(tagsToSearch, currentUser.lists.favoriteRecipes);
-
-    toggleTagHighlight(event);
-    propagateCards(recipesToShow, allRecipesDisplay);
-    propagateCards(userRecipesToShow, favoriteRecipesDisplay);
-  } else if (event.target.className === 'clear-button') {
-    tagsToSearch = [];
-    propagateTagList();
-    propagateCards(instantiatedRecipes, allRecipesDisplay);
-    displayFavorites();
+  let page;
+  let list;
+  if (!allRecipesDisplay.classList.contains('hidden')
+    && !tagList.classList.contains('hidden')) {
+    page = allRecipesDisplay;
+    list = instantiatedRecipes;
+  } else if (!favoriteRecipesDisplay.classList.contains('hidden')
+    && !tagList.classList.contains('hidden')) {
+    page = favoriteRecipesDisplay;
+    list = currentUser.lists.favoriteRecipes
   }
+  runTag(page, list);
+  resetTagsIfEmpty();
 }
 
 function favoriteRecipeHandler(event) {
@@ -72,7 +71,7 @@ function favoriteRecipeHandler(event) {
 function smallRecipeHandler(event) {
   if (event.target.classList.contains('star-icon')) {
     changeFavoriteIcon(event);
-    favoriteRecipeHandler(event); // handler event
+    favoriteRecipeHandler(event);
   } else if (event.target.id) {
     showRecipeCard(event);
   } 
@@ -90,7 +89,6 @@ function bigRecipeHandler(event) {
     printIngredientsCost(event);
   } 
 }
-
 // user functions
 function generateRandomUser() {
   return usersData[Math.round(Math.random() * usersData.length)];
@@ -117,6 +115,26 @@ const goToPage = (buttonID) => {
   searchMessage.innerText = '';
 }
 // DOM Tags
+function runTag(page, list) {
+  if (event.target.classList.contains('button-highlight')
+    && event.target.classList.contains('tag-button')) {
+    tagsToSearch.splice(tagsToSearch.indexOf(event.target.id), 1)
+  } else if (event.target.className === 'tag-button') {
+    tagsToSearch.push(event.target.id);
+  }
+  toggleTagHighlight(event);
+  const recipesToShow = searchRecipesByTag(tagsToSearch, list);
+  propagateCards(recipesToShow, page);
+}
+
+function resetTagsIfEmpty() {
+  if (tagsToSearch.length === 0) {
+    propagateTagList();
+    propagateCards(instantiatedRecipes, allRecipesDisplay);
+    displayFavorites();
+  }
+}
+
 function propagateTagList() {
   const tagSection = document.querySelector('.tag-list');
   const tagList = createTagList();
@@ -125,7 +143,6 @@ function propagateTagList() {
   tagList.forEach(tag => {
     tagSection.innerHTML += `<button class="tag-button" id="${tag}">${tag}</button>`;
   })
-  tagSection.innerHTML += `<button class="clear-button">Clear your tags</button>`;
 }
 
 function createTagList() {
@@ -277,7 +294,7 @@ const printIngredientsCost = (event) => {
   let costMessage = document.querySelector('.cost');
   costMessage.innerText = `It will cost $${currentUser.pantry.findIngredientsCost(thisRecipe).toFixed(2)}.`
 }
-//user page
+// user page
 const makeFavoriteRecipe = (event) => {
   let chosenRecipe = findById(event.target.id, instantiatedRecipes);
   currentUser.toggleListItem(chosenRecipe, 'favorite');
