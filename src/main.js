@@ -44,6 +44,7 @@ function searchIngredientsHandler(event) {
   const searchQuery = document.querySelector('input').value;
   let recipeLocation = showSearchResults(searchQuery)
   showSearchMessage(searchQuery, recipeLocation)
+  tagList.classList.add('hidden');
 }
 //if array contains this splice array at indexof this
 function tagHandler(event) {
@@ -112,6 +113,7 @@ const goToPage = (buttonID) => {
     userPantry.classList.remove('hidden');
     displayFavorites();
   }
+  tagList.classList.remove('hidden');
   searchMessage.innerText = '';
 }
 // DOM Tags
