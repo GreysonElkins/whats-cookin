@@ -23,3 +23,4 @@ What's Cookin' was a project done completely remote by a team of two - it's a si
 - GitHub Projects
 
 ### App Demo
+![App Demo](./src/readme/whats-cookin.gif)
